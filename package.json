@@ -4,9 +4,11 @@
   "description": "A simple oauth application",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon --exec babe-node src/index.js",
+    "start": "nodemon --exec babel-node src/index.js",
     "build": "babel src --out-dir dist",
-    "serve": "node dist/index.js"
+    "serve": "node dist/index.js",
+    "table": "babel-node src/model/table.js",
+    "createTable": "npm run table"
   },
   "author": "Samador",
   "license": "MIT",

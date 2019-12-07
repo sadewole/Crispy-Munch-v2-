@@ -7,8 +7,7 @@
     "start": "nodemon --exec babel-node src/index.js",
     "build": "babel src --out-dir dist",
     "serve": "node dist/index.js",
-    "table": "babel-node src/model/table.js",
-    "createTable": "npm run table"
+    "table": "babel-node src/model/table.js"
   },
   "author": "Samador",
   "license": "MIT",

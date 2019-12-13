@@ -1,5 +1,10 @@
-import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
-import { Strategy as LocalStrategy } from 'passport-local';
+import {
+  Strategy as JWTStrategy,
+  ExtractJwt
+} from 'passport-jwt';
+import {
+  Strategy as LocalStrategy
+} from 'passport-local';
 import passport from 'passport';
 import helper from './middlewares/helper';
 import User from './model';
@@ -10,14 +15,17 @@ import facebookTokenStrategy from 'passport-facebook-token';
 // init passport JWTStrategy
 passport.use(
   'jwt',
-  new JWTStrategy(
-    {
+  new JWTStrategy({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: process.env.JWT_SECRET
     },
     async (payload, done) => {
       try {
-        const user = await User.findOne({ where: { id: payload.sub } });
+        const user = await User.findOne({
+          where: {
+            id: payload.sub
+          }
+        });
 
         //  confirm user existence
         if (!user) return done(null, false);
@@ -33,14 +41,12 @@ passport.use(
 // init passport google strategy
 passport.use(
   'googleToken',
-  new googleTokenStrategy(
-    {
+  new googleTokenStrategy({
       clientID: process.env.Google_ID,
       clientSecret: process.env.Google_SECRET
     },
     async (accessToken, refreshToken, profile, done) => {
-      try {
-      } catch (error) {
+      try {} catch (error) {
         done(error, false, error.message);
       }
     }
@@ -50,14 +56,12 @@ passport.use(
 // init passport facebook strategy
 passport.use(
   'facebook',
-  new facebookTokenStrategy(
-    {
+  new facebookTokenStrategy({
       clientID: process.env.FB_OAUTH_ID,
       clientSecret: process.env.FB_OAUTH_SECRET
     },
     async (accessToken, refreshToken, profile, done) => {
-      try {
-      } catch (error) {
+      try {} catch (error) {
         done(error, false, error.message);
       }
     }
@@ -67,8 +71,7 @@ passport.use(
 // init passport localStrategy
 passport.use(
   'local',
-  new LocalStrategy(
-    {
+  new LocalStrategy({
       usernameField: 'email'
     },
     async (email, password, done) => {

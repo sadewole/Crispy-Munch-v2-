@@ -4,7 +4,11 @@ import uuidv4 from 'uuid/v4';
 
 export default {
   signup: async (req, res) => {
-    const { name, email, password } = req.value.body;
+    const {
+      name,
+      email,
+      password
+    } = req.value.body;
     try {
       const checkEmail = await helper.existEmail(email);
       if (checkEmail) {

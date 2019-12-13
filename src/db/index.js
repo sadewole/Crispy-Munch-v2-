@@ -1,9 +1,9 @@
 import Sequelize from 'sequelize'
+import 'dotenv/config'
 
 const isProduction = process.env.NODE_ENV || 'production';
 // local connection string
 const connectionString = `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`
-
 
 // connect to pg
 const db = new Sequelize(connectionString, {

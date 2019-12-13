@@ -2,8 +2,10 @@ import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 import { Strategy as LocalStrategy } from 'passport-local';
 import passport from 'passport';
 import helper from './middlewares/helper';
-import db from './model/index';
+import User from './model';
 import 'dotenv/config';
+import googleTokenStrategy from 'passport-google-plus-token';
+import facebookTokenStrategy from 'passport-facebook-token';
 
 // init passport JWTStrategy
 passport.use(
@@ -15,9 +17,7 @@ passport.use(
     },
     async (payload, done) => {
       try {
-        const text = `SELECT * from users where id = $1`;
-        console.log(payload);
-        const user = await db.query(text, [payload.sub]);
+        const user = await User.findOne({ where: { id: payload.sub } });
 
         //  confirm user existence
         if (!user) return done(null, false);
@@ -25,6 +25,40 @@ passport.use(
         return done(null, user);
       } catch (error) {
         done(error, null);
+      }
+    }
+  )
+);
+
+// init passport google strategy
+passport.use(
+  'googleToken',
+  new googleTokenStrategy(
+    {
+      clientID: process.env.Google_ID,
+      clientSecret: process.env.Google_SECRET
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+      } catch (error) {
+        done(error, false, error.message);
+      }
+    }
+  )
+);
+
+// init passport facebook strategy
+passport.use(
+  'facebook',
+  new facebookTokenStrategy(
+    {
+      clientID: process.env.FB_OAUTH_ID,
+      clientSecret: process.env.FB_OAUTH_SECRET
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+      } catch (error) {
+        done(error, false, error.message);
       }
     }
   )
@@ -40,8 +74,7 @@ passport.use(
     async (email, password, done) => {
       try {
         // confirm email
-        const { rows } = await helper.existEmail(email);
-        const user = rows[0];
+        const user = await helper.existEmail(email);
         // if not user
         if (!user) return done(null, false);
 

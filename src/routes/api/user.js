@@ -1,4 +1,6 @@
-import { Router } from 'express';
+import {
+  Router
+} from 'express';
 import helper from '../../middlewares/helper';
 import user from '../../controller/user';
 import passport from 'passport';
@@ -20,6 +22,15 @@ router.route('/signin').post(
     session: false
   }),
   helper.validateBody(helper.schemas.signSchema),
+  user.signin
+);
+
+// Routes 3rd party signin with google
+// Access public
+router.route('/oauth/google').post(
+  passport.authenticate('googleToken', {
+    session: false
+  }),
   user.signin
 );
 

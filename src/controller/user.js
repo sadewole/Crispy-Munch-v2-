@@ -1,4 +1,4 @@
-import db from '../model/index';
+import User from '../model';
 import helper from '../middlewares/helper';
 import uuidv4 from 'uuid/v4';
 
@@ -6,24 +6,32 @@ export default {
   signup: async (req, res) => {
     const { name, email, password } = req.value.body;
     try {
-      const hash = await helper.hashPassword(password);
-      const newUser = [uuidv4(), name, email, hash];
-      const text = `INSERT INTO users(id, name, email, password) VALUES($1, $2, $3, $4) returning *`;
-      const user = await db.query(text, newUser);
-      const token = helper.genToken(user.rows[0]);
+      const checkEmail = await helper.existEmail(email);
+      if (checkEmail) {
+        return res.status(403).json({
+          msg: 'Email already exist'
+        });
+      }
 
-      return res.status(200).json({
+      const hash = await helper.hashPassword(password);
+
+      const newUser = await User.create({
+        id: uuidv4(),
+        name,
+        password: hash,
+        email
+      });
+      const token = helper.genToken(newUser);
+
+      return await res.status(201).json({
+        status: 201,
         type: 'POST',
-        data: user.rows[0],
+        success: true,
+        data: newUser,
         token,
         msg: "You've successfully signed up"
       });
     } catch (err) {
-      if (err.routine === '_bt_check_unique') {
-        return res.status(400).send({
-          msg: 'User with that EMAIL already exist'
-        });
-      }
       return res.status(500).json({
         msg: err
       });

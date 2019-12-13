@@ -1,7 +1,7 @@
 import joi from 'joi';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import db from '../model/index';
+import User from '../model';
 
 const helper = {
   // generate hashed password for user
@@ -10,10 +10,7 @@ const helper = {
   comparePassword: (password, hashPassword) =>
     bcrypt.compareSync(password, hashPassword),
   // check for exxisting email
-  existEmail: email => {
-    const text = `SELECT * from users WHERE email = $1`;
-    return db.query(text, [email]);
-  },
+  existEmail: email => User.findOne({ where: { email } }),
   // generate token
   genToken: user => {
     const token = jwt.sign(
@@ -61,4 +58,5 @@ const helper = {
     })
   }
 };
+
 export default helper;

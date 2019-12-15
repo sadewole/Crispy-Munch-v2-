@@ -29,6 +29,8 @@ passport.use(
 
         //  confirm user existence
         if (!user) return done(null, false);
+        // check if user is activated
+        if (user.active === false) return done(null, false)
 
         return done(null, user);
       } catch (error) {
@@ -77,6 +79,7 @@ passport.use(
     async (email, password, done) => {
       try {
         // confirm email
+        email = email.toLowerCase()
         const user = await helper.existEmail(email);
         // if not user
         if (!user) return done(null, false);
@@ -86,8 +89,13 @@ passport.use(
           password,
           user.password
         );
+
+
+        // check validity && password
         if (!comparePassword) return done(null, false);
 
+        // check if user is activated
+        if (user.active === false) return done(null, false)
         // if passed
         return done(null, user);
       } catch (error) {

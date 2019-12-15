@@ -18,6 +18,11 @@ const User = db.define('users', {
     name: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    secretToken: Sequelize.STRING,
+    active: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
     }
 })
 

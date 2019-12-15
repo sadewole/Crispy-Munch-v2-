@@ -4,12 +4,13 @@ import uuidv4 from 'uuid/v4';
 
 export default {
   signup: async (req, res) => {
-    const {
+    let {
       name,
       email,
       password
     } = req.value.body;
     try {
+      email = email.toLowerCase().trim()
       const checkEmail = await helper.existEmail(email);
       if (checkEmail) {
         return res.status(403).json({
@@ -18,24 +19,26 @@ export default {
       }
 
       const hash = await helper.hashPassword(password);
+      const token = await helper.activateToken(hash);
 
       const newUser = await User.create({
         id: uuidv4(),
         name,
         password: hash,
-        email
+        email,
+        secretToken: token,
+        active: false
       });
-      const token = helper.genToken(newUser);
 
       return await res.status(201).json({
         status: 201,
         type: 'POST',
         success: true,
         data: newUser,
-        token,
-        msg: "You've successfully signed up"
+        msg: "Thank you for registering. Check your email to verify account."
       });
     } catch (err) {
+      console.log(err)
       return res.status(500).json({
         msg: err
       });
@@ -48,6 +51,7 @@ export default {
     const token = helper.genToken(user);
     res.status(200).json({
       type: 'POST',
+      success: true,
       data: user,
       token,
       msg: "You've successfully signed in"
@@ -57,8 +61,129 @@ export default {
   secret: (req, res) => {
     res.status(200).json({
       type: 'GET',
-      data: req.user.rows[0],
+      data: req.user,
       secret: 'resource'
     });
+  },
+
+  validate: async (req, res) => {
+    const {
+      validate
+    } = req.query
+    try {
+      let checkSecret = await helper.activateSecret(validate);
+      if (!checkSecret) {
+        return res.status(400).json({
+          msg: 'Authorisation error'
+        })
+      }
+
+      // update user on validation
+      const user = await User.update({
+        secretToken: '',
+        active: true
+      }, {
+        returning: true,
+        where: {
+          id: checkSecret.id
+        }
+      })
+
+
+      // gen token
+      const token = helper.genToken(user);
+
+      return res.status(200).json({
+        type: 'PUT',
+        success: true,
+        token,
+        data: user[1][0],
+        msg: 'User activated successfully'
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(500).json({
+        success: false,
+        msg: err
+      })
+    }
+  },
+
+  verifyEmail: async (req, res) => {
+    let {
+      email
+    } = req.body
+
+    try {
+      email = email.toLowerCase().trim()
+      if (!email) return res.status(400).json({
+        msg: 'Email field cannot be empty'
+      })
+
+      const checkEmail = await helper.existEmail(email);
+      if (!checkEmail) {
+        return res.status(404).json({
+          msg: 'Error, email not found'
+        });
+      }
+
+      const {
+        id
+      } = checkEmail
+      // gen token
+      const token = helper.forgotPasswordToken(checkEmail);
+
+      return res.status(200).json({
+        type: 'POST',
+        success: true,
+        msg: 'Verified successfully',
+        data: {
+          id,
+          token
+        }
+      })
+
+    } catch (err) {
+      console.log(err)
+      return res.status(500).json({
+        success: false,
+        msg: err
+      })
+    }
+  },
+  changePassword: async (req, res) => {
+    const {
+      id,
+      secretToken
+    } = req.query
+    let {
+      password
+    } = req.body
+    try {
+      const hash = await helper.hashPassword(password);
+      const user = await User.update({
+        password: hash
+      }, {
+        returning: true,
+        where: {
+          id
+        }
+      })
+
+      // gen token
+      const token = helper.genToken(user);
+
+      return res.status(200).json({
+        type: 'PUT',
+        success: true,
+        msg: 'Password changed successfully',
+        data: user[1][0],
+        token
+      })
+    } catch (err) {
+      return res.status(500).json({
+        msg: err
+      })
+    }
   }
 };

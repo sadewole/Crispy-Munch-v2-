@@ -15,6 +15,10 @@ router
     .route('/signup')
     .post(helper.validateBody(helper.schemas.authSchema), user.signup);
 
+// Route validate account
+// Access private
+router.route('/user/validate').put(user.validate)
+
 // Routes post signin
 // Access public
 router.route('/signin').post(
@@ -42,5 +46,8 @@ router.route('/secret').get(
     }),
     user.secret
 );
+
+// Routes post 
+router.route('/verify').post(user.verifyEmail).put(user.changePassword)
 
 export default router;

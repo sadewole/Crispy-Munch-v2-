@@ -15,6 +15,36 @@ const helper = {
             email
         }
     }),
+    activateSecret: secretToken => User.findOne({
+        where: {
+            secretToken
+        }
+    }),
+    // generate forgot password token
+    forgotPasswordToken: user => {
+        const token = jwt.sign({
+                iss: 'codeSecret',
+                sub: user.id,
+                iat: new Date().getTime(),
+                exp: new Date().setDate(new Date().getMinutes() + 3)
+            },
+            process.env.JWT_SECRET
+        );
+
+        return token;
+    },
+    // generate validation secret token
+    activateToken: id => {
+        const token = jwt.sign({
+                iss: 'codeSecret',
+                sub: id,
+                iat: new Date().getTime()
+            },
+            process.env.JWT_SECRET
+        );
+
+        return token;
+    },
     // generate token
     genToken: user => {
         const token = jwt.sign({

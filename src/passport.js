@@ -58,7 +58,7 @@ passport.use(
       secretOrKey: process.env.JWT_SECRET
     },
     async (payload, done) => {
-      console.log('exp' + payload.exp, 'newDate' + Date.now())
+      console.log('exp ' + payload.exp, 'newDate ' + Date.now())
       try {
         if (payload.exp > Date.now()) {
           console.log(true)
@@ -68,6 +68,7 @@ passport.use(
             id: payload.sub
           }
         });
+        console.log(user)
 
         //  confirm user existence
         if (!user) return done(null, false);
@@ -131,13 +132,46 @@ passport.use(
 
 // init passport facebook strategy
 passport.use(
-  'facebook',
+  'facebookToken',
   new facebookTokenStrategy({
       clientID: process.env.FB_OAUTH_ID,
       clientSecret: process.env.FB_OAUTH_SECRET
     },
     async (accessToken, refreshToken, profile, done) => {
-      try {} catch (error) {
+      try {
+        console.log('access token', accessToken)
+        console.log('refresh token', refreshToken)
+        console.log('profile', profile)
+
+        // check for existing email
+        const existingUser = await helper.existEmail(profile.emails[0].value);
+        if (existingUser) {
+          return done(null, existingUser)
+        }
+
+        // create new user with google
+        const user = await User.create({
+          id: uuidv4(),
+          email: profile.emails[0].value,
+          name: profile.displayName
+        })
+        // create a google signin clone
+        await FbAuth.create({
+          id: uuidv4(),
+          facebook_id: profile.id,
+          email: profile.emails[0].value,
+          user_id: user.id
+        })
+        // create a local signin clone
+        await LocalAuth.create({
+          id: uuidv4(),
+          email: profile.emails[0].value,
+          active: true,
+          user_id: user.id
+        })
+
+        return done(null, user)
+      } catch (error) {
         done(error, false, error.message);
       }
     }
@@ -153,12 +187,8 @@ passport.use(
     async (email, password, done) => {
       try {
         // confirm email
-        email = email.toLowerCase()
-        const user = await LocalAuth.findOne({
-          where: {
-            email
-          }
-        });
+        email = email.toLowerCase().trim()
+        const user = await existLocalEmail(email)
         // if not user
         if (!user) return done(null, false);
 

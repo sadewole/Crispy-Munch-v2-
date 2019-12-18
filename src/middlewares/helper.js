@@ -24,6 +24,11 @@ const helper = {
             email
         }
     }),
+    existLocalEmail: email => LocalAuth.findOne({
+        where: {
+            email
+        }
+    }),
     activateSecret: secretToken => LocalAuth.findOne({
         where: {
             secretToken
@@ -37,7 +42,7 @@ const helper = {
                 iat: new Date().getTime()
             },
             process.env.JWT_SECRET, {
-                expiresIn: 10800
+                expiresIn: '5m'
             }
         );
 

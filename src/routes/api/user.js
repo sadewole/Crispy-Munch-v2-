@@ -37,6 +37,14 @@ router.route('/oauth/google').post(
     }), user.googleSignIn
 );
 
+// Routes 3rd party signin with facebook
+// Access public
+router.route('/oauth/facebook').post(
+    passport.authenticate('facebookToken', {
+        session: false
+    }), user.facebookSignIn
+);
+
 // Routes post signin
 // Access private
 router.route('/secret').get(

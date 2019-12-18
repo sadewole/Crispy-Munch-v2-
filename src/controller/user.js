@@ -84,6 +84,20 @@ export default {
     });
   },
 
+  facebookSignIn: async (req, res) => {
+    console.log('Now you see me')
+    // const user = req.user;
+    // // gen token
+    // const token = helper.genToken(user);
+    // res.status(200).json({
+    //   type: 'POST',
+    //   success: true,
+    //   data: user,
+    //   token: `Bearer ${token}`,
+    //   msg: "You've successfully signed in"
+    // });
+  },
+
   secret: (req, res) => {
     res.status(200).json({
       type: 'GET',
@@ -146,7 +160,7 @@ export default {
         msg: 'Email field cannot be empty'
       })
 
-      const checkEmail = await helper.existEmail(email);
+      const checkEmail = await helper.existLocalEmail(email);
       if (!checkEmail) {
         return res.status(404).json({
           msg: 'Error, email not found'
@@ -195,7 +209,7 @@ export default {
           id
         }
       })
-
+      console.log(user)
       // gen token
       const token = helper.genToken(user);
 

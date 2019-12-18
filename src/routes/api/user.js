@@ -34,8 +34,7 @@ router.route('/signin').post(
 router.route('/oauth/google').post(
     passport.authenticate('googleToken', {
         session: false
-    }),
-    user.signin
+    })
 );
 
 // Routes post signin
@@ -47,7 +46,11 @@ router.route('/secret').get(
     user.secret
 );
 
-// Routes post 
-router.route('/verify').post(user.verifyEmail).put(user.changePassword)
+// Routes post forgot password
+// Access private
+router.route('/verify').post(user.verifyEmail).put(
+    passport.authenticate('forgot', {
+        session: false
+    }), user.changePassword)
 
 export default router;

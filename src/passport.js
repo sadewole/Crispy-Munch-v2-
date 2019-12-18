@@ -7,10 +7,19 @@ import {
 } from 'passport-local';
 import passport from 'passport';
 import helper from './middlewares/helper';
-import User from './model';
+import model from './db';
 import 'dotenv/config';
 import googleTokenStrategy from 'passport-google-plus-token';
 import facebookTokenStrategy from 'passport-facebook-token';
+
+const {
+  User,
+  FbAuth,
+  LocalAuth,
+  GoogleAuth
+} = model
+
+
 
 // init passport JWTStrategy
 passport.use(
@@ -21,7 +30,39 @@ passport.use(
     },
     async (payload, done) => {
       try {
-        const user = await User.findOne({
+        const user = await LocalAuth.findOne({
+          where: {
+            id: payload.sub
+          }
+        });
+
+        //  confirm user existence
+        if (!user) return done(null, false);
+        // check if user is activated
+        if (user.active === false) return done(null, false)
+
+        return done(null, user);
+      } catch (error) {
+        done(error, null);
+      }
+    }
+  )
+);
+
+// init passport JWTStrategy for forgot password
+passport.use(
+  'forgot',
+  new JWTStrategy({
+      jwtFromRequest: ExtractJwt.fromUrlQueryParameter('active_token'),
+      secretOrKey: process.env.JWT_SECRET
+    },
+    async (payload, done) => {
+      console.log('exp' + payload.exp, 'newDate' + Date.now())
+      try {
+        if (payload.exp > Date.now()) {
+          console.log(true)
+        }
+        const user = await LocalAuth.findOne({
           where: {
             id: payload.sub
           }
@@ -48,7 +89,11 @@ passport.use(
       clientSecret: process.env.Google_SECRET
     },
     async (accessToken, refreshToken, profile, done) => {
-      try {} catch (error) {
+      try {
+        console.log('access token', accessToken)
+        console.log('refresh token', refreshToken)
+        console.log('profile', profile)
+      } catch (error) {
         done(error, false, error.message);
       }
     }

@@ -1,6 +1,14 @@
-import User from '../model';
+import model from '../db';
 import helper from '../middlewares/helper';
 import uuidv4 from 'uuid/v4';
+
+const {
+  User,
+  FbAuth,
+  LocalAuth,
+  GoogleAuth
+} = model
+
 
 export default {
   signup: async (req, res) => {
@@ -21,20 +29,25 @@ export default {
       const hash = await helper.hashPassword(password);
       const token = await helper.activateToken(hash);
 
-      const newUser = await User.create({
+      const user = await User.create({
         id: uuidv4(),
-        name,
+        name
+      })
+
+      const localUser = await LocalAuth.create({
+        id: uuidv4(),
         password: hash,
         email,
         secretToken: token,
-        active: false
+        active: false,
+        user_id: user.id
       });
 
       return await res.status(201).json({
         status: 201,
         type: 'POST',
         success: true,
-        data: newUser,
+        data: localUser,
         msg: "Thank you for registering. Check your email to verify account."
       });
     } catch (err) {
@@ -79,7 +92,7 @@ export default {
       }
 
       // update user on validation
-      const user = await User.update({
+      const user = await LocalAuth.update({
         secretToken: '',
         active: true
       }, {
@@ -154,14 +167,14 @@ export default {
   changePassword: async (req, res) => {
     const {
       id,
-      secretToken
+      active_token
     } = req.query
     let {
       password
     } = req.body
     try {
       const hash = await helper.hashPassword(password);
-      const user = await User.update({
+      const user = await LocalAuth.update({
         password: hash
       }, {
         returning: true,

@@ -1,7 +1,15 @@
 import joi from 'joi';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import User from '../model';
+import model from '../db';
+
+const {
+    FbAuth,
+    LocalAuth,
+    GoogleAuth
+} = model
+
+
 
 const helper = {
     // generate hashed password for user
@@ -10,12 +18,12 @@ const helper = {
     comparePassword: (password, hashPassword) =>
         bcrypt.compareSync(password, hashPassword),
     // check for exxisting email
-    existEmail: email => User.findOne({
+    existEmail: email => LocalAuth.findOne({
         where: {
             email
         }
     }),
-    activateSecret: secretToken => User.findOne({
+    activateSecret: secretToken => LocalAuth.findOne({
         where: {
             secretToken
         }
@@ -25,10 +33,11 @@ const helper = {
         const token = jwt.sign({
                 iss: 'codeSecret',
                 sub: user.id,
-                iat: new Date().getTime(),
-                exp: new Date().setDate(new Date().getMinutes() + 3)
+                iat: new Date().getTime()
             },
-            process.env.JWT_SECRET
+            process.env.JWT_SECRET, {
+                expiresIn: 10800
+            }
         );
 
         return token;

@@ -85,17 +85,16 @@ export default {
   },
 
   facebookSignIn: async (req, res) => {
-    console.log('Now you see me')
-    // const user = req.user;
-    // // gen token
-    // const token = helper.genToken(user);
-    // res.status(200).json({
-    //   type: 'POST',
-    //   success: true,
-    //   data: user,
-    //   token: `Bearer ${token}`,
-    //   msg: "You've successfully signed in"
-    // });
+    const user = req.user;
+    // gen token
+    const token = helper.genToken(user);
+    res.status(200).json({
+      type: 'POST',
+      success: true,
+      data: user,
+      token: `Bearer ${token}`,
+      msg: "You've successfully signed in"
+    });
   },
 
   secret: (req, res) => {
@@ -141,7 +140,6 @@ export default {
         msg: 'User activated successfully'
       })
     } catch (err) {
-      console.log(err)
       return res.status(500).json({
         success: false,
         msg: err
@@ -184,7 +182,6 @@ export default {
       })
 
     } catch (err) {
-      console.log(err)
       return res.status(500).json({
         success: false,
         msg: err
@@ -209,7 +206,6 @@ export default {
           id
         }
       })
-      console.log(user)
       // gen token
       const token = helper.genToken(user);
 

@@ -58,7 +58,6 @@ passport.use(
       secretOrKey: process.env.JWT_SECRET
     },
     async (payload, done) => {
-      console.log('exp ' + payload.exp, 'newDate ' + Date.now())
       try {
         if (payload.exp > Date.now()) {
           console.log(true)
@@ -68,7 +67,6 @@ passport.use(
             id: payload.sub
           }
         });
-        console.log(user)
 
         //  confirm user existence
         if (!user) return done(null, false);
@@ -92,9 +90,6 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        console.log('access token', accessToken)
-        console.log('refresh token', refreshToken)
-        console.log('profile', profile)
         // check for existing email
         const existingUser = await helper.existEmail(profile.emails[0].value);
         if (existingUser) {
@@ -139,10 +134,6 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        console.log('access token', accessToken)
-        console.log('refresh token', refreshToken)
-        console.log('profile', profile)
-
         // check for existing email
         const existingUser = await helper.existEmail(profile.emails[0].value);
         if (existingUser) {

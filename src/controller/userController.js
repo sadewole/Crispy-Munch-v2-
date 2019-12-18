@@ -71,32 +71,6 @@ export default {
     });
   },
 
-  googleSignIn: async (req, res) => {
-    const user = req.user;
-    // gen token
-    const token = helper.genToken(user);
-    res.status(200).json({
-      type: 'POST',
-      success: true,
-      data: user,
-      token: `Bearer ${token}`,
-      msg: "You've successfully signed in"
-    });
-  },
-
-  facebookSignIn: async (req, res) => {
-    const user = req.user;
-    // gen token
-    const token = helper.genToken(user);
-    res.status(200).json({
-      type: 'POST',
-      success: true,
-      data: user,
-      token: `Bearer ${token}`,
-      msg: "You've successfully signed in"
-    });
-  },
-
   secret: (req, res) => {
     res.status(200).json({
       type: 'GET',

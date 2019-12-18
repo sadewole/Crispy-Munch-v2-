@@ -2,7 +2,7 @@ import {
     Router
 } from 'express';
 import helper from '../../middlewares/helper';
-import user from '../../controller/user';
+import userController from '../../controller/userController';
 import passport from 'passport';
 import '../../passport'; // as strategy in ./passport.js needs passport object
 
@@ -13,11 +13,11 @@ const router = Router();
 // Access public
 router
     .route('/signup')
-    .post(helper.validateBody(helper.schemas.authSchema), user.signup);
+    .post(helper.validateBody(helper.schemas.authSchema), userController.signup);
 
 // Route validate account
 // Access private
-router.route('/user/validate').put(user.validate)
+router.route('/user/validate').put(userController.validate)
 
 // Routes post signin
 // Access public
@@ -26,7 +26,7 @@ router.route('/signin').post(
         session: false
     }),
     helper.validateBody(helper.schemas.signSchema),
-    user.signin
+    userController.signin
 );
 
 // Routes 3rd party signin with google
@@ -34,7 +34,7 @@ router.route('/signin').post(
 router.route('/oauth/google').post(
     passport.authenticate('googleToken', {
         session: false
-    }), user.googleSignIn
+    }), userController.signin
 );
 
 // Routes 3rd party signin with facebook
@@ -42,7 +42,7 @@ router.route('/oauth/google').post(
 router.route('/oauth/facebook').post(
     passport.authenticate('facebookToken', {
         session: false
-    }), user.facebookSignIn
+    }), userController.signin
 );
 
 // Routes post signin
@@ -51,14 +51,14 @@ router.route('/secret').get(
     passport.authenticate('jwt', {
         session: false
     }),
-    user.secret
+    userController.secret
 );
 
 // Routes post forgot password
 // Access private
-router.route('/verify').post(user.verifyEmail).put(
+router.route('/verify').post(userController.verifyEmail).put(
     passport.authenticate('forgot', {
         session: false
-    }), user.changePassword)
+    }), userController.changePassword)
 
 export default router;

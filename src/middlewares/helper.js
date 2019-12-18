@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import model from '../db';
 
 const {
+    User,
     FbAuth,
     LocalAuth,
     GoogleAuth
@@ -18,7 +19,7 @@ const helper = {
     comparePassword: (password, hashPassword) =>
         bcrypt.compareSync(password, hashPassword),
     // check for exxisting email
-    existEmail: email => LocalAuth.findOne({
+    existEmail: email => User.findOne({
         where: {
             email
         }

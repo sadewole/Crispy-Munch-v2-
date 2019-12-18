@@ -31,7 +31,8 @@ export default {
 
       const user = await User.create({
         id: uuidv4(),
-        name
+        name,
+        email
       })
 
       const localUser = await LocalAuth.create({
@@ -51,7 +52,6 @@ export default {
         msg: "Thank you for registering. Check your email to verify account."
       });
     } catch (err) {
-      console.log(err)
       return res.status(500).json({
         msg: err
       });
@@ -66,7 +66,20 @@ export default {
       type: 'POST',
       success: true,
       data: user,
-      token,
+      token: `Bearer ${token}`,
+      msg: "You've successfully signed in"
+    });
+  },
+
+  googleSignIn: async (req, res) => {
+    const user = req.user;
+    // gen token
+    const token = helper.genToken(user);
+    res.status(200).json({
+      type: 'POST',
+      success: true,
+      data: user,
+      token: `Bearer ${token}`,
       msg: "You've successfully signed in"
     });
   },

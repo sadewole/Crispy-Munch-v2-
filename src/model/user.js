@@ -5,31 +5,11 @@ export default (sequelize, DataTypes) => {
             primaryKey: true,
             type: DataTypes.UUID
         },
-        name: {
+        name: DataTypes.STRING,
+        email: {
             type: DataTypes.STRING,
+            unique: true
         }
-        // method: {
-        //     type: Sequelize.ENUM(['local', 'google', 'facebook']),
-        //     allowNull: false
-        // },
-        // local: {
-        //     email: Sequelize.STRING,
-        //     password: Sequelize.STRING,
-        //     name: Sequelize.STRING,
-        //     secretToken: Sequelize.STRING,
-        //     active: {
-        //         type: Sequelize.BOOLEAN,
-        //         allowNull: false
-        //     }
-        // },
-        // google: {
-        //     id: Sequelize.STRING,
-        //     email: Sequelize.STRING
-        // },
-        // facebook: {
-        //     id: Sequelize.STRING,
-        //     email: Sequelize.STRING
-        // }
     });
 
     return User;

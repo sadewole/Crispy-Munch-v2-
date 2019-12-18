@@ -11,6 +11,7 @@ import model from './db';
 import 'dotenv/config';
 import googleTokenStrategy from 'passport-google-plus-token';
 import facebookTokenStrategy from 'passport-facebook-token';
+import uuidv4 from 'uuid/v4'
 
 const {
   User,
@@ -30,7 +31,7 @@ passport.use(
     },
     async (payload, done) => {
       try {
-        const user = await LocalAuth.findOne({
+        const user = await User.findOne({
           where: {
             id: payload.sub
           }
@@ -93,6 +94,34 @@ passport.use(
         console.log('access token', accessToken)
         console.log('refresh token', refreshToken)
         console.log('profile', profile)
+        // check for existing email
+        const existingUser = await helper.existEmail(profile.emails[0].value);
+        if (existingUser) {
+          return done(null, existingUser)
+        }
+
+        // create new user with google
+        const user = await User.create({
+          id: uuidv4(),
+          email: profile.emails[0].value,
+          name: profile.displayName
+        })
+        // create a google signin clone
+        await GoogleAuth.create({
+          id: uuidv4(),
+          google_id: profile.id,
+          email: profile.emails[0].value,
+          user_id: user.id
+        })
+        // create a local signin clone
+        await LocalAuth.create({
+          id: uuidv4(),
+          email: profile.emails[0].value,
+          active: true,
+          user_id: user.id
+        })
+
+        return done(null, user)
       } catch (error) {
         done(error, false, error.message);
       }
@@ -125,9 +154,15 @@ passport.use(
       try {
         // confirm email
         email = email.toLowerCase()
-        const user = await helper.existEmail(email);
+        const user = await LocalAuth.findOne({
+          where: {
+            email
+          }
+        });
         // if not user
         if (!user) return done(null, false);
+
+
 
         // confirm password
         const comparePassword = await helper.comparePassword(
@@ -141,8 +176,9 @@ passport.use(
 
         // check if user is activated
         if (user.active === false) return done(null, false)
-        // if passed
-        return done(null, user);
+        // if passed, return user from User model
+        const gUser = await helper.existEmail(user.email);
+        return done(null, gUser);
       } catch (error) {
         return done(error, null);
       }

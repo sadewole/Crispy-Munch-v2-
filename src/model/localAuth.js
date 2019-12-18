@@ -5,10 +5,7 @@ export default (sequelize, DataTypes) => {
             allowNull: false,
             primaryKey: true
         },
-        email: {
-            type: DataTypes.STRING,
-            unique: true
-        },
+        email: DataTypes.STRING,
         password: DataTypes.STRING,
         secretToken: DataTypes.STRING,
         active: {

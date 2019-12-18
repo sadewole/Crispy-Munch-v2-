@@ -6,12 +6,13 @@ export default (sequelize, DataTypes) => {
             primaryKey: true
         },
         google_id: DataTypes.STRING,
-        email: DataTypes.STRING
+        email: DataTypes.STRING,
+        name: DataTypes.STRING
     })
 
     GoogleAuth.associate = models => {
         GoogleAuth.belongsTo(models.User, {
-            foreignKey: 'id'
+            foreignKey: 'user_id'
         })
     }
 

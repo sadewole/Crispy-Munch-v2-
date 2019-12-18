@@ -34,7 +34,7 @@ router.route('/signin').post(
 router.route('/oauth/google').post(
     passport.authenticate('googleToken', {
         session: false
-    })
+    }), user.googleSignIn
 );
 
 // Routes post signin

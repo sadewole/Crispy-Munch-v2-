@@ -4,14 +4,17 @@ import './App.css';
 import Routes from './components/routes/Routes';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layouts/Navbar';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+// layout
+import LandinPage from './components/pages/LandingPage';
 
 const App = () => {
   return (
     <Router>
-      <Fragment className='App'>
+      <Fragment>
+        <Navbar />
         <Switch>
-          <Navbar />
+          <Route exact path='/' component={LandinPage} />
           {/* <Route component={Routes} /> */}
         </Switch>
       </Fragment>

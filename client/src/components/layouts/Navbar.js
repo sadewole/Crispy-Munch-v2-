@@ -1,43 +1,60 @@
-import React, {Fragment} from 'react'
-import {Link, NavLink} from 'react-router-dom'
-import {Icon} from 'antd'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Icon, Menu } from 'antd';
 
 const Navbar = () => {
-    return (
-    <div className="container-fluid">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-  <Link className="navbar-brand" to="#">Crispy-Munch</Link>
-  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span className="navbar-toggler-icon"></span>
-  </button>
+  const [isOpen, setIsOpen] = useState(false);
 
-  <div className="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul className="navbar-nav mr-auto">
-      <li className="nav-item active">
-        <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link" href="#">Link</a>
-      </li>
-      <li className="nav-item dropdown">
-        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a className="dropdown-item" href="#">Action</a>
-          <a className="dropdown-item" href="#">Another action</a>
-          <div className="dropdown-divider"></div>
-          <a className="dropdown-item" href="#">Something else here</a>
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
+      <div className='container-fluid'>
+        <Link className='navbar-brand' to='#'>
+          Crispy-Munch
+        </Link>
+        <Icon
+          type='align-right'
+          data-toggle='collapse'
+          data-target='#navbarSupportedContent'
+          aria-controls='navbarSupportedContent'
+          aria-expanded='false'
+          aria-label='Toggle navigation'
+          className='text-white toggle toggle'
+          onClick={handleToggle}
+        />
+
+        <div
+          className={
+            isOpen
+              ? 'collapse navbar-collapse show'
+              : 'collapse navbar-collapse'
+          }
+          id='navbarSupportedContent'
+        >
+          <Menu defaultSelectedKeys={['1']} className='navbar-nav ml-auto'>
+            <Menu.Item key='1' className='nav-item'>
+              <Link className='nav-link' to='#'>
+                Home
+              </Link>
+            </Menu.Item>
+            <Menu.Item key='2' className='nav-item'>
+              <Link to='' className='nav-link'>
+                Login
+              </Link>
+            </Menu.Item>
+            <Menu.Item key='3' className='nav-item'>
+              <Link to='' className='nav-link'>
+                Register
+              </Link>
+            </Menu.Item>
+          </Menu>
         </div>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-    </div>
-    )
-}
+      </div>
+    </nav>
+  );
+};
 
 export default Navbar;

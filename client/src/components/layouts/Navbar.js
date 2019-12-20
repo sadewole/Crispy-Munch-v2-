@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Icon, Menu } from 'antd';
+import { Icon } from 'antd';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <nav className='navbar navbar-expand-lg fixed-top navbar-dark bg-dark'>
       <div className='container-fluid'>
-        <Link className='navbar-brand' to='#'>
+        <Link className='navbar-brand' to='/'>
           Crispy-Munch
         </Link>
         <Icon

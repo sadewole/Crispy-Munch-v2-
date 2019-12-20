@@ -5,13 +5,8 @@ const Content_2 = () => {
   const content = data.map((data, index) => {
     return (
       <div className='col-md-4 text-center px-4' key={index}>
-        <div className='card-head card-header'>
-          <img
-            src={data.img}
-            alt={data.img}
-            className='img-fluid card-img-top'
-            //   style={{ width: '250px', height: '250px' }}
-          />
+        <div className=' card-head'>
+          <img src={data.img} alt={data.img} className='img-resize' />
         </div>
         <div className='card-body'>
           <h4 className='card-title'>{data.text}</h4>

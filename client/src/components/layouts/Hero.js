@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 const Hero = () => {
   return (
     <Fragment>
-      <div class='landPagebg'>
+      <div className='landPagebg'>
         {/* <img src='./img/landingpagebg.jpg' alt='landing img' className='img' /> */}
         <div className='overlay'>
           <div className='section-a-inner'>

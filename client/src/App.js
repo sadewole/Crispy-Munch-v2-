@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // layout
 import LandinPage from './components/pages/LandingPage';
 import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Switch>
           <Route exact path='/' component={LandinPage} />
           <Route exact path='/login' component={Login} />
+          <Route exact path='/register' component={Register} />
           {/* <Route component={Routes} /> */}
         </Switch>
       </Fragment>

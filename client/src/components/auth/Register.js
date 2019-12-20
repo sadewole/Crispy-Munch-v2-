@@ -1,23 +1,45 @@
-import React, { Fragment } from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import React, { Fragment, useState } from 'react';
+import { Form, Icon, Input, Button } from 'antd';
 import { Link } from 'react-router-dom';
 
-const Login = ({ form }) => {
+const Register = ({ form }) => {
+  const [confirmDirty, setConfirmDirty] = useState(false);
+
   const handleSubmit = e => {
     e.preventDefault();
-    form.validateFields((err, values) => {
+    form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
       }
     });
   };
 
+  const handleConfirmBlur = e => {
+    const { value } = e.target;
+    setConfirmDirty({ confirmDirty: confirmDirty || !!value });
+  };
+
+  const compareToFirstPassword = (rule, value, callback) => {
+    if (value && value !== form.getFieldValue('password')) {
+      callback('Two passwords that you enter is inconsistent!');
+    } else {
+      callback();
+    }
+  };
+
+  const validateToNextPassword = (rule, value, callback) => {
+    if (value && confirmDirty) {
+      form.validateFields(['confirm'], { force: true });
+    }
+    callback();
+  };
+
   const { getFieldDecorator } = form;
 
   return (
     <Fragment>
-      <div className='create-login p-5'>
-        <div className='login-bg hide-sm'></div>
+      <div className='create-login p-5 '>
+        <div className='register-bg hide-sm'></div>
         <div className='row'>
           <div className='col-md-8 login-text hide-sm'>
             <p>
@@ -28,8 +50,23 @@ const Login = ({ form }) => {
           </div>
           {/* form */}
           <div className='col-md-4 col-sm-12 login'>
-            <h1>Login</h1>
+            <h1>Register</h1>
+
             <Form onSubmit={handleSubmit} className='login-form'>
+              <Form.Item>
+                {getFieldDecorator('username', {
+                  rules: [
+                    { required: true, message: 'Please input your username!' }
+                  ]
+                })(
+                  <Input
+                    prefix={
+                      <Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />
+                    }
+                    placeholder='Username'
+                  />
+                )}
+              </Form.Item>
               <Form.Item>
                 {getFieldDecorator('email', {
                   rules: [
@@ -55,13 +92,19 @@ const Login = ({ form }) => {
                 )}
               </Form.Item>
 
-              <Form.Item>
+              <Form.Item hasFeedback>
                 {getFieldDecorator('password', {
                   rules: [
-                    { required: true, message: 'Please input your Password!' }
+                    {
+                      required: true,
+                      message: 'Please input your password!'
+                    },
+                    {
+                      validator: validateToNextPassword
+                    }
                   ]
                 })(
-                  <Input
+                  <Input.Password
                     prefix={
                       <Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />
                     }
@@ -70,16 +113,36 @@ const Login = ({ form }) => {
                   />
                 )}
               </Form.Item>
+              <Form.Item hasFeedback>
+                {getFieldDecorator('confirm', {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'Please confirm your password!'
+                    },
+                    {
+                      validator: compareToFirstPassword
+                    }
+                  ]
+                })(
+                  <Input.Password
+                    prefix={
+                      <Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />
+                    }
+                    onBlur={handleConfirmBlur}
+                    type='password'
+                    placeholder='Confirm Password'
+                  />
+                )}
+              </Form.Item>
+
               <Form.Item>
-                <Link className='login-form-forgot' to=''>
-                  Forgot password?
-                </Link>
                 <Button
                   type='primary'
                   htmlType='submit'
                   className='btn btn-secondary form-control'
                 >
-                  Log in
+                  Register
                 </Button>
               </Form.Item>
               <div className='or'>
@@ -103,7 +166,7 @@ const Login = ({ form }) => {
                 <Button
                   type='primary'
                   htmlType='submit'
-                  className='btn btn-danger form-control mr-2'
+                  className='btn btn-danger form-control'
                 >
                   <Link to='#'>
                     <i className='fab fa-google-plus mr-2'></i>
@@ -112,7 +175,8 @@ const Login = ({ form }) => {
                 </Button>
               </Form.Item>
               <p>
-                No account? <Link to='/register'>Click here</Link> to register
+                {' '}
+                Have an account? <Link to='/login'>Click here</Link> to login
               </p>
             </Form>
           </div>
@@ -122,6 +186,6 @@ const Login = ({ form }) => {
   );
 };
 
-const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(Login);
+const WrappedNormalRegisterForm = Form.create({ name: 'register' })(Register);
 
-export default WrappedNormalLoginForm;
+export default WrappedNormalRegisterForm;

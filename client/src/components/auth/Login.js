@@ -1,16 +1,42 @@
-import React, { Fragment } from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import React, { Fragment, useEffect, useState } from 'react';
+import { Form, Icon, Input, Button, Alert } from 'antd';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from '../../actions/authAction';
 
-const Login = ({ form }) => {
+const Login = ({ form, history }) => {
+  const [msg, setMsg] = useState(null);
+  const dispatch = useDispatch();
+
   const handleSubmit = e => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        dispatch(login(values));
       }
     });
   };
+
+  // find auth actions
+  const { error, isAuthenticated } = useSelector(state => {
+    return {
+      error: state.error,
+      isAuthenticated: state.auth.isAuthenticated
+    };
+  });
+
+  useEffect(() => {
+    if (error.id === 'LOGIN_FAIL') {
+      setMsg(error.msg);
+    } else {
+      setMsg(null);
+    }
+
+    // redirected if no error
+    // if (isAuthenticated) {
+    //   history.push('/dashboard');
+    // }
+  }, [error]);
 
   const { getFieldDecorator } = form;
 
@@ -70,6 +96,15 @@ const Login = ({ form }) => {
                   />
                 )}
               </Form.Item>
+
+              {/* Error message */}
+              {msg === 'Unauthorized' ? (
+                <Alert
+                  message='Wrong email or password'
+                  type='error'
+                  showIcon
+                />
+              ) : null}
               <Form.Item>
                 <Link className='login-form-forgot' to=''>
                   Forgot password?

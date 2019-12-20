@@ -17,7 +17,8 @@ router
 
 // Route validate account
 // Access private
-router.route('/user/validate').put(userController.validate)
+// code no longer use in this project
+// router.route('/validate').put(userController.validate)
 
 // Routes post signin
 // Access public
@@ -54,11 +55,17 @@ router.route('/secret').get(
     userController.secret
 );
 
+// Routes @Desc single user
+// Access Private
+router.route('/user/:id')
+    .get(userController.getSingleUser)
+    .delete(userController.deleteSingleUser)
 // Routes post forgot password
 // Access private
 router.route('/verify').post(userController.verifyEmail).put(
     passport.authenticate('forgot', {
         session: false
     }), userController.changePassword)
+
 
 export default router;

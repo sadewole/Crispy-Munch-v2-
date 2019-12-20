@@ -6,17 +6,13 @@ export default (sequelize, DataTypes) => {
             primaryKey: true
         },
         email: DataTypes.STRING,
-        password: DataTypes.STRING,
-        secretToken: DataTypes.STRING,
-        active: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false
-        }
+        password: DataTypes.STRING
     })
 
     LocalAuth.associate = models => {
         LocalAuth.belongsTo(models.User, {
-            foreignKey: 'user_id'
+            foreignKey: 'user_id',
+            onDelete: 'cascade'
         })
     }
 

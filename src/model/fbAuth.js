@@ -11,7 +11,8 @@ export default (sequelize, DataTypes) => {
 
     FbAuth.associate = models => {
         FbAuth.belongsTo(models.User, {
-            foreignKey: 'user_id'
+            foreignKey: 'user_id',
+            onDelete: 'cascade'
         })
     }
 

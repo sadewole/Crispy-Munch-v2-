@@ -100,7 +100,8 @@ passport.use(
         const user = await User.create({
           id: uuidv4(),
           email: profile.emails[0].value,
-          name: profile.displayName
+          name: profile.displayName,
+          role: 'CLIENT',
         })
         // create a google signin clone
         await GoogleAuth.create({
@@ -113,7 +114,6 @@ passport.use(
         await LocalAuth.create({
           id: uuidv4(),
           email: profile.emails[0].value,
-          active: true,
           user_id: user.id
         })
 
@@ -151,13 +151,13 @@ passport.use(
           id: uuidv4(),
           facebook_id: profile.id,
           email: profile.emails[0].value,
-          user_id: user.id
+          user_id: user.id,
+          role: 'CLIENT'
         })
         // create a local signin clone
         await LocalAuth.create({
           id: uuidv4(),
           email: profile.emails[0].value,
-          active: true,
           user_id: user.id
         })
 
@@ -179,7 +179,7 @@ passport.use(
       try {
         // confirm email
         email = email.toLowerCase().trim()
-        const user = await existLocalEmail(email)
+        const user = await helper.existLocalEmail(email)
         // if not user
         if (!user) return done(null, false);
 
@@ -195,8 +195,6 @@ passport.use(
         // check validity && password
         if (!comparePassword) return done(null, false);
 
-        // check if user is activated
-        if (user.active === false) return done(null, false)
         // if passed, return user from User model
         const gUser = await helper.existEmail(user.email);
         return done(null, gUser);

@@ -9,8 +9,13 @@ export default (sequelize, DataTypes) => {
         email: {
             type: DataTypes.STRING,
             unique: true
+        },
+        role: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     });
+
 
     return User;
 }

@@ -27,28 +27,28 @@ export default {
       }
 
       const hash = await helper.hashPassword(password);
-      const token = await helper.activateToken(hash);
 
       const user = await User.create({
         id: uuidv4(),
         name,
-        email
+        email,
+        role: 'CLIENT'
       })
 
       const localUser = await LocalAuth.create({
         id: uuidv4(),
         password: hash,
         email,
-        secretToken: token,
-        active: false,
         user_id: user.id
       });
 
+      const token = await helper.genToken(localUser);
       return await res.status(201).json({
         status: 201,
         type: 'POST',
         success: true,
         data: localUser,
+        token,
         msg: "Thank you for registering. Check your email to verify account."
       });
     } catch (err) {
@@ -78,7 +78,7 @@ export default {
       secret: 'resource'
     });
   },
-
+  // note: this code is no more used in this project
   validate: async (req, res) => {
     const {
       validate
@@ -192,6 +192,67 @@ export default {
       })
     } catch (err) {
       return res.status(500).json({
+        msg: err
+      })
+    }
+  },
+
+  getSingleUser: async (req, res) => {
+    const {
+      id
+    } = req.params
+    try {
+      const user = await User.findOne({
+        where: {
+          id
+        }
+      })
+      if (!user) return res.status(404).json({
+        msg: 'User doesn\'t exist'
+      })
+
+      return res.status(200).json({
+        type: 'GET',
+        success: true,
+        msg: 'Request successfully',
+        data: user
+      })
+    } catch (err) {
+      return res.status(500).json({
+        success: false,
+        msg: err
+      })
+    }
+  },
+
+  deleteSingleUser: async (req, res) => {
+    const {
+      id
+    } = req.params
+    try {
+      const user = await User.findOne({
+        where: {
+          id
+        }
+      })
+      if (!user) return res.status(403).json({
+        msg: 'Bad request'
+      })
+
+      await User.delete({
+        where: {
+          id
+        }
+      })
+
+      return res.status(200).json({
+        type: 'DELETE',
+        success: true,
+        msg: 'Deleted successfully'
+      })
+    } catch (err) {
+      return res.status(500).json({
+        success: false,
         msg: err
       })
     }

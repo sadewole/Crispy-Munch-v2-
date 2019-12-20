@@ -2,7 +2,8 @@ import axios from 'axios';
 import {
     AUTH_REGISTER,
     AUTH_ERROR,
-    AUTH_LOGIN
+    AUTH_LOGIN,
+    CLEAR_ERROR
 } from './types';
 import {
     returnError
@@ -21,11 +22,14 @@ export const register = data => async (dispatch) => {
         // body
         const body = JSON.stringify(data)
 
-        const res = await axios('/api/v1/user/signup').post(body, config)
-
+        const res = await axios.post('/api/v1/user/signup', body, config)
         dispatch({
             type: AUTH_REGISTER,
-            payload: res
+            payload: res.data
+        })
+
+        dispatch({
+            type: CLEAR_ERROR
         })
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'REGISTER_FAIL'))
@@ -46,11 +50,14 @@ export const login = data => async (dispatch) => {
         // body
         const body = JSON.stringify(data)
 
-        const res = await axios('/api/v1/user/signin').post(body, config)
+        const res = await axios.post('/api/v1/user/signin', body, config)
 
         dispatch({
             type: AUTH_LOGIN,
-            payload: res
+            payload: res.data
+        })
+        dispatch({
+            type: CLEAR_ERROR
         })
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'LOGIN_FAIL'))

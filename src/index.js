@@ -15,9 +15,10 @@ app.use(
 );
 
 // routes
-app.use('/api/v1', user);
+app.use('/api/v1/user', user);
 
 const PORT = 5000;
+
 // listen to server
 // app.listen(PORT, console.log(`Server running on ${PORT}`));
 

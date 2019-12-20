@@ -1,8 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Pacifico|Roboto+Condensed');
+@import '~antd/dist/antd.css';
 
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 :root {
@@ -79,6 +82,10 @@ body {
   text-align: center;
 }
 
+.section-a-inner h3 {
+  color: #fff !important;
+}
+
 .tops h1 {
   font-size: 2.5rem;
   padding-top: 1rem;
@@ -107,12 +114,12 @@ body {
   color: brown;
 }
 
-.toggle {
-  display: none;
+.toggler {
   cursor: pointer;
+  visibility: hidden;
 }
 
-.toggle:focus {
+.toggler:focus {
   outline: none;
 }
 
@@ -163,11 +170,46 @@ body {
   opacity: 0.3;
 }
 
+.login {
+  /* background: rgba(0, 0, 0, 0.2); */
+  color: #fff;
+  padding: 1.2rem;
+  border-radius: 5px;
+}
+
+.login-bg {
+  position: absolute;
+  background: url(./img/chef.png);
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* padding: 0 20px;
+  margin-top: 20px; */
+}
+
+.login-text {
+  font-size: 2.5rem;
+  line-height: 5rem;
+}
+
+.create-login {
+  position: relative;
+  height: 100vh;
+}
+
+.crispy-text {
+  font-size: 3rem;
+  font-family: var(--crispy-font);
+  color: orange;
+}
+
 /* media queries */
 
 @media (max-width: 780px) {
-  .toggle {
-    display: block;
+  .toggler {
+    visibility: visible;
   }
 
   .responsive {

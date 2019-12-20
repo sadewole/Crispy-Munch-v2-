@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react';
 import './App.css';
-import Routes from './components/routes/Routes';
+// import Routes from './components/routes/Routes';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layouts/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // layout
 import LandinPage from './components/pages/LandingPage';
+import Login from './components/auth/Login';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Navbar />
         <Switch>
           <Route exact path='/' component={LandinPage} />
+          <Route exact path='/login' component={Login} />
           {/* <Route component={Routes} /> */}
         </Switch>
       </Fragment>

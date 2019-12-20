@@ -22,7 +22,7 @@ const Navbar = () => {
           aria-controls='navbarSupportedContent'
           aria-expanded='false'
           aria-label='Toggle navigation'
-          className='text-white toggle toggle'
+          className='text-white toggler'
           onClick={handleToggle}
         />
 
@@ -34,23 +34,23 @@ const Navbar = () => {
           }
           id='navbarSupportedContent'
         >
-          <Menu defaultSelectedKeys={['1']} className='navbar-nav ml-auto'>
-            <Menu.Item key='1' className='nav-item'>
-              <Link className='nav-link' to='#'>
+          <ul className='navbar-nav ml-auto'>
+            <li key='1' className='nav-item'>
+              <Link className='nav-link' to='/'>
                 Home
               </Link>
-            </Menu.Item>
-            <Menu.Item key='2' className='nav-item'>
-              <Link to='' className='nav-link'>
+            </li>
+            <li key='2' className='nav-item'>
+              <Link to='/login' className='nav-link'>
                 Login
               </Link>
-            </Menu.Item>
-            <Menu.Item key='3' className='nav-item'>
-              <Link to='' className='nav-link'>
+            </li>
+            <li key='3' className='nav-item'>
+              <Link to='/register' className='nav-link'>
                 Register
               </Link>
-            </Menu.Item>
-          </Menu>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>

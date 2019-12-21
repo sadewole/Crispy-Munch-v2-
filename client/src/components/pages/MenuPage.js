@@ -1,23 +1,30 @@
-import React from 'react'
+import React , {Fragment} from 'react'
+import antd from 'antd'
+import FoodLayout from "../layouts/FoodLayout"
+import Footer from '../layouts/Footer'
+
 
 const MenuPage = () => {
     return ( 
-         <div class="container-fluid">
-    <section>
-        <div class="custom-menu1">
-                <h1 class="cris">Crispy Munch</h1>
-              <img src="img/custom-img/food1.jpg" alt="" />
-              <img src="img/custom-img/food.jpg" alt=""/>
+        <Fragment>
+        <div className="menu-bg"></div>
+    <section className="menu-section">
+        <div className="custom-menu1">
+                <h1 className="cris">Crispy Munch</h1>
+              <img src="img/custom-img/food1.jpg" alt="" className="img-resize" />
+              <img src="img/custom-img/food.jpg" alt="" className="img-resize" />
           </div>  
         
-        <div class="custom-menu2">  
+        <div className="custom-menu2">  
             <h4>Food Catalog</h4>
-            <div class="food-menu">
+            <div className="food-menu">
               <h1 id="noMenu"></h1>
+                 <FoodLayout />
             </div>
         </div>
     </section>
-</div>
+    <Footer />
+</Fragment>
     )
 }
 

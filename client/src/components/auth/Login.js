@@ -3,6 +3,8 @@ import { Form, Icon, Input, Button, Alert } from 'antd';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../../actions/authAction';
+import GoogleLogin from 'react-google-login'
+import FacebookLogin from 'react-facebook-login'
 
 const Login = ({ form, history }) => {
   const [msg, setMsg] = useState(null);
@@ -17,6 +19,13 @@ const Login = ({ form, history }) => {
     });
   };
 
+  const responseGoogle=res=>{
+    console.log(res)
+  }
+
+  const responseFacebook=res=>{
+    console.log(res)
+  }
   // find auth actions
   const { error, isAuthenticated } = useSelector(state => {
     return {
@@ -123,6 +132,14 @@ const Login = ({ form, history }) => {
                 <hr />
               </div>
               <Form.Item>
+                  {/* <FacebookLogin
+                  appId = {process.env.FB_OAUTH_ID}
+                  autoLoad= {true}
+                  fields="name, email, picture"
+                  callback={responseFacebook}
+                  textButton= 'Connect with Facebook'
+                  className='btn btn-primary form-control'
+                  /> */}
                 <Button
                   type='primary'
                   htmlType='submit'

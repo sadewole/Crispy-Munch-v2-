@@ -6,7 +6,7 @@ import Footer from '../layouts/Footer';
 
 const LandingPage = () => {
   return (
-    <div className='container-fluid no-gutters'>
+    <div className='container-fluid no-gutters overflow-landing'>
       <Hero />
       <div className='container'>
         <Content2 />

@@ -41,6 +41,11 @@ const Navbar = () => {
               </Link>
             </li>
             <li key='2' className='nav-item'>
+              <Link to='/menu' className='nav-link'>
+                Explore Menu
+              </Link>
+            </li>
+            <li key='2' className='nav-item'>
               <Link to='/login' className='nav-link'>
                 Login
               </Link>

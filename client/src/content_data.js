@@ -16,8 +16,7 @@ export const data = [{
 ]
 
 
-export const menuData = [
-    {
+export const menuData = [{
         "img": "./img/slideImg/img1.jpg",
         "name": "Rice and Beans",
         "price": 500
@@ -34,7 +33,7 @@ export const menuData = [
     },
     {
         "img": "./img/slideImg/img4.jpg",
-        "name": "Rice and Beans(Family pack)",
+        "name": "Rice and Beans (Family pack)",
         "price": 1500
     },
     {

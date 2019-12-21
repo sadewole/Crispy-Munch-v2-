@@ -21,7 +21,6 @@ const columns = [
       <span>
         <a>View details
             <i className="far fa-arrow-square-down fa-2x text-white"></i>
-            onClick={alert('im here')}
         </a>
       </span>
     ),

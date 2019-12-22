@@ -7,7 +7,8 @@ const {
     User,
     FbAuth,
     LocalAuth,
-    GoogleAuth
+    GoogleAuth,
+    Menu
 } = model
 
 
@@ -24,6 +25,14 @@ const helper = {
             email
         }
     }),
+
+    //  Query menu
+    checkMenu: id => Menu.findOne({
+        where: {
+            id
+        }
+    }),
+
     existLocalEmail: email => LocalAuth.findOne({
         where: {
             email

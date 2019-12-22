@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "server": "nodemon --exec babel-node src/index.js",
+    "defaultAdmin": "babel-node src/controller/defaultAdmin.js",
     "build": "babel src --out-dir dist",
     "client": "cd client && npm run start",
     "dev": "concurrently \"npm run client\" \"npm run server\""

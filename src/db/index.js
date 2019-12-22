@@ -20,7 +20,9 @@ const db = {
     User: sequelize.import('../model/user'),
     LocalAuth: sequelize.import('../model/localAuth'),
     FbAuth: sequelize.import('../model/fbAuth'),
-    GoogleAuth: sequelize.import('../model/googleAuth')
+    GoogleAuth: sequelize.import('../model/googleAuth'),
+    Menu: sequelize.import('../model/menu'),
+    Order: sequelize.import('../model/order')
 }
 
 Object.keys(db).forEach(modelName => {

@@ -4,9 +4,7 @@ import uuidv4 from 'uuid/v4';
 
 const {
   User,
-  FbAuth,
-  LocalAuth,
-  GoogleAuth
+  LocalAuth
 } = model
 
 

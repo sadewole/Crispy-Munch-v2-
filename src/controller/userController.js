@@ -223,6 +223,34 @@ export default {
     }
   },
 
+  upgradeUser: async (req, res) => {
+    try {
+      if (req.user.role === 'Admin') {
+        return res.status(400).json({
+          msg: 'Unauthorised'
+        })
+      }
+
+      await User.update({
+        role: 'Admin'
+      }, {
+        where: {
+          id: req.params.id
+        }
+      })
+
+      return res.status(200).json({
+        TYPE: 'PUT',
+        status: 200,
+        msg: 'User now has the role of an admin'
+      });
+    } catch (err) {
+      res.status(500).json({
+        msg: err
+      })
+    }
+  },
+
   deleteSingleUser: async (req, res) => {
     const {
       id

@@ -1,6 +1,8 @@
 import express from 'express';
 import logger from 'morgan';
-import user from './routes/api/user'
+import user from './routes/api/userRoute'
+import orderRoute from './routes/api/orderRoute';
+import menuRoute from './routes/api/menuRoute';
 import db from './db'
 import 'dotenv/config'
 
@@ -15,7 +17,9 @@ app.use(
 );
 
 // routes
-app.use('/api/v1/user', user);
+app.use('/api/v1', user);
+app.use('/api/v1', orderRoute);
+app.use('/api/v1', menuRoute);
 
 const PORT = 5000;
 

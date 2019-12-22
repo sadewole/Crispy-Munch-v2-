@@ -12,7 +12,7 @@ const router = Router();
 // Routes post signup
 // Access public
 router
-    .route('/signup')
+    .route('/user/signup')
     .post(helper.validateBody(helper.schemas.authSchema), userController.signup);
 
 // Route validate account
@@ -22,7 +22,7 @@ router
 
 // Routes post signin
 // Access public
-router.route('/signin').post(
+router.route('/user/signin').post(
     passport.authenticate('local', {
         session: false
     }),
@@ -32,7 +32,7 @@ router.route('/signin').post(
 
 // Routes 3rd party signin with google
 // Access public
-router.route('/oauth/google').post(
+router.route('/user/oauth/google').post(
     passport.authenticate('googleToken', {
         session: false
     }), userController.signin
@@ -40,7 +40,7 @@ router.route('/oauth/google').post(
 
 // Routes 3rd party signin with facebook
 // Access public
-router.route('/oauth/facebook').post(
+router.route('/user/oauth/facebook').post(
     passport.authenticate('facebookToken', {
         session: false
     }), userController.signin
@@ -48,7 +48,7 @@ router.route('/oauth/facebook').post(
 
 // Routes post signin
 // Access private
-router.route('/secret').get(
+router.route('/user/secret').get(
     passport.authenticate('jwt', {
         session: false
     }),
@@ -59,10 +59,15 @@ router.route('/secret').get(
 // Access Private
 router.route('/user/:id')
     .get(userController.getSingleUser)
-    .delete(userController.deleteSingleUser)
+    .put(passport.authenticate('jwt', {
+        session: false
+    }), userController.upgradeUser)
+    .delete(passport.authenticate('jwt', {
+        session: false
+    }), userController.deleteSingleUser)
 // Routes post forgot password
 // Access private
-router.route('/verify').post(userController.verifyEmail).put(
+router.route('/user/verify').post(userController.verifyEmail).put(
     passport.authenticate('forgot', {
         session: false
     }), userController.changePassword)

@@ -112,6 +112,12 @@ const helper = {
                 .email()
                 .required(),
             password: joi.string().required()
+        }),
+        menuSchema: joi.object().keys({
+            name: joi
+                .string()
+                .required(),
+            price: joi.string().required()
         })
     }
 };

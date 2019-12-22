@@ -7,7 +7,7 @@ const {
 } = model
 
 const logs = {
-    getAllOrder: async (res, res) => {
+    getAllOrder: async (req, res) => {
         try {
             const orders = await Order.findAll({})
             if (!orders) {
@@ -141,7 +141,7 @@ const logs = {
         }
     },
 
-    updateStatus: (req, res) => {
+    updateStatus: async (req, res) => {
         let {
             status
         } = req.body;
@@ -170,7 +170,39 @@ const logs = {
             });
         }
     },
+    getUserOrders: async (req, res) => {
+        try {
+            const rows = await Order.findOne({
+                where: {
+                    user_id: req.params.id
+                }
+            })
+            if (!rows) {
+                return res.status(404).json({
+                    message: 'Cart is empty'
+                });
+            }
 
+            const data = [];
+            for (let i = 0; i < rows.length; i++) {
+                const food = await Helper.checkMenu(rows[i].menu_id);
+
+                data.push(Object.assign(rows, {
+                    food
+                }));
+            }
+            return res.status(200).json({
+                TYPE: 'GET',
+                message: 'Request successful',
+                status: 200,
+                data
+            });
+        } catch (err) {
+            return res.status(400).json({
+                err
+            });
+        }
+    },
     updateUserOrders: async (req, res) => {
         const {
             address,

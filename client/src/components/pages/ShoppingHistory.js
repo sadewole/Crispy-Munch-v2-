@@ -17,11 +17,12 @@ const columns = [
   {
     title: 'Action',
     key: 'action',
-    render: (record) => (
+    render: () => (
       <span>
         <a>View details
             <i className="far fa-arrow-square-down fa-2x text-white"></i>
         </a>
+        {alert(3)}
       </span>
     ),
   },

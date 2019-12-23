@@ -9,7 +9,7 @@ const MenuPage = () => {
             <div className="menu-bg"></div>
             <section className="menu-section">
                 <div className="custom-menu1">
-                        <h1 className="cris">Crispy Munch</h1>
+                        <h1 className="menu-cris">Crispy Munch</h1>
                     <img src="img/custom-img/food1.jpg" alt="" className="img-resize" />
                     <img src="img/custom-img/food.jpg" alt="" className="img-resize" />
                 </div>  

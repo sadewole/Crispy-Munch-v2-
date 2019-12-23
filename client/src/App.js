@@ -11,6 +11,7 @@ import ShoppingHistory from './components/pages/ShoppingHistory';
 import Cart from './components/pages/Cart';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import AdminSider from './components/pages/AdminNavbar';
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
           <Route exact path='/cart' component={Cart} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
+          <Route exact path='/admin' component={AdminSider} />
 
           {/* <Route component={Routes} /> */}
         </Switch>

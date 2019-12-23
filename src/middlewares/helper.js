@@ -113,11 +113,19 @@ const helper = {
                 .required(),
             password: joi.string().required()
         }),
-        menuSchema: joi.object().keys({
-            name: joi
+        updateUserOrdersSchema: joi.object().keys({
+            email: joi
+                .string()
+                .email()
+                .required(),
+            address: joi.string().required(),
+            phone: joi.number().integer().required()
+        }),
+        addNewOrderSchema: joi.object().keys({
+            menuId: joi
                 .string()
                 .required(),
-            price: joi.string().required()
+            quantity: joi.number().integer().required()
         })
     }
 };

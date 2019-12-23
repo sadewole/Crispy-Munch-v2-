@@ -2,11 +2,9 @@ import express from 'express';
 import passport from 'passport';
 import menuController from '../../controller/menuController';
 import uploads from '../../middlewares/multer';
-import helper from '../../middlewares/helper'
 import '../../passport'
 
 
-const {validateBody, schemas} = helper
 const router = express.Router();
 
 router
@@ -17,7 +15,7 @@ router
   .post(
     passport.authenticate('jwt', {
       session: false
-    }),validateBody(schemas.menuSchema),
+    }),
     uploads.single('image'),
     menuController.addFood
   );

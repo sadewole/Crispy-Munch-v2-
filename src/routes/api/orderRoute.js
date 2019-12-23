@@ -1,9 +1,16 @@
 import express from 'express';
 import passport from 'passport';
+import helper from '../../middlewares/helper'
 import orderController from '../../controller/orderController';
 import '../../passport'
 
 const router = express.Router();
+const {
+  validateBody,
+  schemas
+} = helper
+
+
 
 router
   .route('/order')
@@ -11,9 +18,10 @@ router
   .post(
     passport.authenticate('jwt', {
       session: false
-    }),
+    }), validateBody(schemas.addNewOrderSchema),
     orderController.addNewOrder
   );
+
 
 router
   .route('/order/:id')
@@ -37,9 +45,7 @@ router
     orderController.deleteOrder
   );
 
-router
-  .route('/user/:id/order')
-  .get(
+router.route('/user/:id/order').get(
     passport.authenticate('jwt', {
       session: false
     }),
@@ -48,16 +54,17 @@ router
   .put(
     passport.authenticate('jwt', {
       session: false
-    }),
+    }), validateBody(schemas.updateUserOrdersSchema),
     orderController.updateUserOrders
   );
 
-router.route('/total').get(
+router.route('/order/total').get(
   passport.authenticate('jwt', {
     session: false
   }),
   orderController.totalPendingPayment
 );
+
 
 
 export default router;

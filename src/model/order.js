@@ -6,7 +6,7 @@ export default (sequelize, DataTypes) => {
             primaryKey: true
         },
         quantity: {
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         amount: {

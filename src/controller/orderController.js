@@ -18,7 +18,7 @@ const logs = {
 
             const data = [];
             for (let i = 0; i < orders.length; i++) {
-                const order = order[i];
+                const order = orders[i].dataValues;
                 const food = await Helper.checkMenu(order.menu_id);
                 data.push(Object.assign(order, {
                     food
@@ -33,8 +33,9 @@ const logs = {
                 data
             });
         } catch (err) {
+            console.log(err)
             return res.status(500).json({
-                message: err
+                msg: err
             });
         }
     },
@@ -43,7 +44,7 @@ const logs = {
         const {
             menuId,
             quantity
-        } = req.body
+        } = req.value.body
         try {
             const findMenu = await Helper.checkMenu(menuId);
             if (!findMenu) return res.status(403).json({
@@ -108,6 +109,11 @@ const logs = {
         } = req.params
         const quantity = req.body.quantity
         try {
+            if (!quantity) {
+                return res.status(400).json({
+                    msg: 'Field must not be empty'
+                })
+            }
             const findId = await Order.findOne({
                 where: {
                     id
@@ -123,6 +129,7 @@ const logs = {
                 quantity,
                 amount: quantity * findMenu.price
             }, {
+                returning: true,
                 where: {
                     id
                 }
@@ -132,7 +139,7 @@ const logs = {
                 TYPE: 'PUT',
                 status: 200,
                 msg: 'Order updated successfully',
-                data
+                data: data[1][0]
             });
         } catch (err) {
             res.status(400).json({
@@ -142,6 +149,9 @@ const logs = {
     },
 
     updateStatus: async (req, res) => {
+        const {
+            id
+        } = req.params
         let {
             status
         } = req.body;
@@ -150,11 +160,21 @@ const logs = {
                 status = 'new';
             }
 
+            const findId = await Order.findOne({
+                where: {
+                    id
+                }
+            })
+            if (!findId) return res.status(403).json({
+                msg: 'Error, No such order'
+            })
+
             const data = await Order.update({
                 status
             }, {
+                returning: true,
                 where: {
-                    id: req.params.id
+                    id
                 }
             })
 
@@ -162,9 +182,10 @@ const logs = {
                 TYPE: 'PATCH',
                 status: 200,
                 message: 'Order status updated successfully',
-                data
+                data: data[1][0]
             });
         } catch (err) {
+            console.log(err)
             res.status(400).json({
                 msg: err
             });
@@ -172,7 +193,7 @@ const logs = {
     },
     getUserOrders: async (req, res) => {
         try {
-            const rows = await Order.findOne({
+            const rows = await Order.findAll({
                 where: {
                     user_id: req.params.id
                 }
@@ -185,9 +206,10 @@ const logs = {
 
             const data = [];
             for (let i = 0; i < rows.length; i++) {
-                const food = await Helper.checkMenu(rows[i].menu_id);
+                const row = rows[i].dataValues;
+                const food = await Helper.checkMenu(row.menu_id);
 
-                data.push(Object.assign(rows, {
+                data.push(Object.assign(row, {
                     food
                 }));
             }
@@ -208,7 +230,7 @@ const logs = {
             address,
             email,
             phone
-        } = req.body;
+        } = req.value.body;
         try {
             let {
                 status
@@ -225,8 +247,9 @@ const logs = {
                 orderedDate: new Date(),
                 payment: 'paid'
             }, {
+                returning: true,
                 where: {
-                    user_id: req.user.id
+                    user_id: req.params.id
                 }
             })
 
@@ -234,7 +257,7 @@ const logs = {
                 TYPE: 'PUT',
                 status: 200,
                 message: 'Food ordered successfully',
-                data
+                data: data[1]
             });
         } catch (err) {
             res.status(500).json({
@@ -276,15 +299,11 @@ const logs = {
         try {
             let pending = 0
             let paid = 0
-            const datas = Order.findAll({})
+            const datas = await Order.findAll({})
             if (!datas) {
                 return res.status(404).json({
                     msg: 'No sale has been made'
                 });
-            }
-
-            for (let i = 0; i < data.length; i++) {
-
             }
 
             await datas.map(data => {
@@ -307,7 +326,8 @@ const logs = {
                 msg: 'Total sales update'
             });
         } catch (err) {
-            return res.status(400).json({
+            console.log(err)
+            return res.status(500).json({
                 msg: err
             });
         }

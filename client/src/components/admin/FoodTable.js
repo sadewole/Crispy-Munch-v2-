@@ -1,15 +1,43 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useCallback } from 'react';
+import SearchInput from './SearchInput';
 import { catalogData } from '../../content_data';
 
 const FoodTable = ({ newData }) => {
+  let output;
   const [openAction, setOpenAction] = useState({});
-  let [menu, setMenu] = useState(catalogData);
+  let [menu, setMenu] = useState([]);
+  let updatedSearch = [];
+  const [searchText, setSearchText] = useState('');
+
+  const handleChange = e => {
+    setSearchText(e.target.value);
+  };
+
+  const handleReset = () => {
+    setSearchText('');
+    setMenu(catalogData);
+  };
 
   useEffect(() => {
+    setMenu(catalogData);
+    // load food id into action. This helps to obtainsdata from handleAction
     menu.map(i => setOpenAction({ ...openAction, [i.id]: false }));
+  }, []);
 
-    setMenu(newData);
-  }, [newData]);
+  // handle search from search input
+  const handleSearch = () => {
+    const searchData = menu.map(dp => {
+      if (
+        dp.name
+          .toString()
+          .toLowerCase()
+          .indexOf(searchText.toLowerCase()) !== -1
+      ) {
+        updatedSearch.push(dp);
+      }
+      setMenu(updatedSearch);
+    });
+  };
 
   const handleAction = id => {
     setOpenAction({ [id]: !openAction[id] });
@@ -23,9 +51,8 @@ const FoodTable = ({ newData }) => {
     console.log('delete handler');
   };
 
-  if(!undefined(menu)){
-
-  const output=  menu.map(i => {
+  if (menu !== undefined) {
+    output = menu.map(i => {
       return (
         <tr key={i.id}>
           <td>
@@ -42,7 +69,9 @@ const FoodTable = ({ newData }) => {
             <a href='#' className='dropdown-toggle'>
               Action
             </a>
-            <div className={`dropdown-action ${openAction[i.id] ? 'show' : ''}`}>
+            <div
+              className={`dropdown-action ${openAction[i.id] ? 'show' : ''}`}
+            >
               <a href='#' onClick={handleEdit} className='dropdown-item'>
                 Edit
               </a>
@@ -54,10 +83,18 @@ const FoodTable = ({ newData }) => {
         </tr>
       );
     });
+  } else {
+    output = <>Stay</>;
   }
 
   return (
     <div>
+      <SearchInput
+        handleChange={handleChange}
+        handleReset={handleReset}
+        handleSearch={handleSearch}
+        searchText={searchText}
+      />
       {/* Table */}
       <table className='table table-responsive table-hover foodTable'>
         <thead className='thead thead-dark'>
@@ -76,112 +113,3 @@ const FoodTable = ({ newData }) => {
 };
 
 export default FoodTable;
-
-// import { Table, Input, Button, Icon } from 'antd';
-
-// const FoodTable = () => {
-//   let searchInput = '';
-//   const [searchText, setSearchText] = useState('');
-//   const [searchedColumn, setSearchedColumn] = useState('');
-
-//   const getColumnSearchProps = dataIndex => ({
-//     filterDropdown: ({
-//       setSelectedKeys,
-//       selectedKeys,
-//       confirm,
-//       clearFilters
-//     }) => (
-//       <div style={{ padding: 8 }}>
-//         <Input
-//           ref={node => {
-//             searchInput = node;
-//           }}
-//           placeholder={`Search ${dataIndex}`}
-//           value={selectedKeys[0]}
-//           onChange={e =>
-//             setSelectedKeys(e.target.value ? [e.target.value] : [])
-//           }
-//           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-//           style={{ width: 188, marginBottom: 8, display: 'block' }}
-//         />
-//         <Button
-//           type='primary'
-//           onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-//           icon='search'
-//           size='small'
-//           style={{ width: 90, marginRight: 8 }}
-//         >
-//           Search
-//         </Button>
-//         <Button
-//           onClick={() => handleReset(clearFilters)}
-//           size='small'
-//           style={{ width: 90 }}
-//         >
-//           Reset
-//         </Button>
-//       </div>
-//     ),
-//     filterIcon: filtered => (
-//       <Icon type='search' style={{ color: filtered ? '#1890ff' : undefined }} />
-//     ),
-//     onFilter: (value, record) =>
-//       record[dataIndex]
-//         .toString()
-//         .toLowerCase()
-//         .includes(value.toLowerCase()),
-//     onFilterDropdownVisibleChange: visible => {
-//       if (visible) {
-//         setTimeout(() => searchInput.select());
-//       }
-//     },
-//     render: text =>
-//       searchedColumn === dataIndex ? (
-//         <Highlighter
-//           highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-//           searchWords={[searchText]}
-//           autoEscape
-//           textToHighlight={text.toString()}
-//         />
-//       ) : (
-//         text
-//       )
-//   });
-
-//   const handleSearch = (selectedKeys, confirm, dataIndex) => {
-//     confirm();
-//     setSearchText(selectedKeys[0]);
-//     setSearchedColumn(dataIndex);
-//   };
-
-//   const handleReset = clearFilters => {
-//     clearFilters();
-//     setSearchText('');
-//   };
-
-//   const columns = [
-//     {
-//       title: 'Name',
-//       dataIndex: 'name',
-//       key: 'name',
-//       width: '30%',
-//       ...getColumnSearchProps('name')
-//     },
-//     {
-//       title: 'Age',
-//       dataIndex: 'age',
-//       key: 'age',
-//       width: '20%',
-//       ...getColumnSearchProps('age')
-//     },
-//     {
-//       title: 'Address',
-//       dataIndex: 'address',
-//       key: 'address',
-//       ...getColumnSearchProps('address')
-//     }
-//   ];
-//   return <Table columns={columns} dataSource={data} />;
-// };
-
-// export default FoodTable;

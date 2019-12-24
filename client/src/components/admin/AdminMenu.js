@@ -8,7 +8,7 @@ const AdminMenu = () => {
     <div>
       <PostFood />
       <div className='m-auto'>
-        <SearchInput />
+        {/* <SearchInput /> */}
         <FoodTable />
       </div>
     </div>

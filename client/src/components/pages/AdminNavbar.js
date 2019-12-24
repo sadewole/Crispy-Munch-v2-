@@ -8,7 +8,7 @@ const { Header, Content, Footer, Sider } = Layout;
 const SideNav = () => {
   return (
     <Fragment>
-      <div className='admin-flex'>
+      <div className='admin-container'>
         <Sider
           breakpoint='lg'
           collapsedWidth='0'
@@ -20,7 +20,6 @@ const SideNav = () => {
           }}
           className='admin-sider'
         >
-          <div className='logo' />
           <Menu theme='dark' mode='inline' defaultSelectedKeys={['4']}>
             <Menu.Item key='1'>
               <i className='fas fa-french-fries mr-2'></i>
@@ -49,7 +48,7 @@ const SideNav = () => {
           </Menu>
         </Sider>
 
-        <Content style={{ margin: '4rem 16px 0' }} className=''>
+        <Content style={{ marginTop: '4rem' }} className='container admin-content'>
           <AdminMenu />
         </Content>
       </div>

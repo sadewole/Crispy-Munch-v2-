@@ -62,3 +62,49 @@ export const menuData = [{
         "price": 600
     }
 ]
+
+
+export const catalogData = [
+  {
+    id: '1',
+    name: 'John Brown',
+    price: 32,
+    date: '20-11-2019'
+  },
+  {
+    id: '2',
+    name: 'Joe Black',
+    price: 42,
+    date: '20-11-2019'
+  },
+  {
+    id: '3',
+    name: 'Jim Green',
+    price: 32,
+    date: '20-11-2019'
+  },
+  {
+    id: '4',
+    name: 'Amith Red',
+    price: 32,
+    date: '20-11-2019'
+  },
+  {
+    id: '5',
+    name: 'Will Red',
+    price: 32,
+    date: '20-11-2019'
+  },
+  {
+    id: '6',
+    name: 'Mick Red',
+    price: 32,
+    date: '20-11-2019'
+  },
+  {
+    id: '7',
+    name: 'Fread Red',
+    price: 32,
+    date: '20-11-2019'
+  }
+];

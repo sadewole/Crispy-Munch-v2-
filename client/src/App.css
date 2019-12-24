@@ -375,7 +375,6 @@ body {
 .login-bg,
 .register-bg {
   position: absolute;
-
   height: 100vh;
   width: 100%;
   background-size: cover;
@@ -426,28 +425,109 @@ body {
 
 
 /* admin */
+.admin-container {
+  display: flex;
+  background-image: linear-gradient(rgba(230, 207, 207, 0.3), rgba(231, 206, 206, 0.3)), url("./img/menu-bg.jpg");
+  height: 100%;
+  width: 100%;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.action {
+  position: relative;
+}
+
+.dropdown-action {
+  position: absolute;
+  left: 0;
+  display: none;
+  background: #fff;
+  color: #212529;
+  text-align: left;
+  padding: 0.12rem 0;
+  font-size: 1rem;
+  border-radius: 0.35rem;
+  z-index: 1000;
+}
+
+.dropdown-action.show {
+  display: block;
+}
+
+
 .admin-sider {
   padding-top: 55px;
-  /* overflow: auto; */
-  height: 100vh;
-  position: fixed;
-  /* left: 0; */
+  min-height: 100vh;
+  /* position: absolute !important; */
+  z-index: 3;
 }
 
-.admin-content {
-  margin: 24px 16px 0;
-  overflow: initial;
-  padding: 24;
-  background: #fff;
-  /* minHeight: 280 */
-}
-
-.admin-flex {
-  display: flex;
-}
+.admin-content {}
 
 .inline {
   display: inline-flex
+}
+
+.foodTable {
+  margin-top: 20px;
+  border-radius: 5px;
+  border-collapse: collapse;
+  border-spacing: 0px;
+  width: 100%;
+}
+
+tr {
+  width: inherit;
+}
+
+.foodTable .tbody {
+  background-color: cornflowerblue;
+  color: beige;
+}
+
+.foodTable a {
+  color: inherit !important;
+
+}
+
+.foodTable a:hover {
+  text-decoration: none !important;
+}
+
+.foodTable td:nth-child(1),
+.foodTable td:nth-child(3) {
+  width: 10%;
+}
+
+.foodTable td:nth-child(2) {
+  width: 40%;
+}
+
+.foodTable td:nth-child(4) {
+  width: 20%;
+}
+
+.foodTable .table td:nth-child(5) {
+  width: 20%;
+}
+
+.foodTable td {
+  padding: 0.5rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+.foodTable thead tr {
+  color: #fff;
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.foodTable tbody tr {
+  transition: all .5s linear;
 }
 
 /* media queries */

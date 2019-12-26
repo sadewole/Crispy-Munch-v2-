@@ -1,14 +1,17 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
-import AdminMenu from '../admin/AdminMenu';
+import AdminMenu from '../admin/Menu/AdminMenu';
+import AdminHistory from '../admin/History/AdminHistory';
+import AdminViewUser from '../admin/User/AdminViewUser';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const SideNav = () => {
   return (
     <Fragment>
-      <div className='admin-container'>
+      <div className='admin-bgImg'></div>
+      <div style={{ display: 'flex' }}>
         <Sider
           breakpoint='lg'
           collapsedWidth='0'
@@ -48,8 +51,10 @@ const SideNav = () => {
           </Menu>
         </Sider>
 
-        <Content style={{ marginTop: '4rem' }} className='container admin-content'>
-          <AdminMenu />
+        <Content style={{ paddingTop: '4rem' }} className='admin-content'>
+          {/* <AdminMenu /> */}
+          {/* <AdminHistory /> */}
+          <AdminViewUser />
         </Content>
       </div>
     </Fragment>

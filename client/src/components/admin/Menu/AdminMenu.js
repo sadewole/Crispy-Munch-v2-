@@ -1,11 +1,11 @@
 import React from 'react';
 import PostFood from './PostFood';
-import SearchInput from './SearchInput';
+import SearchInput from '../SearchInput';
 import FoodTable from './FoodTable';
 
 const AdminMenu = () => {
   return (
-    <div>
+    <div className='container'>
       <PostFood />
       <div className='m-auto'>
         {/* <SearchInput /> */}

@@ -1,17 +1,40 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { Input, Button } from 'antd';
-import { catalogData } from '../../content_data';
-import FoodTable from './FoodTable';
 
-const SearchInput = ({
-  handleChange,
-  handleReset,
-  handleSearch,
-  searchText
-}) => {
+const SearchInput = ({ cloneData, setCloneData, originalData }) => {
+  let updatedSearch = [];
+  const [searchText, setSearchText] = useState('');
+
+  const handleChange = e => {
+    setSearchText(e.target.value);
+  };
+
+  const handleReset = () => {
+    setSearchText('');
+    setCloneData(originalData);
+  };
+
+  // handle search from search input
+  const handleSearch = () => {
+    cloneData.map(dp => {
+      if (
+        dp.name
+          .toString()
+          .toLowerCase()
+          .indexOf(searchText.toLowerCase()) !== -1
+      ) {
+        updatedSearch.push(dp);
+      }
+      setCloneData(updatedSearch);
+    });
+  };
+
   return (
     <Fragment>
-      <div style={{ padding: 8, width: 205 }} className='ml-auto bg-dark'>
+      <div
+        style={{ padding: 8, width: 205 }}
+        className='ml-auto bg-dark mt-3 mb-3'
+      >
         <Input
           placeholder={'Search name'}
           value={searchText}

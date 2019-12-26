@@ -192,7 +192,7 @@ body {
   top: 0;
   left: 0;
   background-image: linear-gradient(rgba(230, 207, 207, 0.3), rgba(231, 206, 206, 0.3)), url("./img/menu-bg.jpg");
-  height: 100%;
+  /* height: 100%; */
   width: 100%;
   background-attachment: fixed;
   background-size: cover;
@@ -425,15 +425,18 @@ body {
 
 
 /* admin */
-.admin-container {
-  display: flex;
+.admin-bgImg {
+  position: fixed;
+  top: 0;
+  left: 0;
   background-image: linear-gradient(rgba(230, 207, 207, 0.3), rgba(231, 206, 206, 0.3)), url("./img/menu-bg.jpg");
-  height: 100%;
+  height: 100vh;
   width: 100%;
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  z-index: -4;
 }
 
 .action {
@@ -457,15 +460,19 @@ body {
   display: block;
 }
 
-
 .admin-sider {
   padding-top: 55px;
   min-height: 100vh;
-  /* position: absolute !important; */
+  position: fixed !important;
   z-index: 3;
 }
 
-.admin-content {}
+.admin-content {
+  margin-left: 200px;
+  width: 80%;
+  right: 0;
+
+}
 
 .inline {
   display: inline-flex
@@ -490,7 +497,6 @@ tr {
 
 .foodTable a {
   color: inherit !important;
-
 }
 
 .foodTable a:hover {
@@ -530,6 +536,16 @@ tr {
   transition: all .5s linear;
 }
 
+.admin-history-table {
+  display: flex;
+  width: 100%
+}
+
+.admin-history-table td {
+  background: rgba(232, 219, 219, 0.851);
+}
+
+
 /* media queries */
 @media (max-width: 990px) {
   .toggler {
@@ -537,8 +553,14 @@ tr {
   }
 }
 
-
 @media (max-width: 780px) {
+  .admin-content {
+    margin-left: 0px;
+    width: 90%;
+    /* margin: auto; */
+    /* overflow-x: hidden; */
+    /* box-sizing: border-box; */
+  }
 
   .responsive {
     display: block;
@@ -552,7 +574,6 @@ tr {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-
 
 @media (max-width: 580px) {
   .logo {

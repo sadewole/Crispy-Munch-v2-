@@ -1,43 +1,17 @@
 import React, { Fragment, useState, useEffect, useCallback } from 'react';
-import SearchInput from './SearchInput';
-import { catalogData } from '../../content_data';
+import SearchInput from '../SearchInput';
+import { catalogData } from '../../../content_data';
 
-const FoodTable = ({ newData }) => {
+const FoodTable = () => {
   let output;
   const [openAction, setOpenAction] = useState({});
-  let [menu, setMenu] = useState([]);
-  let updatedSearch = [];
-  const [searchText, setSearchText] = useState('');
-
-  const handleChange = e => {
-    setSearchText(e.target.value);
-  };
-
-  const handleReset = () => {
-    setSearchText('');
-    setMenu(catalogData);
-  };
+  let [cloneData, setCloneData] = useState([]);
 
   useEffect(() => {
-    setMenu(catalogData);
+    setCloneData(catalogData);
     // load food id into action. This helps to obtainsdata from handleAction
-    menu.map(i => setOpenAction({ ...openAction, [i.id]: false }));
+    cloneData.map(i => setOpenAction({ ...openAction, [i.id]: false }));
   }, []);
-
-  // handle search from search input
-  const handleSearch = () => {
-    const searchData = menu.map(dp => {
-      if (
-        dp.name
-          .toString()
-          .toLowerCase()
-          .indexOf(searchText.toLowerCase()) !== -1
-      ) {
-        updatedSearch.push(dp);
-      }
-      setMenu(updatedSearch);
-    });
-  };
 
   const handleAction = id => {
     setOpenAction({ [id]: !openAction[id] });
@@ -51,8 +25,8 @@ const FoodTable = ({ newData }) => {
     console.log('delete handler');
   };
 
-  if (menu !== undefined) {
-    output = menu.map(i => {
+  if (cloneData !== undefined) {
+    output = cloneData.map(i => {
       return (
         <tr key={i.id}>
           <td>
@@ -90,10 +64,9 @@ const FoodTable = ({ newData }) => {
   return (
     <div>
       <SearchInput
-        handleChange={handleChange}
-        handleReset={handleReset}
-        handleSearch={handleSearch}
-        searchText={searchText}
+        cloneData={cloneData}
+        setCloneData={setCloneData}
+        originalData={catalogData}
       />
       {/* Table */}
       <table className='table table-responsive table-hover foodTable'>

@@ -11,11 +11,18 @@ const UserTable = () => {
   useEffect(() => {
     setCloneData(userData);
     // load food id into action. This helps to obtainsdata from handleAction
-    cloneData.map(i => setOpenAction({ ...openAction, [i.id]: false }));
+    cloneData.map(i =>
+      setOpenAction({
+        ...openAction,
+        [i.id]: false
+      })
+    );
   }, []);
 
   const handleAction = id => {
-    setOpenAction({ [id]: !openAction[id] });
+    setOpenAction({
+      [id]: !openAction[id]
+    });
   };
 
   const handleUpgrade = () => {
@@ -30,12 +37,10 @@ const UserTable = () => {
     output = cloneData.map((i, index) => {
       return (
         <tr key={index}>
-          <td>{i.id}</td>
-          <td>{i.name}</td>
-          <td>{i.email}</td>
-          <td>{i.role}</td>
+          <td> {i.id} </td> <td> {i.name} </td> <td> {i.email} </td>
+          <td> {i.role} </td>
           <td className='action' onClick={() => handleAction(i.id)}>
-            <Link className='dropdown-toggle'>Action</Link>
+            <Link className='dropdown-toggle'> Action </Link>
             <div
               className={`dropdown-action ${openAction[i.id] ? 'show' : ''}`}
             >
@@ -61,14 +66,11 @@ const UserTable = () => {
       <table className='table table-responsive table-hover text-white'>
         <thead className='thead thead-dark'>
           <tr>
-            <th>User id</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Action</th>
+            <th> User id </th> <th> Name </th> <th> Email </th> <th> Role </th>
+            <th> Action </th>
           </tr>
         </thead>
-        <tbody className='tbody bg-secondary'>{output}</tbody>
+        <tbody className='tbody bg-secondary'> {output} </tbody>
       </table>
     </div>
   );

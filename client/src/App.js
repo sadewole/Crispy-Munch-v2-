@@ -11,7 +11,7 @@ import ShoppingHistory from './components/pages/ShoppingHistory';
 import Cart from './components/pages/Cart';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
-import AdminSider from './components/pages/AdminNavbar';
+import Admin from './components/pages/Admin';
 
 const App = () => {
   return (
@@ -25,7 +25,8 @@ const App = () => {
           <Route exact path='/cart' component={Cart} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
-          <Route exact path='/admin' component={AdminSider} />
+          <Route exact path='/admin' component={Admin} />
+          <Route exact path='/admin/:slum' component={Admin} />
 
           {/* <Route component={Routes} /> */}
         </Switch>

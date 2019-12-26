@@ -20,11 +20,11 @@ const App = () => {
         <Navbar />
         <Switch>
           <Route exact path='/' component={LandingPage} />
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/register' component={Register} />
           <Route exact path='/menu' component={MenuPage} />
           <Route exact path='/history' component={ShoppingHistory} />
           <Route exact path='/cart' component={Cart} />
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/register' component={Register} />
           <Route exact path='/admin' component={Admin} />
           <Route exact path='/admin/:slum' component={Admin} />
 

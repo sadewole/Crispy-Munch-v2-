@@ -1,36 +1,32 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Form, Icon, Input, Button, Alert } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../../actions/authAction';
-import GoogleLogin from 'react-google-login'
-import FacebookLogin from 'react-facebook-login'
+import GoogleLogin from 'react-google-login';
+import FacebookLogin from 'react-facebook-login';
 
 const Login = ({ form, history }) => {
   const [msg, setMsg] = useState(null);
   const dispatch = useDispatch();
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    form.validateFields((err, values) => {
+    await form.validateFields((err, values) => {
       if (!err) {
         dispatch(login(values));
       }
     });
   };
 
-  const responseGoogle=res=>{
-    console.log(res)
-  }
-
-  const responseFacebook=res=>{
-    console.log(res)
-  }
   // find auth actions
-  const { error, isAuthenticated } = useSelector(state => {
+  const {
+    error,
+    auth: { isAuthenticated, user }
+  } = useSelector(state => {
     return {
       error: state.error,
-      isAuthenticated: state.auth.isAuthenticated
+      auth: state.auth
     };
   });
 
@@ -40,12 +36,22 @@ const Login = ({ form, history }) => {
     } else {
       setMsg(null);
     }
-
     // redirected if no error
-    // if (isAuthenticated) {
-    //   history.push('/dashboard');
-    // }
-  }, [error]);
+    if (isAuthenticated && user.role === 'CLIENT') {
+      history.push('/menu');
+    }
+    if (isAuthenticated && user.role === 'ADMIN') {
+      history.push('/admin');
+    }
+  }, [error, isAuthenticated]);
+
+  const responseGoogle = res => {
+    console.log(res);
+  };
+
+  const responseFacebook = res => {
+    console.log(res);
+  };
 
   const { getFieldDecorator } = form;
 
@@ -132,7 +138,7 @@ const Login = ({ form, history }) => {
                 <hr />
               </div>
               <Form.Item>
-                  {/* <FacebookLogin
+                {/* <FacebookLogin
                   appId = {process.env.FB_OAUTH_ID}
                   autoLoad= {true}
                   fields="name, email, picture"

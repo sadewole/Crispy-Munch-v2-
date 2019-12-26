@@ -9,6 +9,13 @@ import '../../passport'; // as strategy in ./passport.js needs passport object
 // init Router
 const router = Router();
 
+// Routes get all users
+// Access Private
+router.route('/user/').get(passport.authenticate('jwt', {
+    session: false
+}), userController.getAllUser)
+
+
 // Routes post signup
 // Access public
 router

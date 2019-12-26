@@ -45,8 +45,8 @@ export default {
         status: 201,
         type: 'POST',
         success: true,
-        data: localUser,
-        token,
+        data: user,
+        token: `Bearer ${token}`,
         msg: "Thank you for registering. Check your email to verify account."
       });
     } catch (err) {
@@ -195,6 +195,29 @@ export default {
     }
   },
 
+  getAllUser: async (req, res) => {
+    try {
+      const user = await User.findAll({})
+
+      if (!user) {
+        return res.status(200).json({
+          msg: 'No User yet'
+        })
+      }
+
+      return res.status(200).json({
+        type: 'GET',
+        success: true,
+        msg: 'Request successfully',
+        data: user
+      })
+    } catch (err) {
+      res.status(500).json({
+        msg: err
+      })
+    }
+  },
+
   getSingleUser: async (req, res) => {
     const {
       id
@@ -225,14 +248,14 @@ export default {
 
   upgradeUser: async (req, res) => {
     try {
-      if (req.user.role === 'Admin') {
+      if (req.user.role !== 'ADMIN') {
         return res.status(400).json({
           msg: 'Unauthorised'
         })
       }
 
       await User.update({
-        role: 'Admin'
+        role: 'ADMIN'
       }, {
         where: {
           id: req.params.id

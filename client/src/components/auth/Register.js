@@ -1,17 +1,17 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Form, Icon, Input, Button, Alert } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../actions/authAction';
 
-const Register = ({ form }) => {
+const Register = ({ form, history }) => {
   const [confirmDirty, setConfirmDirty] = useState(false);
   const [msg, setMsg] = useState(null);
   const dispatch = useDispatch();
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    form.validateFieldsAndScroll((err, values) => {
+    await form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         const { username, email, password } = values;
         const data = {
@@ -25,10 +25,13 @@ const Register = ({ form }) => {
   };
 
   // find auth actions
-  const { error, isAuthenticated } = useSelector(state => {
+  const {
+    error,
+    auth: { isAuthenticated }
+  } = useSelector(state => {
     return {
       error: state.error,
-      isAuthenticated: state.auth.isAuthenticated
+      auth: state.auth
     };
   });
 
@@ -39,11 +42,11 @@ const Register = ({ form }) => {
       setMsg(null);
     }
 
-    // redirected if no error
-    // if (isAuthenticated) {
-    //   history.push('/dashboard');
-    // }
-  }, [error]);
+    // redirecct, if no error
+    if (isAuthenticated) {
+      history.push('/menu');
+    }
+  }, [error, isAuthenticated]);
 
   const handleConfirmBlur = e => {
     const { value } = e.target;

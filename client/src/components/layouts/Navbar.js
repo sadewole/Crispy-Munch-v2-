@@ -115,10 +115,10 @@ const Navbar = () => {
         >
           {!isLoading && (
             <Fragment>
+              {isAuthenticated && user.role === 'ADMIN' && null}
               {isAuthenticated && user.role === 'CLIENT'
                 ? clientLink
                 : guestLink}
-              {isAuthenticated && user.role === 'ADMIN' && null}
             </Fragment>
           )}
         </div>

@@ -19,10 +19,17 @@ const FoodTable = () => {
     };
   });
   // access data to clone
+  const fetchFunc = () => {
+    console.log(data)
+    setCloneData(data);
+  };
 
   useEffect(() => {
     dispatch(fetchMenu());
-
+    fetchFunc();
+    if(isLoading === false){
+      console.log('fetching...', data)
+    }
     // load food id into action. This helps to obtainsdata from handleAction
     cloneData.map(i => setOpenAction({ ...openAction, [i.id]: false }));
   }, [fetchMenu]);
@@ -48,8 +55,8 @@ const FoodTable = () => {
         </td>
       </tr>
     </Fragment>
-  ) : data !== undefined ? (
-    data.map(i => {
+  ) : cloneData !== undefined ? (
+    cloneData.map(i => {
       return (
         <tr key={i.id}>
           <td>
@@ -101,7 +108,7 @@ const FoodTable = () => {
   return (
     <div>
       <SearchInput
-        cloneData={data}
+        cloneData={cloneData}
         setCloneData={setCloneData}
         originalData={data}
       />

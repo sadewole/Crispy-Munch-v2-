@@ -26,6 +26,13 @@ const helper = {
         }
     }),
 
+    // find user by id
+    findUserById: id => User.findOne({
+        where: {
+            id
+        }
+    }),
+
     //  Query menu
     checkMenu: id => Menu.findOne({
         where: {

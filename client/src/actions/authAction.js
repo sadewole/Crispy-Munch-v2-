@@ -56,6 +56,8 @@ export const register = data => async (dispatch) => {
         dispatch({
             type: CLEAR_ERROR
         })
+
+        dispatch(loadUser())
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'REGISTER_FAIL'))
         dispatch({
@@ -84,6 +86,7 @@ export const login = data => async (dispatch) => {
         dispatch({
             type: CLEAR_ERROR
         })
+        dispatch(loadUser())
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'LOGIN_FAIL'))
         dispatch({
@@ -127,11 +130,11 @@ export const tokenConfig = getState => {
         // set header
         const config = {
             headers: {
-                'Authorization': token
+                'Content-Type': 'application/json'
             }
         }
 
-        // config.headers['Authorization'] = token
+        config.headers['Authorization'] = token
 
         return config
     } catch (err) {

@@ -27,7 +27,7 @@ const Register = ({ form, history }) => {
   // find auth actions
   const {
     error,
-    auth: { isAuthenticated }
+    auth: { isAuthenticated, user }
   } = useSelector(state => {
     return {
       error: state.error,
@@ -42,9 +42,12 @@ const Register = ({ form, history }) => {
       setMsg(null);
     }
 
-    // redirecct, if no error
-    if (isAuthenticated) {
+    // redirected if no error
+    if (isAuthenticated && user.role === 'CLIENT') {
       history.push('/menu');
+    }
+    if (isAuthenticated && user.role === 'ADMIN') {
+      history.push('/admin');
     }
   }, [error, isAuthenticated]);
 

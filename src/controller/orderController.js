@@ -20,8 +20,10 @@ const logs = {
             for (let i = 0; i < orders.length; i++) {
                 const order = orders[i].dataValues;
                 const food = await Helper.checkMenu(order.menu_id);
+                const user = await Helper.findUserById(order.user_id)
                 data.push(Object.assign(order, {
-                    food
+                    food,
+                    user
                 }))
             }
 
@@ -191,11 +193,11 @@ const logs = {
             });
         }
     },
-    getUserOrders: async (req, res) => {
+    getUserHistory: async (req, res) => {
         try {
             const rows = await Order.findAll({
                 where: {
-                    user_id: req.params.id
+                    user_id: req.user.id
                 }
             })
             if (!rows) {
@@ -249,7 +251,7 @@ const logs = {
             }, {
                 returning: true,
                 where: {
-                    user_id: req.params.id
+                    user_id: req.user.id
                 }
             })
 

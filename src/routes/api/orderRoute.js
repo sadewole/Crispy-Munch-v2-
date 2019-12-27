@@ -45,11 +45,11 @@ router
     orderController.deleteOrder
   );
 
-router.route('/user/:id/order').get(
+router.route('/user/order').get(
     passport.authenticate('jwt', {
       session: false
     }),
-    orderController.getUserOrders
+    orderController.getUserHistory
   )
   .put(
     passport.authenticate('jwt', {

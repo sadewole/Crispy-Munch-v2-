@@ -13,7 +13,6 @@ const SearchInput = ({ cloneData, setCloneData, originalData }) => {
     setSearchText('');
     setCloneData(originalData);
   };
-
   // handle search from search input
   const handleSearch = () => {
     cloneData.map(dp => {

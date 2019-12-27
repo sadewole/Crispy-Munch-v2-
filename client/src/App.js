@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import './App.css';
 // import Routes from './components/routes/Routes';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -12,8 +12,14 @@ import Cart from './components/pages/Cart';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Admin from './components/pages/Admin';
+import { loadUser } from './actions/authAction';
+import store from './store';
 
 const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
+
   return (
     <Router>
       <Fragment>

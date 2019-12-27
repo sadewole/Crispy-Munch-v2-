@@ -78,7 +78,7 @@ const logs = {
             } else {
                 image = req.file.path;
             }
-
+            console.log('image', image)
             const returnImage = await cloudinary.uploader.upload(image)
 
             const data = await Menu.create({
@@ -95,7 +95,7 @@ const logs = {
                 data
             });
         } catch (err) {
-            return res.status(500), json({
+            return res.status(500).json({
                 msg: err
             })
         }

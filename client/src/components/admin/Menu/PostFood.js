@@ -1,15 +1,26 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Form, Input, Button, Alert, Modal } from 'antd';
+import { postMenu } from '../../../actions/catalogAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 const AdminPost = ({ form }) => {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
 
+  // const [error, menu] = useSelector(state => {
+  //   return {
+  //     error: state.error,
+  //     menu: state.menu
+  //   };
+  // });
+
+  const dispatch = useDispatch();
+
   const showModal = () => {
     setVisible(true);
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
@@ -18,6 +29,7 @@ const AdminPost = ({ form }) => {
         setTimeout(() => {
           setLoading(false);
           setVisible(false);
+          dispatch(postMenu(values));
         }, 3000);
       }
     });

@@ -124,7 +124,6 @@ export const tokenConfig = getState => {
     try {
         // get token from local storage
         const token = getState().auth.token
-        console.log(token)
         // set header
         const config = {
             headers: {
@@ -133,7 +132,7 @@ export const tokenConfig = getState => {
         }
 
         // add token to header
-        config.headers['authorization'] = token;
+        config.headers['Authorization'] = token;
 
         return config
     } catch (err) {

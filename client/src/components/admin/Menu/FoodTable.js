@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import Moment from 'react-moment';
 import SearchInput from '../SearchInput';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchMenu } from '../../../actions/catalogAction';
@@ -18,30 +19,28 @@ const FoodTable = () => {
     };
   });
   // access data to clone
-  if(data){
-    setCloneData(data)
- // load food id into action. This helps to obtainsdata from handleAction
- cloneData.map(i => setOpenAction({ ...openAction, [i.id]: false }));
-  }
+
   useEffect(() => {
     dispatch(fetchMenu());
-   
+
+    // load food id into action. This helps to obtainsdata from handleAction
+    cloneData.map(i => setOpenAction({ ...openAction, [i.id]: false }));
   }, [fetchMenu]);
 
   const handleAction = id => {
     setOpenAction({ [id]: !openAction[id] });
   };
 
-  const handleEdit = () => {
-    console.log('edit handler');
+  const handleEdit = id => {
+    console.log('edit handler', id);
   };
 
-  const handleDelete = () => {
-    console.log('delete handler');
+  const handleDelete = id => {
+    console.log('delete handler', id);
   };
 
   // return table body
- const output = isLoading ? (
+  const output = isLoading ? (
     <Fragment>
       <tr>
         <td colSpan='5' className='text-center'>
@@ -49,8 +48,8 @@ const FoodTable = () => {
         </td>
       </tr>
     </Fragment>
-  ) : cloneData !== undefined ? (
-    cloneData.map(i => {
+  ) : data !== undefined ? (
+    data.map(i => {
       return (
         <tr key={i.id}>
           <td>
@@ -62,18 +61,26 @@ const FoodTable = () => {
           </td>
           <td>{i.name}</td>
           <td>{i.price}</td>
-          <td>{i.updatedAt}</td>
+          <td>
+            <Moment format='YYYY/MM/DD'>{i.updatedAt}</Moment>
+          </td>
           <td className='action' onClick={() => handleAction(i.id)}>
-            <a href='#' className='dropdown-toggle'>
-              Action
-            </a>
+            <p className='dropdown-toggle'>Action</p>
             <div
               className={`dropdown-action ${openAction[i.id] ? 'show' : ''}`}
             >
-              <a href='#' onClick={handleEdit} className='dropdown-item'>
+              <a
+                href='#'
+                onClick={() => handleEdit(i.id)}
+                className='dropdown-item'
+              >
                 Edit
               </a>
-              <a href='#' onClick={handleDelete} className='dropdown-item'>
+              <a
+                href='#'
+                onClick={() => handleDelete(i.id)}
+                className='dropdown-item'
+              >
                 Delete
               </a>
             </div>
@@ -84,7 +91,9 @@ const FoodTable = () => {
   ) : (
     <Fragment>
       <tr>
-        <td colSpan='5' className="text-center">No Data</td>
+        <td colSpan='5' className='text-center'>
+          No Data
+        </td>
       </tr>
     </Fragment>
   );
@@ -92,7 +101,7 @@ const FoodTable = () => {
   return (
     <div>
       <SearchInput
-        cloneData={cloneData}
+        cloneData={data}
         setCloneData={setCloneData}
         originalData={data}
       />

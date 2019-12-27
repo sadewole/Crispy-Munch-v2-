@@ -23,7 +23,6 @@ const Navbar = () => {
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
-
   const clientLink = (
     <ul className='navbar-nav ml-auto'>
       <li className='nav-item'>
@@ -88,16 +87,23 @@ const Navbar = () => {
         <Link className='navbar-brand' to='/'>
           Crispy-Munch
         </Link>
-        <Icon
-          type='align-right'
-          data-toggle='collapse'
-          data-target='#navbarSupportedContent'
-          aria-controls='navbarSupportedContent'
-          aria-expanded='false'
-          aria-label='Toggle navigation'
-          className='text-white toggler'
-          onClick={handleToggle}
-        />
+
+        {!isLoading && (
+          <Fragment>
+            {isAuthenticated && user.role === 'ADMIN' ? null : (
+              <Icon
+                type='align-right'
+                data-toggle='collapse'
+                data-target='#navbarSupportedContent'
+                aria-controls='navbarSupportedContent'
+                aria-expanded='false'
+                aria-label='Toggle navigation'
+                className='text-white toggler'
+                onClick={handleToggle}
+              />
+            )}
+          </Fragment>
+        )}
 
         <div
           className={
@@ -112,6 +118,7 @@ const Navbar = () => {
               {isAuthenticated && user.role === 'CLIENT'
                 ? clientLink
                 : guestLink}
+              {isAuthenticated && user.role === 'ADMIN' && null}
             </Fragment>
           )}
         </div>

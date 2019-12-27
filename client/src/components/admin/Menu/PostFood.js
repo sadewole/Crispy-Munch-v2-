@@ -1,18 +1,16 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Form, Input, Button, Alert, Modal } from 'antd';
 import { postMenu } from '../../../actions/catalogAction';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const AdminPost = ({ form }) => {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-
-  // const [error, menu] = useSelector(state => {
-  //   return {
-  //     error: state.error,
-  //     menu: state.menu
-  //   };
-  // });
+  const [imageFile, setImageFile] = useState(null);
+  // handle change to retrieve image from file
+  const handleChange = e => {
+    setImageFile(e.target.files[0]);
+  };
 
   const dispatch = useDispatch();
 
@@ -22,17 +20,24 @@ const AdminPost = ({ form }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    form.validateFields((err, values) => {
+    // validate form
+    await form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
         setLoading(true);
         setTimeout(() => {
+          // set simple loading style to form
           setLoading(false);
           setVisible(false);
-          dispatch(postMenu(values));
-        }, 3000);
+          const formData = new FormData();
+          formData.append('name', values.name);
+          formData.append('price', values.price);
+          formData.append('image', imageFile);
+          dispatch(postMenu(formData));
+        }, 1000);
       }
     });
+    // reset fields
+    await form.resetFields();
   };
 
   const handleOk = e => {
@@ -60,7 +65,11 @@ const AdminPost = ({ form }) => {
         onCancel={handleCancel}
         footer={[]}
       >
-        <form className='form' onSubmit={handleSubmit}>
+        <form
+          className='form'
+          onSubmit={handleSubmit}
+          encType='multipart/form-data'
+        >
           <div className='form-group'>
             <label htmlFor='name'>Food Name</label>
             <Form.Item>
@@ -87,7 +96,14 @@ const AdminPost = ({ form }) => {
             <Form.Item>
               {getFieldDecorator('image', {
                 rules: [{ required: true, message: 'Please input food image!' }]
-              })(<Input type='file' name='image' className='form-control' />)}
+              })(
+                <Input
+                  type='file'
+                  name='image'
+                  className='form-control'
+                  onChange={handleChange}
+                />
+              )}
             </Form.Item>
           </div>
           <div>

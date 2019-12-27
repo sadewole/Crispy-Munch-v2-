@@ -44,7 +44,7 @@ const logs = {
             })
             if (!data) {
                 return res.status(404).json({
-                    message: 'Not Found'
+                    msg: 'Not Found'
                 });
             }
 
@@ -62,11 +62,13 @@ const logs = {
     },
 
     addFood: async (req, res) => {
-        const {
+        let {
             name,
             price
         } = req.body
         try {
+            price = Number(price)
+            console.log(name, price)
             if (!name || !price) {
                 return res.status(400).json({
                     msg: 'Fields is not allowed to be empty'
@@ -78,8 +80,8 @@ const logs = {
             } else {
                 image = req.file.path;
             }
-            console.log('image', image)
-            const returnImage = await cloudinary.uploader.upload(image)
+
+            const returnImage = await cloudinary.v2.uploader.upload(image)
 
             const data = await Menu.create({
                 id: uuidv4(),
@@ -117,7 +119,7 @@ const logs = {
 
             const data = await Menu.update({
                 name: req.body.name,
-                price: req.body.price,
+                price: Number(req.body.price),
                 image: returnImage.secure_url
             }, {
                 returning: true,

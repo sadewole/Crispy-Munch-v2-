@@ -127,12 +127,11 @@ export const tokenConfig = getState => {
         // set header
         const config = {
             headers: {
-                'Content-Type': 'application/json'
+                'Authorization': token
             }
         }
 
-        // add token to header
-        config.headers['Authorization'] = token;
+        // config.headers['Authorization'] = token
 
         return config
     } catch (err) {

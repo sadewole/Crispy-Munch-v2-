@@ -24,20 +24,20 @@ app.use('/api/v1', menuRoute);
 const PORT = 5000;
 
 // listen to server
-// app.listen(PORT, console.log(`Server running on ${PORT}`));
+app.listen(PORT, console.log(`Server running on ${PORT}`));
 
-// // test database
-// try {
-//     db.sequelize.authenticate()
-//     console.log('Connection has been established successfully.');
-// } catch (err) {
-//     console.error('Unable to connect to the database:', err);
-// }
+// test database
+try {
+    db.sequelize.authenticate()
+    console.log('Connection has been established successfully.');
+} catch (err) {
+    console.error('Unable to connect to the database:', err);
+}
 
 // sync database
-db.sequelize.sync().then(() => {
-    console.log('Connection has been established successfully.');
-}).then(() => {
-    // listen to server
-    app.listen(PORT, console.log(`Server running on ${PORT}`));
-})
+// db.sequelize.sync().then(() => {
+//     console.log('Connection has been established successfully.');
+// }).then(() => {
+//     // listen to server
+//     app.listen(PORT, console.log(`Server running on ${PORT}`));
+// })

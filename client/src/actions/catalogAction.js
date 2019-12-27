@@ -36,14 +36,14 @@ export const fetchMenu = () => async (dispatch, getState) => {
 
 export const postMenu = (data) => async (dispatch, getState) => {
     try {
-        const body = JSON.stringify(data)
-
-        const res = await axios.post('/api/v1/menu', body, tokenConfig(getState))
+        const res = await axios.post('/api/v1/menu', data, tokenConfig(getState))
 
         dispatch({
             type: POST_MENU,
             payload: res.data
         })
+
+        dispatch(fetchMenu())
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'POST_MENU_FAIL'))
     }

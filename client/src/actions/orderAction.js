@@ -35,10 +35,12 @@ export const getAllOrder = () => async (dispatch, getState) => {
     }
 }
 
-export const postOrder = data => async (dispatch, getState) => {
+export const postOrder = id => async (dispatch, getState) => {
     try {
 
-        const body = JSON.stringify(data)
+        const body = JSON.stringify({
+            menuId: id
+        })
         const res = await axios.post('/api/v1/order/', body, tokenConfig(getState))
 
         dispatch({

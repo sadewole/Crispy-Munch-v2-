@@ -197,6 +197,12 @@ export default {
 
   getAllUser: async (req, res) => {
     try {
+      if (req.user.role !== 'ADMIN') {
+        return res.status(401).json({
+          msg: 'Unauthorised'
+        })
+      }
+
       const user = await User.findAll({})
 
       if (!user) {

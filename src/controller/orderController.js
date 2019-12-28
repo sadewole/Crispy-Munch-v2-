@@ -44,8 +44,7 @@ const logs = {
 
     addNewOrder: async (req, res) => {
         const {
-            menuId,
-            quantity
+            menuId
         } = req.value.body
         try {
             const findMenu = await Helper.checkMenu(menuId);
@@ -57,7 +56,7 @@ const logs = {
                 id: uuidv4(),
                 menu_id: findMenu.id,
                 user_id: req.user.id,
-                quantity,
+                quantity: 1,
                 amount: quantity * findMenu.price,
                 payment: 'pending',
                 status: 'new'

@@ -6,10 +6,8 @@ import { logout } from '../../actions/authAction';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   // find auth actions
   const {
-    error,
     auth: { isAuthenticated, isLoading, user }
   } = useSelector(state => {
     return {
@@ -88,7 +86,7 @@ const Navbar = () => {
           Crispy-Munch
         </Link>
 
-        {!isLoading && (
+        {
           <Fragment>
             {isAuthenticated && user.role === 'ADMIN' ? null : (
               <Icon
@@ -103,7 +101,7 @@ const Navbar = () => {
               />
             )}
           </Fragment>
-        )}
+        }
 
         <div
           className={
@@ -113,14 +111,14 @@ const Navbar = () => {
           }
           id='navbarSupportedContent'
         >
-          {!isLoading && (
+          {
             <Fragment>
               {isAuthenticated && user.role === 'ADMIN' && null}
               {isAuthenticated && user.role === 'CLIENT'
                 ? clientLink
                 : guestLink}
             </Fragment>
-          )}
+          }
         </div>
       </div>
     </nav>

@@ -53,6 +53,7 @@ export default (state = initState, action) => {
                 ...state,
                 msg: payload.msg,
                     isAuthenticated: false,
+                    isLoading: true,
                     user: null
             };
         default:

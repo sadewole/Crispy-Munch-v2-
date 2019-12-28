@@ -32,7 +32,7 @@ const FoodTable = () => {
     }
     // load food id into action. This helps to obtainsdata from handleAction
     cloneData.map(i => setOpenAction({ ...openAction, [i.id]: false }));
-  }, [fetchMenu]);
+  }, [fetchMenu, data]);
 
   const handleAction = id => {
     setOpenAction({ [id]: !openAction[id] });

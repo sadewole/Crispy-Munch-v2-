@@ -30,8 +30,13 @@ const FoodLayout = () => {
   };
 
   const handlePlaceOrder = (id)=> {
+    if(isAuthenticated){
       dispatch(postOrder(id))
       success()
+    }else{
+      warning()
+    }
+    
   }
   const datas = isLoading ? (
     <Fragment>
@@ -53,7 +58,7 @@ const FoodLayout = () => {
           <span>
             <i
               className='fas fa-cart-plus fa-1x'
-              onClick={isAuthenticated? (handlePlaceOrder(info.id)): warning}
+              onClick={handlePlaceOrder}
             ></i>
           </span>
         </div>

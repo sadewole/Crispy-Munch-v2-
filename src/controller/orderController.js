@@ -257,7 +257,7 @@ const logs = {
             return res.status(200).json({
                 TYPE: 'PUT',
                 status: 200,
-                msg: 'Food ordered successfully',
+                msg: 'Thank you for shopping with us. Check the menu page to order for more',
                 data: data[1]
             });
         } catch (err) {

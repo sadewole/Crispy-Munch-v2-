@@ -1,18 +1,45 @@
-import React, { Fragment, useState } from 'react';
-import { menuData } from '../../content_data';
-import { Affix, notification, Form, Input, Modal } from 'antd';
+import React, { Fragment, useState, useEffect } from 'react';
+import { Affix, notification, Form, Input, Modal, Spin, Button } from 'antd';
+import {
+  fetchUserOrderHistory,
+  updateOrderQuantity,
+  updateUserOrder,
+  deleteOrder
+} from '../../actions/orderAction';
+import { useSelector, useDispatch } from 'react-redux';
 
 const CartTable = ({ form }) => {
   const [visible, setVisible] = useState(false);
+  const dispatch = useDispatch();
+
+  const {
+    error,
+    order: { orders, isLoading },
+    auth: { user }
+  } = useSelector(state => {
+    return {
+      error: state.error,
+      order: state.order,
+      auth: state.auth
+    };
+  });
 
   const handleSubmit = e => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
         console.log('This is the form submitted', values);
+        dispatch(updateUserOrder(values));
       }
     });
   };
+
+  useEffect(() => {
+    dispatch(fetchUserOrderHistory());
+    return () => {
+      console.log('clean up ...');
+    };
+  }, [fetchUserOrderHistory]);
 
   const showModal = () => {
     setVisible(true);
@@ -22,9 +49,9 @@ const CartTable = ({ form }) => {
     setVisible(false);
   };
 
-  const handleCancel = e => {
-    setVisible(false);
-  };
+  // const handleCancel = e => {
+  //   setVisible(false);
+  // };
 
   const openNotification = type => {
     notification[type]({
@@ -32,36 +59,61 @@ const CartTable = ({ form }) => {
     });
   };
 
-  const output = menuData.map((info, index) => {
-    return (
-      <tr class='cart-item' key={index}>
-        <td>
-          <span class='orderImg'>
-            <img src={info.img} alt={info.name} />
-          </span>
-          {info.name}
+  const handleDelete = inp => {
+    if (error.id === null) {
+      dispatch(deleteOrder(inp));
+      openNotification('success');
+    }
+  };
+
+  const output = isLoading ? (
+    <Fragment>
+      <tr>
+        <td colSpan='5'>
+          <Spin size='large' tip='Loading...' />
         </td>
-        <td>
-          <input
-            type='number'
-            class='quantity'
-            data-id={info.id}
-            name='quantity'
-            value='5'
-          />
-        </td>
-        <td>
-          <i
-            class='fas fa-trash'
-            data-id={index}
-            onClick={() => openNotification('success')}
-          ></i>
-        </td>
-        <td class='price'>₦{info.price}</td>
-        <td class='subTotal'>₦900</td>
       </tr>
-    );
-  });
+    </Fragment>
+  ) : (
+    orders !== undefined &&
+    orders.map(info => {
+      return info.user_id === user.id && info.payment === 'pending' ? (
+        <tr className='cart-item' key={info.id}>
+          <td>
+            <span className='orderImg'>
+              <img src={info.img} alt={info.name} />
+            </span>
+            {info.name}
+          </td>
+          <td>
+            <input
+              type='number'
+              className='quantity'
+              name='quantity'
+              value={info.quantity}
+              onChange={value => updateOrderQuantity(Number(value))}
+            />
+          </td>
+          <td>
+            <i
+              className='fas fa-trash'
+              onClick={() => handleDelete(info.id)}
+            ></i>
+          </td>
+          <td className='price'>₦{info.price}</td>
+          <td className='subTotal'>₦{info.amount}</td>
+        </tr>
+      ) : (
+        <Fragment>
+          <tr>
+            <td colSpan='5' className='text-center'>
+              No Data
+            </td>
+          </tr>
+        </Fragment>
+      );
+    })
+  );
 
   const { getFieldDecorator } = form;
 
@@ -71,7 +123,7 @@ const CartTable = ({ form }) => {
         title="Add your address. Please, confirm before clicking 'ok' "
         visible={visible}
         onOk={handleOk}
-        onCancel={handleCancel}
+        footer={[]}
       >
         <Form onSubmit={handleSubmit} className='login-form'>
           <Form.Item label='Email'>
@@ -108,6 +160,9 @@ const CartTable = ({ form }) => {
               ]
             })(<Input.TextArea />)}
           </Form.Item>
+          <Button type='default' onClick={handleOk} className='btn-secondary'>
+            Submit
+          </Button>
         </Form>
       </Modal>
       <div className='row'>

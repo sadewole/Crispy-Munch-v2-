@@ -13,8 +13,10 @@ import {
     UPDATE_ORDER_STATUS,
     UPDATE_ORDER_QUANTITY,
     FETCH_USER_HISTORY,
-    FETCH_USER_ORDERS,
-    UPDATE_USER_ORDER_PAYMENT
+    UPDATE_USER_ORDER_PAYMENT,
+    USER_HISTORY_LOADING,
+    TOTAL,
+    CLEAR_ERROR
 } from './types'
 
 
@@ -49,6 +51,10 @@ export const postOrder = id => async (dispatch, getState) => {
         })
 
         dispatch(getAllOrder())
+
+        dispatch({
+            type: CLEAR_ERROR
+        })
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'POST_ORDER_FAIL'))
     }
@@ -64,6 +70,11 @@ export const updateOrderQuantity = (data, id) => async (dispatch, getState) => {
             type: UPDATE_ORDER_QUANTITY,
             payload: res.data
         })
+        dispatch(getAllOrder())
+
+        dispatch({
+            type: CLEAR_ERROR
+        })
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'UPDATE_ORDER_QUANTITY_FAIL'))
     }
@@ -78,6 +89,10 @@ export const updateOrderStatus = (data, id) => async (dispatch, getState) => {
             type: UPDATE_ORDER_STATUS,
             payload: res.data
         })
+        dispatch(getAllOrder())
+        dispatch({
+            type: CLEAR_ERROR
+        })
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'UPDATE_ORDER_QUANTITY_FAIL'))
     }
@@ -85,11 +100,17 @@ export const updateOrderStatus = (data, id) => async (dispatch, getState) => {
 
 export const deleteOrder = id => async (dispatch, getState) => {
     try {
-        await axios.delete(`/api/v1/order/${id}`, tokenConfig(getState))
+        const res = await axios.delete(`/api/v1/order/${id}`, tokenConfig(getState))
 
         dispatch({
             type: DELETE_ORDER,
-            payload: id
+            payload: {
+                id,
+                msg: res.data.msg
+            }
+        })
+        dispatch({
+            type: CLEAR_ERROR
         })
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'DELETE_ORDER_FAIL'))
@@ -101,7 +122,7 @@ export const deleteOrder = id => async (dispatch, getState) => {
 export const fetchUserOrderHistory = () => async (dispatch, getState) => {
     try {
         dispatch({
-            type: ORDER_LOADING
+            type: USER_HISTORY_LOADING
         })
 
         const res = await axios.get('/api/v1/user/order', tokenConfig(getState))
@@ -109,6 +130,9 @@ export const fetchUserOrderHistory = () => async (dispatch, getState) => {
         dispatch({
             type: FETCH_USER_HISTORY,
             payload: res.data
+        })
+        dispatch({
+            type: CLEAR_ERROR
         })
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'FETCH_USER_ORDER_FAIL'))
@@ -118,13 +142,33 @@ export const fetchUserOrderHistory = () => async (dispatch, getState) => {
 export const updateUserOrder = data => async (dispatch, getState) => {
     try {
         const body = JSON.stringify(data)
-        const res = await axios.get('/api/v1/user/order', body, tokenConfig(getState))
+        const res = await axios.put('/api/v1/user/order', body, tokenConfig(getState))
 
         dispatch({
             type: UPDATE_USER_ORDER_PAYMENT,
             payload: res.data
         })
+        dispatch({
+            type: CLEAR_ERROR
+        })
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'UPDATE_USER_ORDER_FAIL'))
+    }
+}
+
+export const totalSales = () => async (dispatch, getState) => {
+    try {
+        const res = await axios.get('/api/v1/order/total', tokenConfig(getState))
+
+        dispatch({
+            type: TOTAL,
+            payload: res.data
+        })
+
+        dispatch({
+            type: CLEAR_ERROR
+        })
+    } catch (err) {
+        dispatch(returnError(err.response.status, err.response.data, 'FETCH_TOTAL_SALES_FAIL'))
     }
 }

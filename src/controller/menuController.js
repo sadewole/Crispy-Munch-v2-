@@ -13,7 +13,7 @@ const logs = {
 
             if (data.length < 1) {
                 return res.status(200).json({
-                    message: 'Menu is empty'
+                    msg: 'Menu is empty'
                 });
             }
 
@@ -21,7 +21,7 @@ const logs = {
                 TYPE: 'GET',
                 status: 200,
                 count: data.length,
-                message: 'List of foods in cart',
+                msg: 'List of foods in cart',
                 data
             });
         } catch (err) {
@@ -51,7 +51,7 @@ const logs = {
             return res.status(200).json({
                 TYPE: 'GET',
                 status: 200,
-                message: 'Request successful',
+                msg: 'Request successful',
                 data
             });
         } catch (err) {
@@ -93,7 +93,7 @@ const logs = {
             return res.status(201).json({
                 TYPE: 'POST',
                 status: 201,
-                message: 'Food added successfully',
+                msg: 'Food added successfully',
                 data
             });
         } catch (err) {
@@ -131,7 +131,7 @@ const logs = {
             return res.status(201).json({
                 TYPE: 'PUT',
                 status: 201,
-                message: 'Food updated successfully',
+                msg: 'Food updated successfully',
                 data: data[1][0]
             });
         } catch (err) {
@@ -164,7 +164,7 @@ const logs = {
             return res.status(200).json({
                 TYPE: 'DELETE',
                 status: 200,
-                message: 'Food Deleted successfully'
+                msg: 'Food Deleted successfully'
             });
         } catch (err) {
             return res.status(500).json({

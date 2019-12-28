@@ -2,48 +2,50 @@ import React, { Fragment, useState, useEffect } from 'react';
 import Moment from 'react-moment';
 import SearchInput from '../SearchInput';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchMenu } from '../../../actions/catalogAction';
-import { Spin } from 'antd';
+import {
+  fetchMenu,
+  deleteMenu,
+  updateMenu
+} from '../../../actions/catalogAction';
+import { Spin, notification } from 'antd';
 
 const FoodTable = () => {
   const [openAction, setOpenAction] = useState({});
   let [cloneData, setCloneData] = useState([]);
   const dispatch = useDispatch();
   const {
-    error,
-    menu: { data, isLoading }
+    menu: { data, isLoading, msg }
   } = useSelector(state => {
     return {
       error: state.error,
       menu: state.menu
     };
   });
-  // access data to clone
-  const fetchFunc = () => {
-    console.log(data)
-    setCloneData(data);
+
+  const openNotification = type => {
+    notification[type]({
+      message: msg
+    });
   };
 
   useEffect(() => {
     dispatch(fetchMenu());
-    fetchFunc();
-    if(isLoading === false){
-      console.log('fetching...', data)
-    }
     // load food id into action. This helps to obtainsdata from handleAction
     cloneData.map(i => setOpenAction({ ...openAction, [i.id]: false }));
-  }, [fetchMenu, data]);
+  }, [fetchMenu]);
 
   const handleAction = id => {
     setOpenAction({ [id]: !openAction[id] });
   };
 
   const handleEdit = id => {
-    console.log('edit handler', id);
+    dispatch(updateMenu(id));
+    openNotification('success');
   };
 
   const handleDelete = id => {
-    console.log('delete handler', id);
+    dispatch(deleteMenu(id));
+    openNotification('success');
   };
 
   // return table body

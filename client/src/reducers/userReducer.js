@@ -1,7 +1,7 @@
 import {
     USER_LOADING,
     USER_LOADED,
-    AUTH_ERROR,
+    DELETE_USER,
     ALL_USER_LOADED,
     ALL_USER_LOADING,
     USER_UPGRADED
@@ -9,8 +9,8 @@ import {
 
 const initState = {
     isLoading: true,
-    user: null,
-    allUser: null,
+    user: [],
+    allUser: [],
     msg: ''
 }
 
@@ -45,7 +45,14 @@ export default (state = initState, action) => {
                 ...state,
                 msg: payload.msg
             };
-        default:
-            return state
+        case DELETE_USER:
+            localStorage.removeItem('token')
+            return {
+                ...state,
+                allUser: state.allUser.filter(user => user.id !== payload.id),
+                    msg: payload.msg
+            }
+            default:
+                return state
     }
 }

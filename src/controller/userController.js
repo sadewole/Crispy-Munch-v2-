@@ -249,8 +249,19 @@ export default {
   upgradeUser: async (req, res) => {
     try {
       if (req.user.role !== 'ADMIN') {
-        return res.status(400).json({
+        return res.status(401).json({
           msg: 'Unauthorised'
+        })
+      }
+
+      const findUser = await User.findOne({
+        where: {
+          id: req.params.id
+        }
+      })
+      if (!findUser) {
+        return res.status(404).json({
+          msg: 'Error, No such user'
         })
       }
 
@@ -279,6 +290,11 @@ export default {
       id
     } = req.params
     try {
+      if (req.user.role !== 'ADMIN') {
+        return res.status(401).json({
+          msg: 'Unauthorised'
+        })
+      }
       const user = await User.findOne({
         where: {
           id
@@ -288,7 +304,7 @@ export default {
         msg: 'Bad request'
       })
 
-      await User.delete({
+      await User.destroy({
         where: {
           id
         }
@@ -300,6 +316,7 @@ export default {
         msg: 'Deleted successfully'
       })
     } catch (err) {
+      console.log(err)
       return res.status(500).json({
         success: false,
         msg: err

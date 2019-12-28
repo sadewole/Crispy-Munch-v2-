@@ -1,16 +1,19 @@
 import React, { Fragment } from 'react';
-import { Link, Switch, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
 import AdminMenu from '../admin/Menu/AdminMenu';
 import AdminHistory from '../admin/History/AdminHistory';
 import AdminViewUser from '../admin/User/AdminViewUser';
 import AdminDashboard from '../admin/Dashboard/AdminDashboard';
+import {logout} from '../../actions/authAction'
+import {useDispatch} from 'react-redux'
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 const SideNav = props => {
   const path = props.match.path;
   const { slum } = props.match.params;
+  const dispatch = useDispatch()
 
   return (
     <Fragment>
@@ -56,7 +59,7 @@ const SideNav = props => {
                 <Link to='/admin/history'> Order history </Link>
               </span>
             </Menu.Item>
-            <Menu.Item key='5'>
+            <Menu.Item key='5' onClick={()=>dispatch(logout())}>
               <i className='fas fa-sign-out-alt mr-2'> </i>
               <span className='nav-text'>
                 <Link to='#'> Sign Out </Link>

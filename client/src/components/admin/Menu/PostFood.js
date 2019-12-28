@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Form, Input, Button, Alert, Modal } from 'antd';
 import { postMenu } from '../../../actions/catalogAction';
 import { useDispatch } from 'react-redux';

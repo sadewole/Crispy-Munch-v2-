@@ -183,7 +183,7 @@ const logs = {
             return res.status(200).json({
                 TYPE: 'PATCH',
                 status: 200,
-                message: 'Order status updated successfully',
+                msg: 'Order status updated successfully',
                 data: data[1][0]
             });
         } catch (err) {
@@ -202,7 +202,7 @@ const logs = {
             })
             if (!rows) {
                 return res.status(404).json({
-                    message: 'Cart is empty'
+                    msg: 'Cart is empty'
                 });
             }
 
@@ -217,7 +217,7 @@ const logs = {
             }
             return res.status(200).json({
                 TYPE: 'GET',
-                message: 'Request successful',
+                msg: 'Request successful',
                 status: 200,
                 data
             });
@@ -258,7 +258,7 @@ const logs = {
             return res.status(200).json({
                 TYPE: 'PUT',
                 status: 200,
-                message: 'Food ordered successfully',
+                msg: 'Food ordered successfully',
                 data: data[1]
             });
         } catch (err) {

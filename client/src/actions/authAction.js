@@ -6,7 +6,6 @@ import {
     AUTH_ERROR,
     AUTH_LOGIN,
     CLEAR_ERROR,
-    DELETE_USER,
     LOG_OUT
 } from './types';
 import {
@@ -89,25 +88,6 @@ export const login = data => async (dispatch) => {
         dispatch(loadUser())
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'LOGIN_FAIL'))
-        dispatch({
-            type: AUTH_ERROR
-        })
-    }
-}
-
-export const deleteUser = (id) => async (dispatch, getState) => {
-    try {
-        const res = await axios.delete(`/api/v1/user/${id}`, tokenConfig(getState))
-
-        dispatch({
-            type: DELETE_USER,
-            payload: res.data
-        })
-
-        dispatch({
-            type: CLEAR_ERROR
-        })
-    } catch (err) {
         dispatch({
             type: AUTH_ERROR
         })

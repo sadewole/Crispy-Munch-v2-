@@ -45,8 +45,14 @@ const logs = {
     addNewOrder: async (req, res) => {
         const {
             menuId
-        } = req.value.body
+        } = req.body
         try {
+            const quantity = 1
+            if (!menuId) {
+                return res.status(400).json({
+                    msg: 'Field is not allowed to be empty'
+                })
+            }
             const findMenu = await Helper.checkMenu(menuId);
             if (!findMenu) return res.status(403).json({
                 msg: 'Error, No such menu'
@@ -56,7 +62,7 @@ const logs = {
                 id: uuidv4(),
                 menu_id: findMenu.id,
                 user_id: req.user.id,
-                quantity: 1,
+                quantity,
                 amount: quantity * findMenu.price,
                 payment: 'pending',
                 status: 'new'
@@ -69,7 +75,8 @@ const logs = {
                 data
             });
         } catch (err) {
-            res.status(400).json({
+            console.log(err)
+            res.status(500).json({
                 msg: err
             });
         }
@@ -268,10 +275,13 @@ const logs = {
     },
 
     deleteOrder: async (req, res) => {
+        const {
+            id
+        } = req.params
         try {
             const findId = await Order.findOne({
                 where: {
-                    id: req.params.id
+                    id
                 }
             })
             if (!findId) return res.status(403).json({
@@ -281,6 +291,7 @@ const logs = {
             await Order.destroy({
                 where: {
                     id
+
                 }
             })
 

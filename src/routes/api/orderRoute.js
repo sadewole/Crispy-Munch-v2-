@@ -18,7 +18,7 @@ router
   .post(
     passport.authenticate('jwt', {
       session: false
-    }), validateBody(schemas.addNewOrderSchema),
+    }),
     orderController.addNewOrder
   );
 

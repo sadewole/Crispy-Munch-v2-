@@ -1,14 +1,14 @@
 import React, { useEffect, Fragment } from 'react';
 import { message, Spin } from 'antd';
 import { fetchMenu } from '../../actions/catalogAction';
-import {postOrder} from '../../actions/orderAction'
+import { postOrder } from '../../actions/orderAction';
 import { useSelector, useDispatch } from 'react-redux';
 
 const FoodLayout = () => {
   const dispatch = useDispatch();
   const {
     menu: { isLoading, data },
-    auth: {isAuthenticated}
+    auth: { isAuthenticated }
   } = useSelector(state => {
     return {
       menu: state.menu,
@@ -26,18 +26,19 @@ const FoodLayout = () => {
   };
 
   const success = () => {
-    message.success('Order placed successfully.Kindly check your cart to checkout');
+    message.success(
+      'Order placed successfully.Kindly check your cart to checkout'
+    );
   };
 
-  const handlePlaceOrder = (id)=> {
-    if(isAuthenticated){
-      dispatch(postOrder(id))
-      success()
-    }else{
-      warning()
+  const handlePlaceOrder = id => {
+    if (isAuthenticated) {
+      dispatch(postOrder(id));
+      success();
+    } else {
+      warning();
     }
-    
-  }
+  };
   const datas = isLoading ? (
     <Fragment>
       <div className='text-center m-auto container'>
@@ -58,7 +59,7 @@ const FoodLayout = () => {
           <span>
             <i
               className='fas fa-cart-plus fa-1x'
-              onClick={handlePlaceOrder}
+              onClick={() => handlePlaceOrder(info.id)}
             ></i>
           </span>
         </div>

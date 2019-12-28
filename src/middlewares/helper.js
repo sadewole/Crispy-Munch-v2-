@@ -127,12 +127,6 @@ const helper = {
                 .required(),
             address: joi.string().required(),
             phone: joi.number().integer().required()
-        }),
-        addNewOrderSchema: joi.object().keys({
-            menuId: joi
-                .string()
-                .required(),
-            quantity: joi.number().integer().required()
         })
     }
 };

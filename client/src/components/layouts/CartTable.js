@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Affix, notification, Form, Input, Modal, Spin, Button } from 'antd';
 import {
-  fetchUserOrderHistory,
+  getAllOrder,
   updateOrderQuantity,
   updateUserOrder,
   deleteOrder
@@ -9,7 +9,9 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 
 const CartTable = ({ form }) => {
+  const [openAction, setOpenAction] = useState({});
   const [visible, setVisible] = useState(false);
+  let [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
 
   const {
@@ -24,6 +26,14 @@ const CartTable = ({ form }) => {
     };
   });
 
+  // const handleQuantity = e => {
+  //   if (e.target.value < 1) {
+  //     setQuantity(1);
+  //   }
+  //   const newQuantity = setQuantity(e.target.value);
+  //   dispatch(updateOrderQuantity(newQuantity));
+  // };
+
   const handleSubmit = e => {
     e.preventDefault();
     form.validateFields((err, values) => {
@@ -34,12 +44,34 @@ const CartTable = ({ form }) => {
     });
   };
 
+  const handleAction = (value, id) => {
+    if (value < 1) {
+      setOpenAction({
+        [id]: 1
+      });
+    }
+
+    const newQuantity = setOpenAction({
+      [id]: value
+    });
+    dispatch(updateOrderQuantity(newQuantity));
+  };
+
   useEffect(() => {
-    dispatch(fetchUserOrderHistory());
-    return () => {
-      console.log('clean up ...');
-    };
-  }, [fetchUserOrderHistory]);
+    dispatch(getAllOrder());
+
+    // load food id into action. This helps to obtainsdata from handleAction
+    // orders.map(i =>
+    //   setOpenAction({
+    //     ...openAction,
+    //     [i.id]: 1
+    //   })
+    // );
+    // return () => {
+    //   console.log('clean up ...');
+    // };
+    // [getAllOrder]
+  });
 
   const showModal = () => {
     setVisible(true);
@@ -68,8 +100,8 @@ const CartTable = ({ form }) => {
 
   const output = isLoading ? (
     <Fragment>
-      <tr>
-        <td colSpan='5'>
+      <tr className='cart-item'>
+        <td colSpan='5' className='text-center bg-dark'>
           <Spin size='large' tip='Loading...' />
         </td>
       </tr>
@@ -90,8 +122,8 @@ const CartTable = ({ form }) => {
               type='number'
               className='quantity'
               name='quantity'
-              value={info.quantity}
-              onChange={value => updateOrderQuantity(Number(value))}
+              value={openAction[info.id]}
+              onChange={value => handleAction(value, info.id)}
             />
           </td>
           <td>
@@ -123,6 +155,7 @@ const CartTable = ({ form }) => {
         title="Add your address. Please, confirm before clicking 'ok' "
         visible={visible}
         onOk={handleOk}
+        onCancel={handleOk}
         footer={[]}
       >
         <Form onSubmit={handleSubmit} className='login-form'>
@@ -160,13 +193,18 @@ const CartTable = ({ form }) => {
               ]
             })(<Input.TextArea />)}
           </Form.Item>
-          <Button type='default' onClick={handleOk} className='btn-secondary'>
+          <Button
+            type='primary'
+            htmlType='submit'
+            onClick={handleOk}
+            className='btn-secondary btn-block'
+          >
             Submit
           </Button>
         </Form>
       </Modal>
       <div className='row'>
-        <table class='table table-responsive table-hover col-md-8'>
+        <table className='table table-responsive table-hover col-md-8'>
           <thead className='thead-dark'>
             <tr>
               <th>Food Item</th>
@@ -181,7 +219,7 @@ const CartTable = ({ form }) => {
         <div className='checkoutBox col-md-4'>
           <Affix offsetTop={50}>
             <h1>Total: ₦7800</h1>
-            <button class='btn btn-danger' onClick={showModal}>
+            <button className='btn btn-danger' onClick={showModal}>
               Proceed to checkout
             </button>
           </Affix>

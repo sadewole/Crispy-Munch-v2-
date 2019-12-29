@@ -292,7 +292,7 @@ body {
 }
 
 .all-cart .table input[type='number'] {
-  width: 40px;
+  width: 45px;
   border: 1px solid orangered;
   outline: transparent;
   border-radius: 5px;

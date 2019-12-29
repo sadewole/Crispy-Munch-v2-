@@ -7,11 +7,11 @@ import {
   deleteOrder
 } from '../../actions/orderAction';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
 const CartTable = ({ form }) => {
   const [openAction, setOpenAction] = useState({});
   const [visible, setVisible] = useState(false);
-  let [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
 
   const {
@@ -26,13 +26,13 @@ const CartTable = ({ form }) => {
     };
   });
 
-  // const handleQuantity = e => {
-  //   if (e.target.value < 1) {
-  //     setQuantity(1);
-  //   }
-  //   const newQuantity = setQuantity(e.target.value);
-  //   dispatch(updateOrderQuantity(newQuantity));
-  // };
+  const handleQuantity = (e, id) => {
+    if (e.target.value < 1) {
+      e.target.value = 1;
+    }
+    setOpenAction({ [id]: e.target.value });
+    dispatch(updateOrderQuantity(e.target.value, id));
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -40,38 +40,25 @@ const CartTable = ({ form }) => {
       if (!err) {
         console.log('This is the form submitted', values);
         dispatch(updateUserOrder(values));
+        handleOk();
       }
     });
+
+    form.resetFields();
   };
 
-  const handleAction = (value, id) => {
-    if (value < 1) {
-      setOpenAction({
-        [id]: 1
-      });
-    }
-
-    const newQuantity = setOpenAction({
-      [id]: value
-    });
-    dispatch(updateOrderQuantity(newQuantity));
-  };
-
+  // handing component did mount
   useEffect(() => {
     dispatch(getAllOrder());
-
-    // load food id into action. This helps to obtainsdata from handleAction
-    // orders.map(i =>
-    //   setOpenAction({
-    //     ...openAction,
-    //     [i.id]: 1
-    //   })
-    // );
-    // return () => {
-    //   console.log('clean up ...');
-    // };
-    // [getAllOrder]
-  });
+  }, []);
+  // component did update
+  useEffect(() => {
+    const newObj = {};
+    orders.map(i => {
+      Object.assign(newObj, { [i.id]: [i.quantity] });
+    });
+    setOpenAction(newObj);
+  }, [orders]);
 
   const showModal = () => {
     setVisible(true);
@@ -81,9 +68,9 @@ const CartTable = ({ form }) => {
     setVisible(false);
   };
 
-  // const handleCancel = e => {
-  //   setVisible(false);
-  // };
+  const handleCancel = e => {
+    setVisible(false);
+  };
 
   const openNotification = type => {
     notification[type]({
@@ -101,9 +88,9 @@ const CartTable = ({ form }) => {
   const output = isLoading ? (
     <Fragment>
       <tr className='cart-item'>
-        <td colSpan='5' className='text-center bg-dark'>
+        <th colSpan='5' className='text-center bg-dark'>
           <Spin size='large' tip='Loading...' />
-        </td>
+        </th>
       </tr>
     </Fragment>
   ) : (
@@ -113,17 +100,17 @@ const CartTable = ({ form }) => {
         <tr className='cart-item' key={info.id}>
           <td>
             <span className='orderImg'>
-              <img src={info.img} alt={info.name} />
+              <img src={info.food.image} alt={info.food.name} />
             </span>
-            {info.name}
+            {info.food.name}
           </td>
           <td>
             <input
               type='number'
               className='quantity'
               name='quantity'
-              value={openAction[info.id]}
-              onChange={value => handleAction(value, info.id)}
+              value={openAction[info.id] === '' ? 1 : openAction[info.id]}
+              onChange={value => handleQuantity(value, info.id)}
             />
           </td>
           <td>
@@ -132,15 +119,15 @@ const CartTable = ({ form }) => {
               onClick={() => handleDelete(info.id)}
             ></i>
           </td>
-          <td className='price'>₦{info.price}</td>
+          <td className='price'>₦{info.food.price}</td>
           <td className='subTotal'>₦{info.amount}</td>
         </tr>
       ) : (
         <Fragment>
           <tr>
-            <td colSpan='5' className='text-center'>
+            <th colSpan='5' className='text-center'>
               No Data
-            </td>
+            </th>
           </tr>
         </Fragment>
       );
@@ -148,14 +135,13 @@ const CartTable = ({ form }) => {
   );
 
   const { getFieldDecorator } = form;
-
   return (
     <Fragment>
       <Modal
         title="Add your address. Please, confirm before clicking 'ok' "
         visible={visible}
         onOk={handleOk}
-        onCancel={handleOk}
+        onCancel={handleCancel}
         footer={[]}
       >
         <Form onSubmit={handleSubmit} className='login-form'>
@@ -196,7 +182,7 @@ const CartTable = ({ form }) => {
           <Button
             type='primary'
             htmlType='submit'
-            onClick={handleOk}
+            onClick={handleSubmit}
             className='btn-secondary btn-block'
           >
             Submit
@@ -227,6 +213,17 @@ const CartTable = ({ form }) => {
       </div>
     </Fragment>
   );
+};
+
+CartTable.propTypes = {
+  orders: PropTypes.array,
+  getAllOrder: PropTypes.func.isRequired,
+  updateOrderQuantity: PropTypes.func.isRequired,
+  updateUserOrder: PropTypes.func.isRequired,
+  deleteOrder: PropTypes.func,
+  error: PropTypes.object,
+  isLoading: PropTypes.bool.isRequired,
+  user: PropTypes.array.isRequired
 };
 
 const WrappedNormalCartForm = Form.create({

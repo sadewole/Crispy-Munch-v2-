@@ -63,7 +63,9 @@ export const postOrder = id => async (dispatch, getState) => {
 
 export const updateOrderQuantity = (data, id) => async (dispatch, getState) => {
     try {
-        const body = JSON.stringify(data)
+        const body = JSON.stringify({
+            quantity: Number(data)
+        })
         const res = await axios.put(`/api/v1/order/${id}`, body, tokenConfig(getState))
 
         dispatch({

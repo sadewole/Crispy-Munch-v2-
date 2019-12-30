@@ -57,13 +57,18 @@ export const getSingleUser = id => async (dispatch, getState) => {
 
 export const upgradeUser = id => async (dispatch, getState) => {
     try {
-        const res = await axios.put(`/api/v1/user/${id}`, tokenConfig(getState))
+        const body = JSON.stringify({})
+        const res = await axios.put(`/api/v1/user/${id}`, body, tokenConfig(getState))
 
         dispatch({
             type: USER_UPGRADED,
             payload: res.data
         })
+        dispatch({
+            type: CLEAR_ERROR
+        })
     } catch (err) {
+        console.log(err)
         dispatch(returnError(err.response.status, err.response.data, 'UPGRADE_SINGLE_USER_FAIL'))
     }
 }
@@ -78,6 +83,9 @@ export const deleteUser = id => async (dispatch, getState) => {
                 msg: res.data.msg,
                 id
             }
+        })
+        dispatch({
+            type: CLEAR_ERROR
         })
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'DELETE_USER_FAIL'))

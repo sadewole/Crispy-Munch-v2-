@@ -48,14 +48,14 @@ const UserTable = () => {
     });
   };
 
-  const handleUpgrade = id => {
-    dispatch(upgradeUser(id));
-    openNotification('success');
+  const handleUpgrade = async id => {
+   dispatch(upgradeUser(id));
+   await openNotification('success');
   };
 
-  const handleDelete = id => {
+  const handleDelete = async id => {
     dispatch(deleteUser(id));
-    openNotification('success');
+    await openNotification('success');
   };
 
   // return table body

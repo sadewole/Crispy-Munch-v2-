@@ -113,10 +113,15 @@ const Navbar = () => {
         >
           {
             <Fragment>
-              {isAuthenticated && user.role === 'ADMIN' && null}
-              {isAuthenticated && user.role === 'CLIENT'
-                ? clientLink
+              {isAuthenticated
+                ? user.role === 'ADMIN'
+                  ? null
+                  : clientLink
                 : guestLink}
+
+              {/* // {isAuthenticated && user.role === 'ADMIN'? (null): (isAuthenticated && user.role === 'CLIENT'
+              //   ? clientLink
+              //   : guestLink)}  */}
             </Fragment>
           }
         </div>

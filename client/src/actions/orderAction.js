@@ -16,7 +16,8 @@ import {
     UPDATE_USER_ORDER_PAYMENT,
     USER_HISTORY_LOADING,
     TOTAL,
-    CLEAR_ERROR
+    CLEAR_ERROR,
+    GET_SINGLE_ORDER
 } from './types'
 
 
@@ -34,6 +35,26 @@ export const getAllOrder = () => async (dispatch, getState) => {
         })
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'FETCH_ORDERS_FAIL'))
+    }
+}
+
+export const getSingleOrder = id => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: ORDER_LOADING
+        })
+
+        const res = await axios.get(`/api/v1/order/${id}`, tokenConfig(getState))
+
+        dispatch({
+            type: GET_SINGLE_ORDER,
+            payload: res.data
+        })
+        dispatch({
+            type: CLEAR_ERROR
+        })
+    } catch (err) {
+        dispatch(returnError(err.response.status, err.response.data, 'GET_SINGLE_ORDER_FAIL'))
     }
 }
 
@@ -84,7 +105,9 @@ export const updateOrderQuantity = (data, id) => async (dispatch, getState) => {
 
 export const updateOrderStatus = (data, id) => async (dispatch, getState) => {
     try {
-        const body = JSON.stringify(data)
+        const body = JSON.stringify({
+            status: data
+        })
         const res = await axios.patch(`/api/v1/order/${id}`, body, tokenConfig(getState))
 
         dispatch({
@@ -96,6 +119,7 @@ export const updateOrderStatus = (data, id) => async (dispatch, getState) => {
             type: CLEAR_ERROR
         })
     } catch (err) {
+        console.log(err)
         dispatch(returnError(err.response.status, err.response.data, 'UPDATE_ORDER_QUANTITY_FAIL'))
     }
 }
@@ -137,6 +161,7 @@ export const fetchUserOrderHistory = () => async (dispatch, getState) => {
             type: CLEAR_ERROR
         })
     } catch (err) {
+        console.log(err)
         dispatch(returnError(err.response.status, err.response.data, 'FETCH_USER_ORDER_FAIL'))
     }
 }

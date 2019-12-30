@@ -8,14 +8,16 @@ import {
     FETCH_USER_HISTORY,
     UPDATE_USER_ORDER_PAYMENT,
     USER_HISTORY_LOADING,
-    TOTAL
+    TOTAL,
+    GET_SINGLE_ORDER
 } from '../actions/types'
 
 const initState = {
     orders: [],
     isLoading: true,
     msg: '',
-    userOrder: []
+    userOrders: [],
+    singleOrder: null
 }
 
 export default (state = initState, action) => {
@@ -34,6 +36,13 @@ export default (state = initState, action) => {
             return {
                 ...state,
                 orders: payload.data,
+                    isLoading: false,
+                    msg: payload.msg
+            };
+        case GET_SINGLE_ORDER:
+            return {
+                ...state,
+                singleOrder: payload.data,
                     isLoading: false,
                     msg: payload.msg
             };
@@ -60,7 +69,7 @@ export default (state = initState, action) => {
         case FETCH_USER_HISTORY:
             return {
                 ...state,
-                userOrder: payload.data,
+                userOrders: payload.data,
                     isLoading: false
             };
         case TOTAL:

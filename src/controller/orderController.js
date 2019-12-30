@@ -87,16 +87,27 @@ const logs = {
             id
         } = req.params
         try {
-            const data = await Order.findOne({
+            const data = [];
+            const findOne = await Order.findOne({
                 where: {
                     id
                 }
             })
-            if (!data) {
+            if (!findOne) {
                 return res.status(404).json({
                     msg: 'Not Found'
                 });
             }
+
+
+            const order = findOne.dataValues;
+            const food = await Helper.checkMenu(order.menu_id);
+            const user = await Helper.findUserById(order.user_id)
+            data.push(Object.assign(order, {
+                food,
+                user
+            }))
+
 
             return res.status(200).json({
                 TYPE: 'GET',

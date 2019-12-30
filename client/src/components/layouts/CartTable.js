@@ -8,8 +8,10 @@ import {
 } from '../../actions/orderAction';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { loadUser } from '../../actions/authAction';
 
 const CartTable = ({ form }) => {
+  let Total = 0;
   const [openAction, setOpenAction] = useState({});
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
@@ -27,28 +29,28 @@ const CartTable = ({ form }) => {
   });
 
   const handleQuantity = (e, id) => {
-    if (e.target.value < 1) {
+    if (e.target.value <= 0) {
       e.target.value = 1;
     }
     setOpenAction({ [id]: e.target.value });
     dispatch(updateOrderQuantity(e.target.value, id));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    form.validateFields((err, values) => {
+    await form.validateFields((err, values) => {
       if (!err) {
-        console.log('This is the form submitted', values);
         dispatch(updateUserOrder(values));
         handleOk();
       }
     });
 
-    form.resetFields();
+    await form.resetFields();
   };
 
   // handing component did mount
   useEffect(() => {
+    dispatch(loadUser());
     dispatch(getAllOrder());
   }, []);
   // component did update
@@ -95,42 +97,38 @@ const CartTable = ({ form }) => {
     </Fragment>
   ) : (
     orders !== undefined &&
+    user !== undefined &&
     orders.map(info => {
-      return info.user_id === user.id && info.payment === 'pending' ? (
-        <tr className='cart-item' key={info.id}>
-          <td>
-            <span className='orderImg'>
-              <img src={info.food.image} alt={info.food.name} />
-            </span>
-            {info.food.name}
-          </td>
-          <td>
-            <input
-              type='number'
-              className='quantity'
-              name='quantity'
-              value={openAction[info.id] === '' ? 1 : openAction[info.id]}
-              onChange={value => handleQuantity(value, info.id)}
-            />
-          </td>
-          <td>
-            <i
-              className='fas fa-trash'
-              onClick={() => handleDelete(info.id)}
-            ></i>
-          </td>
-          <td className='price'>₦{info.food.price}</td>
-          <td className='subTotal'>₦{info.amount}</td>
-        </tr>
-      ) : (
-        <Fragment>
-          <tr>
-            <th colSpan='5' className='text-center'>
-              No Data
-            </th>
+      if (info.user_id === user.id && info.payment === 'pending') {
+        Total += info.amount;
+        return (
+          <tr className='cart-item' key={info.id}>
+            <td>
+              <span className='orderImg'>
+                <img src={info.food.image} alt={info.food.name} />
+              </span>
+              {info.food.name}
+            </td>
+            <td>
+              <input
+                type='number'
+                className='quantity'
+                name='quantity'
+                value={openAction[info.id] === '' ? 1 : openAction[info.id]}
+                onChange={value => handleQuantity(value, info.id)}
+              />
+            </td>
+            <td>
+              <i
+                className='fas fa-trash'
+                onClick={() => handleDelete(info.id)}
+              ></i>
+            </td>
+            <td className='price'>₦{info.food.price}</td>
+            <td className='subTotal'>₦{info.amount}</td>
           </tr>
-        </Fragment>
-      );
+        );
+      }
     })
   );
 
@@ -204,7 +202,7 @@ const CartTable = ({ form }) => {
         </table>
         <div className='checkoutBox col-md-4'>
           <Affix offsetTop={50}>
-            <h1>Total: ₦7800</h1>
+            <h1>Total: ₦{Total}</h1>
             <button className='btn btn-danger' onClick={showModal}>
               Proceed to checkout
             </button>

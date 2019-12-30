@@ -561,9 +561,13 @@ tr {
   width: 100%;
 }
 
-.admin-history-table td {
-  background: rgba(232, 219, 219, 0.851);
+.admin-history-table .tbody td {
+  background: #e8dbdbd9;
 }
+
+/* .ant-modal-mask {
+  background: rgb(5, 5, 5) !important;
+} */
 
 /* media queries */
 @media (max-width: 990px) {

@@ -215,7 +215,7 @@ const CartTable = ({ form }) => {
 
 CartTable.propTypes = {
   orders: PropTypes.array,
-  getAllOrder: PropTypes.func.isRequired,
+  getAllOrder: PropTypes.func,
   updateOrderQuantity: PropTypes.func.isRequired,
   updateUserOrder: PropTypes.func.isRequired,
   deleteOrder: PropTypes.func,

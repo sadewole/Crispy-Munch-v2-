@@ -14,9 +14,9 @@ export default OriginalComponent => {
       //     }
 
       // }
-      if (user.role === 'CLIENT') {
-        history.push('/menu');
-      }
+      //   if (user.role === 'CLIENT') {
+      //     history.push('/menu');
+      //   }
     };
     //   checked if auth when mount
     componentDidMount() {

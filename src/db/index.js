@@ -3,10 +3,10 @@ import 'dotenv/config'
 
 const isProduction = process.env.NODE_ENV || 'production';
 // local connection string
-const connectionString = `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`
+// const connectionString = `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`
 
 // connect to pg
-const sequelize = new Sequelize(connectionString, {
+const sequelize = new Sequelize(isProduction, {
     dialect: 'postgres',
     pool: {
         max: 5,

@@ -69,14 +69,14 @@ export const getSingleMenu = id => async (dispatch, getState) => {
 
 export const updateMenu = (data, id) => async (dispatch, getState) => {
     try {
-        const body = JSON.stringify(data)
 
-        const res = await axios.put(`api/v1/menu/${id}`, body, tokenConfig(getState))
+        const res = await axios.put(`/api/v1/menu/${id}`, data, tokenConfig(getState))
 
         dispatch({
             type: UPDATE_MENU,
             payload: res.data
         })
+        dispatch(fetchMenu())
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'UPDATE_MENU_FAIL'))
     }

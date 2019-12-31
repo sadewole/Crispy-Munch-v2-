@@ -12,13 +12,11 @@ const AdminPost = ({ form }) => {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [imageFile, setImageFile] = useState(null);
-  const [editFood, setEditFood] = useState({
-    edit: false,
+  const [update, setUpdate] = useState({
     id: null,
-    name: '',
-    price: ''
+    edit: false
   });
-  const {
+  let {
     menu: { singleData }
   } = useSelector(state => {
     return {
@@ -34,20 +32,19 @@ const AdminPost = ({ form }) => {
     setVisible(true);
   };
 
-  console.log(form);
   useEffect(() => {
     dispatch(getSingleMenu());
 
-    if (singleData !== undefined) {
-      console.log(singleData);
-      // setEditFood({
-      //   name: singleData[0].name,
-      //   price: singleData[0].price,
-      //   id: singleData[0].id,
-      //   edit: true
-      // });
+    // set field on editing form
+    if (singleData !== null) {
+      form.setFieldsValue({
+        name: singleData.name,
+        price: singleData.price
+      });
+      setUpdate({ id: singleData.id, edit: true });
+      setVisible(true);
     }
-  });
+  }, [singleData]);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -63,7 +60,16 @@ const AdminPost = ({ form }) => {
           formData.append('name', values.name);
           formData.append('price', values.price);
           formData.append('image', imageFile);
-          dispatch(postMenu(formData));
+
+          // update menu if edit is true
+          if (update.edit) {
+            dispatch(updateMenu(formData, update.id));
+            setUpdate({ edit: false, id : null });
+            singleData = null
+          } else {
+            // post menu if no error
+            dispatch(postMenu(formData));
+          }
         }, 1000);
       }
     });

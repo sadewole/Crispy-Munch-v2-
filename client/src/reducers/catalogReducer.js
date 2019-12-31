@@ -11,7 +11,7 @@ const initState = {
     isLoading: true,
     msg: '',
     data: [],
-    singleData: []
+    singleData: null
 }
 
 export default (state = initState, action) => {

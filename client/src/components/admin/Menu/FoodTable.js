@@ -5,7 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchMenu,
   deleteMenu,
-  updateMenu
+  updateMenu,
+  getSingleMenu
 } from '../../../actions/catalogAction';
 import { Spin, notification } from 'antd';
 
@@ -39,8 +40,8 @@ const FoodTable = () => {
   };
 
   const handleEdit = id => {
-    dispatch(updateMenu(id));
-    openNotification('success');
+    dispatch(getSingleMenu(id));
+    // openNotification('success');
   };
 
   const handleDelete = id => {

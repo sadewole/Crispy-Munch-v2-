@@ -1,28 +1,53 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Form, Input, Button, Alert, Modal } from 'antd';
-import { postMenu } from '../../../actions/catalogAction';
-import { useDispatch } from 'react-redux';
+import {
+  postMenu,
+  getSingleMenu,
+  updateMenu
+} from '../../../actions/catalogAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 const AdminPost = ({ form }) => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const [editFood, setEditFood] = useState({
-edit: false,
-id: null,
-name: '',
-price: ''
-  })
+    edit: false,
+    id: null,
+    name: '',
+    price: ''
+  });
+  const {
+    menu: { singleData }
+  } = useSelector(state => {
+    return {
+      menu: state.menu
+    };
+  });
   // handle change to retrieve image from file
   const handleChange = e => {
     setImageFile(e.target.files[0]);
   };
 
-  const dispatch = useDispatch();
-
   const showModal = () => {
     setVisible(true);
   };
+
+  console.log(form);
+  useEffect(() => {
+    dispatch(getSingleMenu());
+
+    if (singleData !== undefined) {
+      console.log(singleData);
+      // setEditFood({
+      //   name: singleData[0].name,
+      //   price: singleData[0].price,
+      //   id: singleData[0].id,
+      //   edit: true
+      // });
+    }
+  });
 
   const handleSubmit = async e => {
     e.preventDefault();

@@ -151,7 +151,7 @@ export const fetchUserOrderHistory = () => async (dispatch, getState) => {
             type: USER_HISTORY_LOADING
         })
 
-        const res = await axios.get('/api/v1/user/order', tokenConfig(getState))
+        const res = await axios.get('/api/v1/orders/user', tokenConfig(getState))
 
         dispatch({
             type: FETCH_USER_HISTORY,
@@ -169,7 +169,7 @@ export const fetchUserOrderHistory = () => async (dispatch, getState) => {
 export const updateUserOrder = data => async (dispatch, getState) => {
     try {
         const body = JSON.stringify(data)
-        const res = await axios.put('/api/v1/user/order', body, tokenConfig(getState))
+        const res = await axios.put('/api/v1/orders/user', body, tokenConfig(getState))
 
         dispatch({
             type: UPDATE_USER_ORDER_PAYMENT,
@@ -185,7 +185,7 @@ export const updateUserOrder = data => async (dispatch, getState) => {
 
 export const totalSales = () => async (dispatch, getState) => {
     try {
-        const res = await axios.get('/api/v1/order/total', tokenConfig(getState))
+        const res = await axios.get('/api/v1/total', tokenConfig(getState))
 
         dispatch({
             type: TOTAL,

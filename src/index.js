@@ -18,8 +18,8 @@ app.use(
 
 // routes
 app.use('/api/v1', user);
-app.use('/api/v1', orderRoute);
 app.use('/api/v1', menuRoute);
+app.use('/api/v1', orderRoute);
 
 const PORT = 5000;
 

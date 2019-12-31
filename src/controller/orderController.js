@@ -239,8 +239,8 @@ const logs = {
                 data
             });
         } catch (err) {
-            return res.status(400).json({
-                err
+            return res.status(500).json({
+                msg: err
             });
         }
     },

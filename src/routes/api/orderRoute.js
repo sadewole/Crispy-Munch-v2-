@@ -45,7 +45,7 @@ router
     orderController.deleteOrder
   );
 
-router.route('/user/order').get(
+router.route('/orders/user/').get(
     passport.authenticate('jwt', {
       session: false
     }),
@@ -58,7 +58,8 @@ router.route('/user/order').get(
     orderController.updateUserOrders
   );
 
-router.route('/order/total').get(
+
+router.route('/total').get(
   passport.authenticate('jwt', {
     session: false
   }),

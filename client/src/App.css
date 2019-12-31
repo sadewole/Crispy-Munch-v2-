@@ -25,6 +25,10 @@ body {
   z-index: 100 !important;
 }
 
+.tbody-tertiary {
+  background: rgba(232, 219, 219, 0.851);
+}
+
 .ant-menu.ant-menu-dark .ant-menu-item-selected {
   background-color: inherit !important;
   border-left: 5px solid salmon;

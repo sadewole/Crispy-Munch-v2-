@@ -67,6 +67,7 @@ export const upgradeUser = id => async (dispatch, getState) => {
         dispatch({
             type: CLEAR_ERROR
         })
+        dispatch(loadAllUser())
     } catch (err) {
         console.log(err)
         dispatch(returnError(err.response.status, err.response.data, 'UPGRADE_SINGLE_USER_FAIL'))
@@ -87,6 +88,7 @@ export const deleteUser = id => async (dispatch, getState) => {
         dispatch({
             type: CLEAR_ERROR
         })
+        dispatch(loadAllUser())
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'DELETE_USER_FAIL'))
     }

@@ -10,10 +10,11 @@ import {
 } from '../../../actions/userAction';
 
 const UserTable = () => {
+  const newObj = {};
   const [openAction, setOpenAction] = useState({});
   let [cloneData, setCloneData] = useState([]);
 
-  const {
+  let {
     user: { msg, allUser, isLoading }
   } = useSelector(state => {
     return {
@@ -24,7 +25,8 @@ const UserTable = () => {
 
   const dispatch = useDispatch();
 
-  const openNotification = type => {
+  // notification messsage
+  const openNotification = (type, msg) => {
     notification[type]({
       message: msg
     });
@@ -34,13 +36,11 @@ const UserTable = () => {
     dispatch(loadAllUser());
 
     // load food id into action. This helps to obtainsdata from handleAction
-    cloneData.map(i =>
-      setOpenAction({
-        ...openAction,
-        [i.id]: false
-      })
-    );
-  }, [loadAllUser]);
+    cloneData.map(i => {
+      Object.assign(newObj, { [i.id]: false });
+    });
+    setOpenAction(newObj);
+  }, []);
 
   const handleAction = id => {
     setOpenAction({
@@ -49,13 +49,15 @@ const UserTable = () => {
   };
 
   const handleUpgrade = async id => {
-   dispatch(upgradeUser(id));
-   await openNotification('success');
+    dispatch(upgradeUser(id));
+    msg = 'User now has the role of an admin';
+    await openNotification('success', msg);
   };
 
   const handleDelete = async id => {
     dispatch(deleteUser(id));
-    await openNotification('success');
+    msg = 'User deleted successfully';
+    await openNotification('success', msg);
   };
 
   // return table body

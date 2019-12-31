@@ -7,6 +7,12 @@ const AdminPost = ({ form }) => {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [imageFile, setImageFile] = useState(null);
+  const [editFood, setEditFood] = useState({
+edit: false,
+id: null,
+name: '',
+price: ''
+  })
   // handle change to retrieve image from file
   const handleChange = e => {
     setImageFile(e.target.files[0]);

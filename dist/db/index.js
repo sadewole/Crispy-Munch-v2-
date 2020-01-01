@@ -11,7 +11,7 @@ require("dotenv/config");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var isProduction = process.env.NODE_ENV || 'production'; // local connection string
+var isProduction = process.env.DATABASE_URL; // local connection string
 // const connectionString = `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`
 // connect to pg
 

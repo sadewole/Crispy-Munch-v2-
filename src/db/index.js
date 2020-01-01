@@ -6,7 +6,7 @@ const isProduction = process.env.DATABASE_URL
 // const connectionString = `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`
 
 // connect to pg
-const sequelize = new Sequelize(isProduction, {
+const sequelize = new Sequelize('postgres://vhalywzmjyzuqu:fdcad1e94d321a268fd43b8c73da8c52a153fc269522e950ee97de71f01a1033@ec2-174-129-255-21.compute-1.amazonaws.com:5432/de62agb9r71pd4', {
     dialect: 'postgres',
     pool: {
         max: 5,

@@ -21,23 +21,35 @@ app.use('/api/v1', user);
 app.use('/api/v1', menuRoute);
 app.use('/api/v1', orderRoute);
 
-const PORT = 5000;
 
-// listen to server
-app.listen(PORT, console.log(`Server running on ${PORT}`));
 
-// test database
-try {
-    db.sequelize.authenticate()
-    console.log('Connection has been established successfully.');
-} catch (err) {
-    console.error('Unable to connect to the database:', err);
+// Serve static assets if in production
+if (process.env.NODE_ENV === 'production') {
+    // Set static folder
+    app.use(express.static('client/build'))
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    })
 }
 
-// sync database
-// db.sequelize.sync().then(() => {
+const PORT = process.env.PORT || 5000;
+
+// listen to server
+// app.listen(PORT, console.log(`Server running on ${PORT}`));
+
+// // test database
+// try {
+//     db.sequelize.authenticate()
 //     console.log('Connection has been established successfully.');
-// }).then(() => {
-//     // listen to server
-//     app.listen(PORT, console.log(`Server running on ${PORT}`));
-// })
+// } catch (err) {
+//     console.error('Unable to connect to the database:', err);
+// }
+
+// sync database
+db.sequelize.sync().then(() => {
+    console.log('Connection has been established successfully.');
+}).then(() => {
+    // listen to server
+    app.listen(PORT, console.log(`Server running on ${PORT}`));
+})

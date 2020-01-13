@@ -4,10 +4,7 @@ import user from './routes/api/userRoute'
 import orderRoute from './routes/api/orderRoute';
 import menuRoute from './routes/api/menuRoute';
 import db from './db'
-<<<<<<< HEAD
 import 'regenerator-runtime/runtime'
-=======
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 import 'dotenv/config'
 
 const app = express();

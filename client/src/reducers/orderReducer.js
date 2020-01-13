@@ -17,10 +17,7 @@ const initState = {
     isLoading: true,
     msg: '',
     userOrders: [],
-<<<<<<< HEAD
     userPendingOrders: [],
-=======
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
     singleOrder: null
 }
 
@@ -74,10 +71,7 @@ export default (state = initState, action) => {
             return {
                 ...state,
                 userOrders: payload.data,
-<<<<<<< HEAD
                     userPendingOrders: payload.data.filter(item => item.payment !== 'paid'),
-=======
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
                     isLoading: false
             };
         case TOTAL:

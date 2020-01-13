@@ -128,11 +128,7 @@ var helper = {
     updateUserOrdersSchema: _joi["default"].object().keys({
       email: _joi["default"].string().email().required(),
       address: _joi["default"].string().required(),
-<<<<<<< HEAD
       phone: _joi["default"].string().required()
-=======
-      phone: _joi["default"].number().integer().required()
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
     })
   }
 };

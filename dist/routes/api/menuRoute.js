@@ -19,13 +19,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var router = _express["default"].Router();
 
-<<<<<<< HEAD
 router.route('/menu').get(_menuController["default"].getAllMenu).post(_passport["default"].authenticate('jwt', {
-=======
-router.route('/menu').get(_passport["default"].authenticate('jwt', {
-  session: false
-}), _menuController["default"].getAllMenu).post(_passport["default"].authenticate('jwt', {
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
   session: false
 }), _multer["default"].single('image'), _menuController["default"].addFood);
 router.route('/menu/:id').get(_passport["default"].authenticate('jwt', {

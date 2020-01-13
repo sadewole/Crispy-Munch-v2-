@@ -12,11 +12,8 @@ var _menuRoute = _interopRequireDefault(require("./routes/api/menuRoute"));
 
 var _db = _interopRequireDefault(require("./db"));
 
-<<<<<<< HEAD
 require("regenerator-runtime/runtime");
 
-=======
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 require("dotenv/config");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -31,7 +28,6 @@ app.use(_express["default"].urlencoded({
 
 app.use('/api/v1', _userRoute["default"]);
 app.use('/api/v1', _menuRoute["default"]);
-<<<<<<< HEAD
 app.use('/api/v1', _orderRoute["default"]); // Serve static assets if in production
 
 if (process.env.NODE_ENV === 'production') {
@@ -59,23 +55,3 @@ _db["default"].sequelize.sync().then(function () {
   // listen to server
   app.listen(PORT, '0.0.0.0', console.log("Server running on ".concat(PORT)));
 });
-=======
-app.use('/api/v1', _orderRoute["default"]);
-var PORT = 5000; // listen to server
-
-app.listen(PORT, console.log("Server running on ".concat(PORT))); // test database
-
-try {
-  _db["default"].sequelize.authenticate();
-
-  console.log('Connection has been established successfully.');
-} catch (err) {
-  console.error('Unable to connect to the database:', err);
-} // sync database
-// db.sequelize.sync().then(() => {
-//     console.log('Connection has been established successfully.');
-// }).then(() => {
-//     // listen to server
-//     app.listen(PORT, console.log(`Server running on ${PORT}`));
-// })
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a

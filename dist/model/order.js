@@ -23,11 +23,7 @@ var _default = function _default(sequelize, DataTypes) {
     email: DataTypes.STRING,
     address: DataTypes.STRING,
     orderedDate: DataTypes.DATE,
-<<<<<<< HEAD
     phone: DataTypes.STRING,
-=======
-    phone: DataTypes.INTEGER,
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
     status: DataTypes.STRING,
     payment: DataTypes.STRING
   });

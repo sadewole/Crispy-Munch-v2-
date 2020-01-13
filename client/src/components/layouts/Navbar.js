@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useState, Fragment } from 'react';
+=======
+import React, { useState, useEffect, Fragment } from 'react';
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +12,11 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   // find auth actions
   const {
+<<<<<<< HEAD
     auth: { isAuthenticated, user }
+=======
+    auth: { isAuthenticated, isLoading, user }
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
   } = useSelector(state => {
     return {
       error: state.error,
@@ -21,7 +29,10 @@ const Navbar = () => {
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
   const clientLink = (
     <ul className='navbar-nav ml-auto'>
       <li className='nav-item'>

@@ -18,12 +18,19 @@ const Routers = () => {
         <Route exact path='/login' component={Login} />
         <Route exact path='/register' component={Register} />
         <Route exact path='/menu' component={MenuPage} />
+<<<<<<< HEAD
         <Route exact path='/cart' component={PrivateRoute(Cart)} />
+=======
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
         <Route
           exact
           path='/history'
           component={PrivateRoute(ShoppingHistory)}
         />
+<<<<<<< HEAD
+=======
+        <Route exact path='/cart' component={PrivateRoute(Cart)} />
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
         <Route exact path='/admin' component={PrivateRoute(Admin)} />
         <Route exact path='/admin/:slum' component={PrivateRoute(Admin)} />
         <Route component={NotFound} />

@@ -134,7 +134,10 @@ var logs = {
               menu_id: findMenu.id,
               user_id: req.user.id,
               quantity: quantity,
+<<<<<<< HEAD
               email: req.user.email,
+=======
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
               amount: quantity * findMenu.price,
               payment: 'pending',
               status: 'new'
@@ -449,13 +452,21 @@ var logs = {
     }, null, null, [[0, 20]]);
   },
   updateUserOrders: function updateUserOrders(req, res) {
+<<<<<<< HEAD
     var _req$value$body, address, phone, status, data;
+=======
+    var _req$value$body, address, email, phone, status, data;
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 
     return regeneratorRuntime.async(function updateUserOrders$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
+<<<<<<< HEAD
             _req$value$body = req.value.body, address = _req$value$body.address, phone = _req$value$body.phone;
+=======
+            _req$value$body = req.value.body, address = _req$value$body.address, email = _req$value$body.email, phone = _req$value$body.phone;
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
             _context7.prev = 1;
             status = req.body.status;
 
@@ -466,6 +477,10 @@ var logs = {
             _context7.next = 6;
             return regeneratorRuntime.awrap(Order.update({
               address: address,
+<<<<<<< HEAD
+=======
+              email: email,
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
               phone: phone,
               status: status,
               orderedDate: new Date(),
@@ -489,12 +504,19 @@ var logs = {
           case 10:
             _context7.prev = 10;
             _context7.t0 = _context7["catch"](1);
+<<<<<<< HEAD
             console.log(_context7.t0);
+=======
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
             res.status(500).json({
               msg: _context7.t0
             });
 
+<<<<<<< HEAD
           case 14:
+=======
+          case 13:
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
           case "end":
             return _context7.stop();
         }

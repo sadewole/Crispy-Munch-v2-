@@ -1,12 +1,22 @@
+<<<<<<< HEAD
 import React, { Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
+=======
+import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import { Layout, Menu, Icon } from 'antd';
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 import AdminMenu from '../admin/Menu/AdminMenu';
 import AdminHistory from '../admin/History/AdminHistory';
 import AdminViewUser from '../admin/User/AdminViewUser';
 import AdminDashboard from '../admin/Dashboard/AdminDashboard';
 import { logout } from '../../actions/authAction';
+<<<<<<< HEAD
 import { useDispatch, useSelector } from 'react-redux';
+=======
+import { useDispatch } from 'react-redux';
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 
 const { Content, Sider } = Layout;
 
@@ -15,6 +25,7 @@ const SideNav = props => {
   const { slum } = props.match.params;
   const dispatch = useDispatch();
 
+<<<<<<< HEAD
   const {
     auth: { isAuthenticated, user }
   } = useSelector(state => {
@@ -29,6 +40,8 @@ const SideNav = props => {
       props.history.push('/');
     }
   }, [isAuthenticated]);
+=======
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
   return (
     <Fragment>
       <div className='admin-bgImg'> </div>

@@ -19,7 +19,11 @@ const FoodLayout = () => {
   useEffect(() => {
     // dispatch menu
     dispatch(fetchMenu());
+<<<<<<< HEAD
   }, []);
+=======
+  }, [fetchMenu]);
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 
   const warning = () => {
     message.warning('Kindly login to order food');

@@ -2,7 +2,11 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Form, Icon, Input, Button, Alert } from 'antd';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+<<<<<<< HEAD
 import { login, oauthFacebook, oauthGoogle } from '../../actions/authAction';
+=======
+import { login } from '../../actions/authAction';
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 
@@ -19,6 +23,7 @@ const Login = ({ form, history }) => {
     });
   };
 
+<<<<<<< HEAD
   const responseGoogle = async res => {
     console.log(res);
     await dispatch(oauthGoogle(res.accessToken));
@@ -29,6 +34,8 @@ const Login = ({ form, history }) => {
     await dispatch(oauthFacebook(res.accessToken));
   };
 
+=======
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
   // find auth actions
   const {
     error,
@@ -55,7 +62,20 @@ const Login = ({ form, history }) => {
     }
   }, [error, isAuthenticated]);
 
+<<<<<<< HEAD
   const { getFieldDecorator } = form;
+=======
+  const responseGoogle = res => {
+    console.log(res);
+  };
+
+  const responseFacebook = res => {
+    console.log(res);
+  };
+
+  const { getFieldDecorator } = form;
+
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
   return (
     <Fragment>
       <div className='create-login p-5'>
@@ -139,6 +159,7 @@ const Login = ({ form, history }) => {
                 <hr />
               </div>
               <Form.Item>
+<<<<<<< HEAD
                 <FacebookLogin
                   appId={process.env.REACT_APP_FB_OAUTH_ID}
                   fields='name, email, picture'
@@ -164,6 +185,38 @@ const Login = ({ form, history }) => {
                   )}
                   disabled={false}
                 />
+=======
+                {/* <FacebookLogin
+                  appId = {process.env.FB_OAUTH_ID}
+                  autoLoad= {true}
+                  fields="name, email, picture"
+                  callback={responseFacebook}
+                  textButton= 'Connect with Facebook'
+                  className='btn btn-primary form-control'
+                  /> */}
+                <Button
+                  type='primary'
+                  htmlType='submit'
+                  className='btn btn-primary form-control'
+                >
+                  <Link to='#'>
+                    <i className='fab fa-facebook mr-2'></i>
+                    Connect with Facebook
+                  </Link>
+                </Button>
+              </Form.Item>
+              <Form.Item>
+                <Button
+                  type='primary'
+                  htmlType='submit'
+                  className='btn btn-danger form-control mr-2'
+                >
+                  <Link to='#'>
+                    <i className='fab fa-google-plus mr-2'></i>
+                    Connect with Google
+                  </Link>
+                </Button>
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
               </Form.Item>
               <p>
                 No account? <Link to='/register'>Click here</Link> to register

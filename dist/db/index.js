@@ -11,6 +11,7 @@ require("dotenv/config");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+<<<<<<< HEAD
 var connectionString; // Serve static assets if in production
 
 if (process.env.NODE_ENV === 'production') {
@@ -22,6 +23,13 @@ if (process.env.NODE_ENV === 'production') {
 
 
 var sequelize = new _sequelize["default"](connectionString, {
+=======
+var isProduction = process.env.DATABASE_URL; // local connection string
+// const connectionString = `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`
+// connect to pg
+
+var sequelize = new _sequelize["default"]('postgres://vhalywzmjyzuqu:fdcad1e94d321a268fd43b8c73da8c52a153fc269522e950ee97de71f01a1033@ec2-174-129-255-21.compute-1.amazonaws.com:5432/de62agb9r71pd4', {
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
   dialect: 'postgres',
   pool: {
     max: 5,

@@ -31,12 +31,16 @@ export const loadUser = () => async (dispatch, getState) => {
             type: CLEAR_ERROR
         })
     } catch (err) {
+<<<<<<< HEAD
         console.log(err);
 
+=======
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
         dispatch(returnError(err.response.status, err.response.data, 'LOAD_USER_FAIL'))
     }
 }
 
+<<<<<<< HEAD
 
 export const oauthGoogle = data => async dispatch => {
     try {
@@ -96,6 +100,8 @@ export const oauthFacebook = data => async dispatch => {
     }
 }
 
+=======
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 export const register = data => async (dispatch) => {
     try {
         // Headers

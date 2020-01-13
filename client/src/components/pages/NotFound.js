@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { Fragment } from 'react';
 
 const NotFound = ({ location }) => {
@@ -15,6 +16,12 @@ const NotFound = ({ location }) => {
       </div>
     </Fragment>
   );
+=======
+import React from 'react';
+
+const NotFound = () => {
+  return <div>not found</div>;
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 };
 
 export default NotFound;

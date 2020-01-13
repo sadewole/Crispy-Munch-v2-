@@ -126,7 +126,11 @@ const helper = {
                 .email()
                 .required(),
             address: joi.string().required(),
+<<<<<<< HEAD
             phone: joi.string().required()
+=======
+            phone: joi.number().integer().required()
+>>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
         })
     }
 };

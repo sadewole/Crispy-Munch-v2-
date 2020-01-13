@@ -114,48 +114,17 @@ export const updateOrderStatus = (data, id) => async (dispatch, getState) => {
             type: UPDATE_ORDER_STATUS,
             payload: res.data
         })
-<<<<<<< HEAD
         dispatch({
             type: CLEAR_ERROR
         })
         dispatch(getAllOrder())
-=======
-        dispatch(getAllOrder())
-        dispatch({
-            type: CLEAR_ERROR
-        })
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
     } catch (err) {
         console.log(err)
         dispatch(returnError(err.response.status, err.response.data, 'UPDATE_ORDER_QUANTITY_FAIL'))
     }
 }
 
-<<<<<<< HEAD
 // fetch for specific user
-=======
-export const deleteOrder = id => async (dispatch, getState) => {
-    try {
-        const res = await axios.delete(`/api/v1/order/${id}`, tokenConfig(getState))
-
-        dispatch({
-            type: DELETE_ORDER,
-            payload: {
-                id,
-                msg: res.data.msg
-            }
-        })
-        dispatch({
-            type: CLEAR_ERROR
-        })
-    } catch (err) {
-        dispatch(returnError(err.response.status, err.response.data, 'DELETE_ORDER_FAIL'))
-    }
-}
-
-// fetch for specific user
-
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 export const fetchUserOrderHistory = () => async (dispatch, getState) => {
     try {
         dispatch({
@@ -189,11 +158,8 @@ export const updateUserOrder = data => async (dispatch, getState) => {
         dispatch({
             type: CLEAR_ERROR
         })
-<<<<<<< HEAD
 
         dispatch(getAllOrder())
-=======
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'UPDATE_USER_ORDER_FAIL'))
     }
@@ -214,7 +180,6 @@ export const totalSales = () => async (dispatch, getState) => {
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'FETCH_TOTAL_SALES_FAIL'))
     }
-<<<<<<< HEAD
 }
 
 export const deleteOrder = id => async (dispatch, getState) => {
@@ -236,6 +201,4 @@ export const deleteOrder = id => async (dispatch, getState) => {
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'DELETE_ORDER_FAIL'))
     }
-=======
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 }

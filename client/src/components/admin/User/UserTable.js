@@ -35,15 +35,8 @@ const UserTable = () => {
   useEffect(() => {
     dispatch(loadAllUser());
 
-<<<<<<< HEAD
     // load food id into action. This helps to obtain data from handleAction
     cloneData.map(i => Object.assign(newObj, { [i.id]: false }));
-=======
-    // load food id into action. This helps to obtainsdata from handleAction
-    cloneData.map(i => {
-      Object.assign(newObj, { [i.id]: false });
-    });
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
     setOpenAction(newObj);
   }, []);
 
@@ -88,35 +81,20 @@ const UserTable = () => {
             <div
               className={`dropdown-action ${openAction[i.id] ? 'show' : ''}`}
             >
-<<<<<<< HEAD
               <Link
                 to='#'
-=======
-              <a
-                href='#'
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
                 onClick={() => handleUpgrade(i.id)}
                 className='dropdown-item'
               >
                 Make admin
-<<<<<<< HEAD
               </Link>
               <Link
                 to='#'
-=======
-              </a>
-              <a
-                href='#'
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
                 onClick={() => handleDelete(i.id)}
                 className='dropdown-item'
               >
                 Delete
-<<<<<<< HEAD
               </Link>
-=======
-              </a>
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
             </div>
           </td>
         </tr>

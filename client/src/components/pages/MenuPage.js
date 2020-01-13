@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { Fragment, useEffect } from 'react';
 import FoodLayout from '../layouts/FoodLayout';
 import Footer from '../layouts/Footer';
@@ -20,13 +19,6 @@ const MenuPage = ({ history }) => {
     }
   }, [isAuthenticated]);
 
-=======
-import React, { Fragment } from 'react';
-import FoodLayout from '../layouts/FoodLayout';
-import Footer from '../layouts/Footer';
-
-const MenuPage = () => {
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
   return (
     <Fragment>
       <div className='menu-bg'></div>

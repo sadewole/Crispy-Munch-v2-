@@ -569,7 +569,6 @@ tr {
   background: #e8dbdbd9;
 }
 
-<<<<<<< HEAD
 /* Not found */
 .not-found {
   position: fixed;
@@ -595,36 +594,21 @@ tr {
 .not-found span {
   font-family: var(--crispy-font);
 }
-=======
-/* .ant-modal-mask {
-  background: rgb(5, 5, 5) !important;
-} */
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 
 /* media queries */
 @media (max-width: 990px) {
   .toggler {
     visibility: visible;
   }
-<<<<<<< HEAD
 
-=======
-}
-
-@media (max-width: 780px) {
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
   .admin-content {
     margin-left: 0px;
     width: 90%;
   }
-<<<<<<< HEAD
 }
 
 
 @media (max-width: 780px) {
-=======
-
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
   .responsive {
     display: block;
   }

@@ -52,9 +52,5 @@ db.sequelize.sync().then(() => {
     console.log('Connection has been established successfully.');
 }).then(() => {
     // listen to server
-<<<<<<< HEAD
     app.listen(PORT, '0.0.0.0', console.log(`Server running on ${PORT}`));
-=======
-    app.listen(PORT, console.log(`Server running on ${PORT}`));
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 })

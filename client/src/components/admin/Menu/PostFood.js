@@ -1,9 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
-<<<<<<< HEAD
 import { Form, Input, Button, Modal } from 'antd';
-=======
-import { Form, Input, Button, Alert, Modal } from 'antd';
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 import {
   postMenu,
   getSingleMenu,
@@ -68,13 +64,8 @@ const AdminPost = ({ form }) => {
           // update menu if edit is true
           if (update.edit) {
             dispatch(updateMenu(formData, update.id));
-<<<<<<< HEAD
             setUpdate({ edit: false, id: null });
             singleData = null;
-=======
-            setUpdate({ edit: false, id : null });
-            singleData = null
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
           } else {
             // post menu if no error
             dispatch(postMenu(formData));

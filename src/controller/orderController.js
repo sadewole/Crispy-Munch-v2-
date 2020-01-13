@@ -63,10 +63,7 @@ const logs = {
                 menu_id: findMenu.id,
                 user_id: req.user.id,
                 quantity,
-<<<<<<< HEAD
                 email: req.user.email,
-=======
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
                 amount: quantity * findMenu.price,
                 payment: 'pending',
                 status: 'new'
@@ -251,10 +248,6 @@ const logs = {
     updateUserOrders: async (req, res) => {
         const {
             address,
-<<<<<<< HEAD
-=======
-            email,
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
             phone
         } = req.value.body;
         try {
@@ -267,10 +260,6 @@ const logs = {
 
             const data = await Order.update({
                 address,
-<<<<<<< HEAD
-=======
-                email,
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
                 phone,
                 status,
                 orderedDate: new Date(),
@@ -289,10 +278,7 @@ const logs = {
                 data: data[1]
             });
         } catch (err) {
-<<<<<<< HEAD
             console.log(err)
-=======
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
             res.status(500).json({
                 msg: err
             })

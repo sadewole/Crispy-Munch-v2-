@@ -1,13 +1,8 @@
-<<<<<<< HEAD
 import React, { useEffect } from 'react';
-=======
-import React from 'react';
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 import Hero from '../layouts/Hero';
 import Content1 from '../layouts/Content_1';
 import Content2 from '../layouts/Content_2';
 import Footer from '../layouts/Footer';
-<<<<<<< HEAD
 import { useSelector } from 'react-redux';
 
 const LandingPage = ({ history }) => {
@@ -26,10 +21,6 @@ const LandingPage = ({ history }) => {
     }
   }, [isAuthenticated]);
 
-=======
-
-const LandingPage = () => {
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
   return (
     <div className='container-fluid no-gutters overflow-landing'>
       <Hero />

@@ -8,10 +8,6 @@ if (process.env.NODE_ENV === 'production') {
 } else {
     // local connection string
     connectionString = `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`
-<<<<<<< HEAD
-=======
-
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 }
 
 // connect to pg

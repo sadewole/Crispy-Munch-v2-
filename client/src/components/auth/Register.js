@@ -1,16 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Form, Icon, Input, Button, Alert } from 'antd';
-<<<<<<< HEAD
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { register, oauthFacebook, oauthGoogle } from '../../actions/authAction';
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
-=======
-import { Link, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../../actions/authAction';
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 
 const Register = ({ form, history }) => {
   const [confirmDirty, setConfirmDirty] = useState(false);
@@ -32,7 +26,6 @@ const Register = ({ form, history }) => {
     });
   };
 
-<<<<<<< HEAD
   const responseGoogle = async res => {
     console.log(res);
     await dispatch(oauthGoogle(res.accessToken));
@@ -43,8 +36,6 @@ const Register = ({ form, history }) => {
     await dispatch(oauthFacebook(res.accessToken));
   };
 
-=======
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
   // find auth actions
   const {
     error,
@@ -233,7 +224,6 @@ const Register = ({ form, history }) => {
                 <span> OR </span> <hr />
               </div>
               <Form.Item>
-<<<<<<< HEAD
                 <FacebookLogin
                   appId={process.env.REACT_APP_FB_OAUTH_ID}
                   fields='name, email, picture'
@@ -260,30 +250,6 @@ const Register = ({ form, history }) => {
                   disabled={false}
                   cookiePolicy={'single_host_origin'}
                 />
-=======
-                <Button
-                  type='primary'
-                  htmlType='submit'
-                  className='btn btn-primary form-control'
-                >
-                  <Link to='#'>
-                    <i className='fab fa-facebook mr-2'> </i>
-                    Connect with Facebook
-                  </Link>
-                </Button>
-              </Form.Item>
-              <Form.Item>
-                <Button
-                  type='primary'
-                  htmlType='submit'
-                  className='btn btn-danger form-control'
-                >
-                  <Link to='#'>
-                    <i className='fab fa-google-plus mr-2'> </i>
-                    Connect with Google
-                  </Link>
-                </Button>
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
               </Form.Item>
               <p>
                 Have an account ? <Link to='/login'> Click here </Link> to login

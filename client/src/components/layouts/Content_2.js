@@ -1,9 +1,5 @@
 import React from 'react';
-<<<<<<< HEAD
 import { data } from '../utils/content_data';
-=======
-import { data } from '../../content_data';
->>>>>>> 6fa43df6ba601265ff777572ca73d312480d2e4a
 
 const Content_2 = () => {
   const content = data.map((data, index) => {

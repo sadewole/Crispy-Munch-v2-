@@ -8,6 +8,8 @@ import 'regenerator-runtime/runtime'
 import 'dotenv/config'
 
 const app = express();
+// Set static folder
+app.use(express.static('client/build'))
 // middlewares
 app.use(logger());
 app.use(express.json());

@@ -13,7 +13,6 @@ import {
 } from './errorAction'
 
 
-
 export const loadUser = () => async (dispatch, getState) => {
     try {
         dispatch({
@@ -49,7 +48,7 @@ export const oauthGoogle = data => async dispatch => {
         const body = JSON.stringify({
             access_token: data
         })
-        const res = await axios.post(`/api/v1/user/oauth/google`, body, config)
+        const res = await axios.post('/api/v1/user/oauth/google', body, config)
 
         dispatch({
             type: AUTH_REGISTER,
@@ -78,7 +77,7 @@ export const oauthFacebook = data => async dispatch => {
         const body = JSON.stringify({
             access_token: data
         })
-        const res = await axios.post(`/api/v1/user/oauth/facebook`, body, config)
+        const res = await axios.post('/api/v1/user/oauth/facebook', body, config)
 
         dispatch({
             type: AUTH_REGISTER,

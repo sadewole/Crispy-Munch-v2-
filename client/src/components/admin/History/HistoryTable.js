@@ -33,7 +33,7 @@ const AdminHistory = () => {
   }, []);
 
   const showModal = id => {
-    // console.log(true);
+    console.log(true, id);
     setVisible(true);
     dispatch(getSingleOrder(id));
   };
@@ -71,9 +71,9 @@ const AdminHistory = () => {
             </Select>
           </td>
           <td>
-            <Link to='#' onClick={() => showModal(info.id)}>
+            <p className='details' onClick={() => showModal(info.id)}>
               Details
-            </Link>
+            </p>
           </td>
           <td onClick={() => dispatch(deleteOrder(info.id))}>
             <Link to='#'> Delete </Link>
@@ -118,7 +118,7 @@ const AdminHistory = () => {
         <thead className='thead thead-dark'>
           <tr>
             <th> Order Id </th> <th> Food </th> <th> Price </th>
-            <th> Quantity </th> <th> User Id </th> <th> Amount </th>
+            <th> Quantity </th> <th> User Email </th> <th> Amount </th>
             <th> Payment </th> <th> Status </th> <th> View more </th>
             <th> Delete </th>
           </tr>

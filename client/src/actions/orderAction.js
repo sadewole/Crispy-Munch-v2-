@@ -38,6 +38,27 @@ export const getAllOrder = () => async (dispatch, getState) => {
     }
 }
 
+export const fetchUserOrderHistory = () => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: USER_HISTORY_LOADING
+        })
+
+        const res = await axios.get('/api/v1/orders/user', tokenConfig(getState))
+
+        dispatch({
+            type: FETCH_USER_HISTORY,
+            payload: res.data
+        })
+        dispatch({
+            type: CLEAR_ERROR
+        })
+    } catch (err) {
+        console.log(err)
+        dispatch(returnError(err.response.status, err.response.data, 'FETCH_USER_ORDER_FAIL'))
+    }
+}
+
 export const getSingleOrder = id => async (dispatch, getState) => {
     try {
         dispatch({
@@ -93,11 +114,12 @@ export const updateOrderQuantity = (data, id) => async (dispatch, getState) => {
             type: UPDATE_ORDER_QUANTITY,
             payload: res.data
         })
-        dispatch(getAllOrder())
-
+        
         dispatch({
             type: CLEAR_ERROR
         })
+        dispatch(getAllOrder())
+        dispatch(fetchUserOrderHistory())
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'UPDATE_ORDER_QUANTITY_FAIL'))
     }
@@ -125,27 +147,6 @@ export const updateOrderStatus = (data, id) => async (dispatch, getState) => {
 }
 
 // fetch for specific user
-export const fetchUserOrderHistory = () => async (dispatch, getState) => {
-    try {
-        dispatch({
-            type: USER_HISTORY_LOADING
-        })
-
-        const res = await axios.get('/api/v1/orders/user', tokenConfig(getState))
-
-        dispatch({
-            type: FETCH_USER_HISTORY,
-            payload: res.data
-        })
-        dispatch({
-            type: CLEAR_ERROR
-        })
-    } catch (err) {
-        console.log(err)
-        dispatch(returnError(err.response.status, err.response.data, 'FETCH_USER_ORDER_FAIL'))
-    }
-}
-
 export const updateUserOrder = data => async (dispatch, getState) => {
     try {
         const body = JSON.stringify(data)

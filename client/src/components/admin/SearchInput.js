@@ -16,10 +16,9 @@ const SearchInput = ({ cloneData, setCloneData, originalData }) => {
 
   useEffect(() => {
     setCloneData(originalData);
-  });
+  }, [setCloneData,originalData]);
   // handle search from search input
-  const handleSearch = () =>
-    cloneData.map(dp => {
+  const handleSearch = () => cloneData.map(dp => {
       if (
         dp.name
           .toString()

@@ -41,11 +41,6 @@ const CartTable = ({ form }) => {
     e.preventDefault();
     await form.validateFields((err, values) => {
       if (!err) {
-        const data = {
-          email: values.email,
-          address: values.address,
-          phone: values.phone
-        };
         dispatch(updateUserOrder(values));
         handleOk();
       }

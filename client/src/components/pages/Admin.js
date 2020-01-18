@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import AdminMenu from '../admin/Menu/AdminMenu';
 import AdminHistory from '../admin/History/AdminHistory';
@@ -40,12 +40,12 @@ const SideNav = props => {
         <Sider
           breakpoint='lg'
           collapsedWidth='0'
-          onBreakpoint={broken => {
-            console.log(broken);
-          }}
-          onCollapse={(collapsed, type) => {
-            console.log(collapsed, type);
-          }}
+          // onBreakpoint={broken => {
+          //   console.log(broken);
+          // }}
+          // onCollapse={(collapsed, type) => {
+          //   console.log(collapsed, type);
+          // }}
           className='admin-sider'
         >
           <Menu theme='dark' mode='inline' defaultSelectedKeys={['1']}>

@@ -45,6 +45,11 @@ body {
   color: #f3f3f3;
 }
 
+.details{
+  color: #007bff;
+  cursor: pointer
+}
+
 .hide-sm {
   display: block;
 }

@@ -18,7 +18,8 @@ const initState = {
     msg: '',
     userOrders: [],
     userPendingOrders: [],
-    singleOrder: null
+    singleOrder: null,
+    total: null
 }
 
 export default (state = initState, action) => {

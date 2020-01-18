@@ -75,7 +75,7 @@ const FoodTable = () => {
             <Moment format='YYYY/MM/DD'>{i.updatedAt}</Moment>
           </td>
           <td className='action' onClick={() => handleAction(i.id)}>
-            <p className='dropdown-toggle'>Action</p>
+            <p className='details dropdown-toggle'>Action</p>
             <div
               className={`dropdown-action ${openAction[i.id] ? 'show' : ''}`}
             >

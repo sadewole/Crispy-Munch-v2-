@@ -71,13 +71,14 @@ const UserTable = () => {
     cloneData.map(i => {
       return (
         <tr key={i.id}>
-          <td> {i.id} </td> <td> {i.name} </td> <td> {i.email} </td>
+          <td> {i.id} </td>
+          <td> {i.name} </td>
+          <td> {i.email} </td>
           <td> {i.role} </td>
           <td className='action' onClick={() => handleAction(i.id)}>
-            <Link to='#' className='dropdown-toggle'>
-              {' '}
-              Action{' '}
-            </Link>
+            <p className='details dropdown-toggle'>
+              Action
+            </p>
             <div
               className={`dropdown-action ${openAction[i.id] ? 'show' : ''}`}
             >
@@ -120,7 +121,9 @@ const UserTable = () => {
       <table className='table table-responsive table-hover text-white'>
         <thead className='thead thead-dark'>
           <tr>
-            <th> User id </th> <th> Name </th> <th> Email </th>
+            <th> User id </th>
+            <th> Name </th>
+            <th> Email </th>
             <th> Role </th>
             <th> Action </th>
           </tr>

@@ -6,6 +6,7 @@ export default OriginalComponent => {
     checkAuth = () => {
       const { isAuthenticated, user, token, isLoading, history } = this.props;
       if (!isAuthenticated && !token && isLoading) {
+        console.log('but why!!!')
         history.push('/');
       }
 
@@ -17,7 +18,8 @@ export default OriginalComponent => {
 
     //   checked if auth when mount
     shouldComponentUpdate() {
-      return this.checkAuth();
+      this.checkAuth();
+      return true
     }
 
     render() {

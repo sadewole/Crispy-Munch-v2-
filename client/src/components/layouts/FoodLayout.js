@@ -50,7 +50,7 @@ const FoodLayout = () => {
       return (
         <div className='card-menu' key={info.id}>
           <div className='card-img-top'>
-            <img src={info.img} alt={info.name} className='img-resize' />
+            <img src={info.image} alt={info.name} className='img-resize' />
           </div>
           <div className='card-img-body'>
             <p>{info.name}</p>

@@ -10,7 +10,7 @@
     "build": "babel src --out-dir dist",
     "client": "cd client && npm run start",
     "dev": "concurrently \"npm run client\" \"npm run server\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run defaultAdmin --prefix Auth-Oauth && npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "Samador",
   "license": "MIT",

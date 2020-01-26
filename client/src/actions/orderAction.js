@@ -114,7 +114,7 @@ export const updateOrderQuantity = (data, id) => async (dispatch, getState) => {
             type: UPDATE_ORDER_QUANTITY,
             payload: res.data
         })
-        
+
         dispatch({
             type: CLEAR_ERROR
         })

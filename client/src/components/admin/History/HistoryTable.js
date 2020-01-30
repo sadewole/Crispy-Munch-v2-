@@ -38,7 +38,7 @@ const AdminHistory = () => {
   };
 
   const closeModal = () => {
-    setVisible(false);
+    setVisible(false)
   };
 
   const output = isLoading ? (
@@ -49,7 +49,7 @@ const AdminHistory = () => {
         </td>
       </tr>
     </Fragment>
-  ) : orders !== undefined ? (
+  ) : orders.length >= 1  ? (
     orders.map(info => {
       return (
         <tr key={info.id}>

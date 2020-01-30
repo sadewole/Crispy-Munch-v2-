@@ -22,14 +22,25 @@ var logs = {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            _context.next = 3;
-            return regeneratorRuntime.awrap(Order.findAll({}));
+
+            if (!(req.user.role !== 'ADMIN')) {
+              _context.next = 3;
+              break;
+            }
+
+            return _context.abrupt("return", res.status(401).json({
+              msg: 'Unauthorised'
+            }));
 
           case 3:
+            _context.next = 5;
+            return regeneratorRuntime.awrap(Order.findAll({}));
+
+          case 5:
             orders = _context.sent;
 
-            if (orders) {
-              _context.next = 6;
+            if (!(orders.length < 1)) {
+              _context.next = 8;
               break;
             }
 
@@ -37,38 +48,38 @@ var logs = {
               msg: 'Order history is empty'
             }));
 
-          case 6:
+          case 8:
             data = [];
             i = 0;
 
-          case 8:
+          case 10:
             if (!(i < orders.length)) {
-              _context.next = 20;
+              _context.next = 22;
               break;
             }
 
             order = orders[i].dataValues;
-            _context.next = 12;
+            _context.next = 14;
             return regeneratorRuntime.awrap(_helper["default"].checkMenu(order.menu_id));
 
-          case 12:
+          case 14:
             food = _context.sent;
-            _context.next = 15;
+            _context.next = 17;
             return regeneratorRuntime.awrap(_helper["default"].findUserById(order.user_id));
 
-          case 15:
+          case 17:
             user = _context.sent;
             data.push(Object.assign(order, {
               food: food,
               user: user
             }));
 
-          case 17:
+          case 19:
             i++;
-            _context.next = 8;
+            _context.next = 10;
             break;
 
-          case 20:
+          case 22:
             return _context.abrupt("return", res.status(200).json({
               TYPE: 'GET',
               count: data.length,
@@ -77,20 +88,20 @@ var logs = {
               data: data
             }));
 
-          case 23:
-            _context.prev = 23;
+          case 25:
+            _context.prev = 25;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
             return _context.abrupt("return", res.status(500).json({
               msg: _context.t0
             }));
 
-          case 27:
+          case 29:
           case "end":
             return _context.stop();
         }
       }
-    }, null, null, [[0, 23]]);
+    }, null, null, [[0, 25]]);
   },
   addNewOrder: function addNewOrder(req, res) {
     var menuId, quantity, findMenu, data;

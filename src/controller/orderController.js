@@ -9,8 +9,14 @@ const {
 const logs = {
     getAllOrder: async (req, res) => {
         try {
+            if (req.user.role !== 'ADMIN') {
+                return res.status(401).json({
+                    msg: 'Unauthorised'
+                })
+            }
+
             const orders = await Order.findAll({})
-            if (!orders) {
+            if (orders.length < 1) {
                 return res.status(200).json({
                     msg: 'Order history is empty'
                 });

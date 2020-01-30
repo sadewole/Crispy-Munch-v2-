@@ -21,7 +21,9 @@ var router = _express["default"].Router();
 
 var validateBody = _helper["default"].validateBody,
     schemas = _helper["default"].schemas;
-router.route('/order').get(_orderController["default"].getAllOrder).post(_passport["default"].authenticate('jwt', {
+router.route('/order').get(_passport["default"].authenticate('jwt', {
+  session: false
+}), _orderController["default"].getAllOrder).post(_passport["default"].authenticate('jwt', {
   session: false
 }), _orderController["default"].addNewOrder);
 router.route('/order/:id').get(_orderController["default"].getSingleOrder).put(_passport["default"].authenticate('jwt', {

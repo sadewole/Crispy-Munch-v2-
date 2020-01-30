@@ -205,7 +205,7 @@ export default {
 
       const user = await User.findAll({})
 
-      if (!user) {
+      if (user.length < 1) {
         return res.status(200).json({
           msg: 'No User yet'
         })

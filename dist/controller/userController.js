@@ -332,7 +332,7 @@ var _default = {
           case 5:
             user = _context6.sent;
 
-            if (user) {
+            if (!(user.length < 1)) {
               _context6.next = 8;
               break;
             }

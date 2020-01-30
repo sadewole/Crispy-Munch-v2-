@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 const Footer = () => {
   return (
     <Fragment>
+    <div className='footer'>
       <div className='bg-dark footer-grid text-white row mt-5 no-gutters'>
         <div className='col-md-3'>
           <ul>
@@ -83,6 +84,7 @@ const Footer = () => {
       </div>
       <div className='footer-bottom'>
         <p>&copy; 2019 Crispy Munch</p>
+      </div>
       </div>
     </Fragment>
   );

@@ -18,9 +18,7 @@ require("dotenv/config");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var app = (0, _express["default"])(); // Set static folder
-
-app.use(_express["default"]["static"]('client/build')); // middlewares
+var app = (0, _express["default"])(); // middlewares
 
 app.use((0, _morgan["default"])());
 app.use(_express["default"].json());
@@ -35,7 +33,7 @@ app.use('/api/v1', _orderRoute["default"]); // Serve static assets if in product
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
   app.use(_express["default"]["static"]('client/build'));
-  app.get('*', function (req, res) {
+  app.get('/*', function (req, res) {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }

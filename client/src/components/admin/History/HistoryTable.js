@@ -49,7 +49,7 @@ const AdminHistory = () => {
         </td>
       </tr>
     </Fragment>
-  ) : orders.length >= 1  ? (
+  ): orders !== undefined ? (
     orders.map(info => {
       return (
         <tr key={info.id}>

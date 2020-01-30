@@ -352,10 +352,15 @@ body {
 }
 
 /* footer */
+.footer{
+  position: relative;
+  bottom: 0;
+}
+
 .footer-grid ul {
   list-style: none;
   text-align: left;
-}
+}       
 
 .footer-grid {
   position: relative;

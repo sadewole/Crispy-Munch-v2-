@@ -14,7 +14,10 @@ const {
 
 router
   .route('/order')
-  .get(orderController.getAllOrder)
+  .get(passport.authenticate('jwt', {
+      session: false
+    }),
+    orderController.getAllOrder)
   .post(
     passport.authenticate('jwt', {
       session: false

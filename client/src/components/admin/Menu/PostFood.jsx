@@ -33,7 +33,7 @@ const AdminPost = ({ form }) => {
   };
 
   useEffect(() => {
-    dispatch(getSingleMenu());
+    // dispatch(getSingleMenu());
 
     // set field on editing form
     if (singleData !== null) {
@@ -44,7 +44,7 @@ const AdminPost = ({ form }) => {
       setUpdate({ id: singleData.id, edit: true });
       setVisible(true);
     }
-  }, [singleData]);
+  }, []);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -82,7 +82,7 @@ const AdminPost = ({ form }) => {
     setTimeout(() => {
       setLoading(false);
       setVisible(false);
-    }, 3000);
+    }, 1000);
   };
 
   const handleCancel = e => {

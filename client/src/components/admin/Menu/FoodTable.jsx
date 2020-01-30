@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchMenu,
   deleteMenu,
-  updateMenu,
   getSingleMenu
 } from '../../../actions/catalogAction';
 import { Spin, notification } from 'antd';
@@ -23,17 +22,17 @@ const FoodTable = () => {
     };
   });
 
+  useEffect(() => {
+    dispatch(fetchMenu());
+    // load food id into action. This helps to obtains data from handleAction
+    cloneData.map(i => setOpenAction({ ...openAction, [i.id]: false }));
+  }, []);
+
   const openNotification = type => {
     notification[type]({
       message: msg
     });
   };
-
-  useEffect(() => {
-    dispatch(fetchMenu());
-    // load food id into action. This helps to obtainsdata from handleAction
-    cloneData.map(i => setOpenAction({ ...openAction, [i.id]: false }));
-  }, []);
 
   const handleAction = id => {
     setOpenAction({ [id]: !openAction[id] });
@@ -102,7 +101,7 @@ const FoodTable = () => {
     <Fragment>
       <tr>
         <td colSpan='5' className='text-center'>
-          No Data
+          Food menu is empty
         </td>
       </tr>
     </Fragment>

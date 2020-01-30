@@ -33,7 +33,6 @@ const AdminHistory = () => {
   }, []);
 
   const showModal = id => {
-    console.log(true, id);
     setVisible(true);
     dispatch(getSingleOrder(id));
   };
@@ -46,11 +45,11 @@ const AdminHistory = () => {
     <Fragment>
       <tr>
         <td colSpan='10' className='text-center'>
-          <Spin size='large' tip='Loading...' />
+          <Spin size='large' tip='Loading....' />
         </td>
       </tr>
     </Fragment>
-  ) : orders !== 'undefined' ? (
+  ) : orders !== undefined ? (
     orders.map(info => {
       return (
         <tr key={info.id}>
@@ -85,7 +84,7 @@ const AdminHistory = () => {
     <Fragment>
       <tr>
         <td colSpan='10' className='text-center'>
-          No Data
+          No food has been ordered
         </td>
       </tr>
     </Fragment>

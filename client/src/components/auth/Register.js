@@ -11,31 +11,6 @@ const Register = ({ form, history }) => {
   const [msg, setMsg] = useState(null);
   const dispatch = useDispatch();
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    await form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        const { username, email, password } = values;
-        const data = {
-          name: username,
-          email,
-          password
-        };
-        dispatch(register(data));
-      }
-    });
-  };
-
-  const responseGoogle = async res => {
-    console.log(res);
-    await dispatch(oauthGoogle(res.accessToken));
-  };
-
-  const responseFacebook = async res => {
-    console.log(res);
-    await dispatch(oauthFacebook(res.accessToken));
-  };
-
   // find auth actions
   const {
     error,
@@ -62,6 +37,31 @@ const Register = ({ form, history }) => {
       history.push('/admin');
     }
   }, [error, isAuthenticated]);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    await form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        const { username, email, password } = values;
+        const data = {
+          name: username,
+          email,
+          password
+        };
+        dispatch(register(data));
+      }
+    });
+  };
+
+  const responseGoogle = async res => {
+    console.log(res);
+    await dispatch(oauthGoogle(res.accessToken));
+  };
+
+  const responseFacebook = async res => {
+    console.log(res);
+    await dispatch(oauthFacebook(res.accessToken));
+  };
 
   const handleConfirmBlur = e => {
     const { value } = e.target;

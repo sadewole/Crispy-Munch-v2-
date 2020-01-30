@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 const FoodLayout = () => {
   const dispatch = useDispatch();
   const {
-    menu: { isLoading, data },
+    menu: { isLoading, data, msg },
     auth: { isAuthenticated }
   } = useSelector(state => {
     return {
@@ -41,7 +41,7 @@ const FoodLayout = () => {
   };
   const datas = isLoading ? (
     <Fragment>
-      <div className='text-center m-auto container'>
+      <div className='text-center absolute-data'>
         <Spin size='large' tip='Loading...' />
       </div>
     </Fragment>
@@ -67,7 +67,7 @@ const FoodLayout = () => {
     })
   ) : (
     <Fragment>
-      <h1 className='text-center muted'>No Data</h1>
+      <h1 className='text-center muted absolute-data'>{msg}</h1>
     </Fragment>
   );
 

@@ -45,9 +45,14 @@ body {
   color: #f3f3f3;
 }
 
-.details{
+.absolute-data {
+  position: absolute;
+  width: 100%;
+}
+
+.details {
   color: #007bff;
-  cursor: pointer
+  cursor: pointer;
 }
 
 .hide-sm {
@@ -167,7 +172,7 @@ body {
   width: 90%;
   margin: 0 auto;
   margin-top: 75px;
-  height: calc(100vh - 60px)
+  /* height: 100vh; */
 }
 
 .custom-menu1 {
@@ -212,8 +217,10 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  background-image: linear-gradient(rgba(230, 207, 207, 0.3),
-      rgba(231, 206, 206, 0.3)),
+  background-image: linear-gradient(
+      rgba(230, 207, 207, 0.3),
+      rgba(231, 206, 206, 0.3)
+    ),
     url('./img/menu-bg.jpg');
   /* height: 100%; */
   width: 100%;
@@ -226,10 +233,12 @@ body {
 }
 
 .menu-section-b {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 5px;
   box-sizing: border-box;
+  margin-bottom: 50px;
 }
 
 .card-menu {
@@ -349,6 +358,7 @@ body {
 }
 
 .footer-grid {
+  position: relative;
   text-align: center;
   padding: 1rem;
   font-size: 14px;
@@ -449,8 +459,10 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  background-image: linear-gradient(rgba(230, 207, 207, 0.3),
-      rgba(231, 206, 206, 0.3)),
+  background-image: linear-gradient(
+      rgba(230, 207, 207, 0.3),
+      rgba(231, 206, 206, 0.3)
+    ),
     url('./img/menu-bg.jpg');
   height: 100vh;
   width: 100%;
@@ -579,8 +591,10 @@ tr {
   position: fixed;
   top: 0;
   left: 0;
-  background-image: linear-gradient(rgba(230, 207, 207, 0.3),
-      rgba(231, 206, 206, 0.3)),
+  background-image: linear-gradient(
+      rgba(230, 207, 207, 0.3),
+      rgba(231, 206, 206, 0.3)
+    ),
     url('./img/not-found.png');
   height: 100vh;
   width: 100%;
@@ -611,7 +625,6 @@ tr {
     width: 90%;
   }
 }
-
 
 @media (max-width: 780px) {
   .responsive {

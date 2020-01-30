@@ -10,25 +10,6 @@ const Login = ({ form, history }) => {
   const [msg, setMsg] = useState(null);
   const dispatch = useDispatch();
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    await form.validateFields((err, values) => {
-      if (!err) {
-        dispatch(login(values));
-      }
-    });
-  };
-
-  const responseGoogle = async res => {
-    console.log(res);
-    await dispatch(oauthGoogle(res.accessToken));
-  };
-
-  const responseFacebook = async res => {
-    console.log(res);
-    await dispatch(oauthFacebook(res.accessToken));
-  };
-
   // find auth actions
   const {
     error,
@@ -54,6 +35,25 @@ const Login = ({ form, history }) => {
       history.push('/admin');
     }
   }, [error, isAuthenticated]);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    await form.validateFields((err, values) => {
+      if (!err) {
+        dispatch(login(values));
+      }
+    });
+  };
+
+  const responseGoogle = async res => {
+    console.log(res);
+    await dispatch(oauthGoogle(res.accessToken));
+  };
+
+  const responseFacebook = async res => {
+    console.log(res);
+    await dispatch(oauthFacebook(res.accessToken));
+  };
 
   const { getFieldDecorator } = form;
   return (

@@ -9,7 +9,7 @@ import {
 
 const initState = {
     isLoading: true,
-    user: [],
+    // user: [],
     allUser: [],
     msg: ''
 }
@@ -26,13 +26,13 @@ export default (state = initState, action) => {
             return {
                 ...state, isLoading: true
             };
-        case USER_LOADED:
-            return {
-                ...state,
-                isLoading: false,
-                    user: payload.data,
-                    msg: payload.msg
-            };
+            // case USER_LOADED:
+            //     return {
+            //         ...state,
+            //         isLoading: false,
+            //             user: payload.data,
+            //             msg: payload.msg
+            //     };
         case ALL_USER_LOADED:
             return {
                 ...state,

@@ -3,15 +3,15 @@ import React, { Fragment } from 'react';
 const Content_1 = () => {
   return (
     <Fragment>
-      <section className='tops my-3 no-gutters'>
+      <section className='content-1 mx-auto tops my-3 no-gutters'>
         <div className='top-line my-2'>
           <h1>Food Fun Fact</h1>
         </div>
         <div className='row mt-5 px-3'>
-          <div className='col-md-6'>
+          <div className='col-lg-6 col-md-12'>
             <img src='./img/mafe.jpg' alt='mafe' className='img-fluid mafe' />
           </div>
-          <div className='col-md-6'>
+          <div className='col-lg-6 col-md-12'>
             <p className='tips-text'>
               <em>
                 We give the best of African food from around the continent.

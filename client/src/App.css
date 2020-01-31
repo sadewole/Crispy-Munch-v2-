@@ -128,6 +128,10 @@ body {
   color: #fff !important;
 }
 
+.content-1 {
+  width: 80%;
+}
+
 .tops h1 {
   font-size: 2.5rem;
   padding-top: 1rem;

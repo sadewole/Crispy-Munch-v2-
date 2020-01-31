@@ -1,10 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Form, Input, Button, Modal } from 'antd';
-import {
-  postMenu,
-  getSingleMenu,
-  updateMenu
-} from '../../../actions/catalogAction';
+import { postMenu, updateMenu } from '../../../actions/catalogAction';
 import { useDispatch, useSelector } from 'react-redux';
 
 const AdminPost = ({ form }) => {

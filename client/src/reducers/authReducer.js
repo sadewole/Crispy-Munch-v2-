@@ -41,6 +41,7 @@ export default (state = initState, action) => {
             return {
                 ...state,
                 isLoading: false,
+                    token: localStorage.getItem('token'),
                     user: payload.data,
                     msg: payload.msg,
                     isAuthenticated: true
@@ -54,7 +55,8 @@ export default (state = initState, action) => {
                 msg: payload.msg,
                     isAuthenticated: false,
                     isLoading: true,
-                    user: null
+                    user: null,
+                    token: null
             };
         default:
             return state

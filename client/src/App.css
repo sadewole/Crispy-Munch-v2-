@@ -217,10 +217,8 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  background-image: linear-gradient(
-      rgba(230, 207, 207, 0.3),
-      rgba(231, 206, 206, 0.3)
-    ),
+  background-image: linear-gradient(rgba(230, 207, 207, 0.3),
+      rgba(231, 206, 206, 0.3)),
     url('./img/menu-bg.jpg');
   /* height: 100%; */
   width: 100%;
@@ -352,15 +350,16 @@ body {
 }
 
 /* footer */
-.footer{
-  position: relative;
-  bottom: 0;
+.footer {
+  /* width: 100%;
+  position: absolute;
+  bottom: 0; */
 }
 
 .footer-grid ul {
   list-style: none;
   text-align: left;
-}       
+}
 
 .footer-grid {
   position: relative;
@@ -464,10 +463,8 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  background-image: linear-gradient(
-      rgba(230, 207, 207, 0.3),
-      rgba(231, 206, 206, 0.3)
-    ),
+  background-image: linear-gradient(rgba(230, 207, 207, 0.3),
+      rgba(231, 206, 206, 0.3)),
     url('./img/menu-bg.jpg');
   height: 100vh;
   width: 100%;
@@ -596,10 +593,8 @@ tr {
   position: fixed;
   top: 0;
   left: 0;
-  background-image: linear-gradient(
-      rgba(230, 207, 207, 0.3),
-      rgba(231, 206, 206, 0.3)
-    ),
+  background-image: linear-gradient(rgba(230, 207, 207, 0.3),
+      rgba(231, 206, 206, 0.3)),
     url('./img/not-found.png');
   height: 100vh;
   width: 100%;

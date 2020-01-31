@@ -92,9 +92,9 @@ const Register = ({ form, history }) => {
   return (
     <Fragment>
       <div className='create-login p-5 '>
-        <div className='register-bg hide-sm'> </div>
+        <div className='register-bg hide-md'> </div>
         <div className='row'>
-          <div className='col-md-8 login-text hide-sm'>
+          <div className='col-lg-8 login-text hide-md'>
             <p>
               Do you need <br /> good taste ?
             </p>
@@ -102,7 +102,7 @@ const Register = ({ form, history }) => {
             <p> will provide the best treat you deserve. </p>
           </div>
           {/* form */}
-          <div className='col-md-4 col-sm-12 login'>
+          <div className='col-lg-4 col-md-12 login'>
             <h1> Register </h1>
             <Form onSubmit={handleSubmit} className='login-form'>
               {/* Message */}

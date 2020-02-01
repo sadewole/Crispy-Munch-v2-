@@ -24,6 +24,7 @@ export const POST_MENU = 'POST_MENU'
 export const FETCH_SINGLE_MENU = 'FETCH_SINGLE_MENU'
 export const DELETE_MENU = 'DELETE_MENU'
 export const UPDATE_MENU = 'UPDATE_MENU'
+export const CLEAR_SINGLE_MENU_STATE = 'CLEAR_SINGLE_MENU_STATE'
 
 // order
 export const ORDER_LOADING = 'ORDER_LOADING'

@@ -57,7 +57,7 @@ const FoodTable = () => {
         </td>
       </tr>
     </Fragment>
-  ) : cloneData >= 1 ? (
+  ) : cloneData.length >= 1 ? (
     cloneData.map(i => {
       return (
         <tr key={i.id}>

@@ -5,6 +5,7 @@ import {
     FETCH_SINGLE_MENU,
     POST_MENU,
     UPDATE_MENU,
+    CLEAR_SINGLE_MENU_STATE,
     DELETE_MENU
 } from './types'
 import {
@@ -98,4 +99,10 @@ export const deleteMenu = id => async (dispatch, getState) => {
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'DELETE_MENU_FAIL'))
     }
+}
+
+export const clearSingleMenuState = () => dispatch => {
+    dispatch({
+        type: CLEAR_SINGLE_MENU_STATE
+    })
 }

@@ -4,6 +4,7 @@ import {
     FETCH_SINGLE_MENU,
     POST_MENU,
     UPDATE_MENU,
+    CLEAR_SINGLE_MENU_STATE,
     DELETE_MENU
 } from '../actions/types'
 
@@ -27,7 +28,6 @@ export default (state = initState, action) => {
                 isLoading: true
             };
         case MENU_LOADED:
-            console.log(payload.data)
             return {
                 ...state,
                 data: payload.data,
@@ -60,7 +60,12 @@ export default (state = initState, action) => {
                 data: state.data.filter(item => item.id !== payload.id),
                     msg: payload.msg
             };
-        default:
-            return state
+        case CLEAR_SINGLE_MENU_STATE:
+            return {
+                ...state,
+                singleData: null
+            }
+            default:
+                return state
     }
 }

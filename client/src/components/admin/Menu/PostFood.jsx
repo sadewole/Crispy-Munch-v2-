@@ -1,6 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Form, Input, Button, Modal } from 'antd';
-import { postMenu, updateMenu } from '../../../actions/catalogAction';
+import {
+  postMenu,
+  updateMenu,
+  getSingleMenu, clearSingleMenuState
+} from '../../../actions/catalogAction';
 import { useDispatch, useSelector } from 'react-redux';
 
 const AdminPost = ({ form }) => {
@@ -29,6 +33,7 @@ const AdminPost = ({ form }) => {
   };
 
   useEffect(() => {
+    dispatch(getSingleMenu());
     // set field on editing form
     if (singleData !== null) {
       setVisible(true);
@@ -84,6 +89,7 @@ const AdminPost = ({ form }) => {
   const handleCancel = e => {
     setVisible(false);
     form.resetFields();
+    dispatch(clearSingleMenuState())
   };
 
   const { getFieldDecorator } = form;

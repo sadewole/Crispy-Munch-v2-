@@ -51,6 +51,8 @@ export const oauthGoogle = data => async dispatch => {
         })
         const res = await axios.post('/api/v1/user/oauth/google', body, config)
 
+console.log(res.data)
+
         dispatch({
             type: AUTH_REGISTER,
             payload: res.data

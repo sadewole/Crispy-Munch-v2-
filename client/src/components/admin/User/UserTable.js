@@ -3,6 +3,7 @@ import SearchInput from '../SearchInput';
 import { notification, Spin } from 'antd';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import Table from './Table';
 import {
   loadAllUser,
   deleteUser,
@@ -76,9 +77,7 @@ const UserTable = () => {
           <td> {i.email} </td>
           <td> {i.role} </td>
           <td className='action' onClick={() => handleAction(i.id)}>
-            <p className='details dropdown-toggle'>
-              Action
-            </p>
+            <p className='details dropdown-toggle'>Action</p>
             <div
               className={`dropdown-action ${openAction[i.id] ? 'show' : ''}`}
             >
@@ -118,18 +117,7 @@ const UserTable = () => {
         setCloneData={setCloneData}
         originalData={allUser}
       />
-      <table className='table table-responsive table-hover text-white'>
-        <thead className='thead thead-dark'>
-          <tr>
-            <th> User id </th>
-            <th> Name </th>
-            <th> Email </th>
-            <th> Role </th>
-            <th> Action </th>
-          </tr>
-        </thead>
-        <tbody className='tbody bg-secondary'>{output}</tbody>
-      </table>
+      <Table output={output} />
     </div>
   );
 };

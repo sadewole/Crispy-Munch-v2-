@@ -1,6 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { Select, Modal, Button, Spin } from 'antd';
+import { Select, Spin } from 'antd';
+import DetailsModal from './DetailsModal';
+import Table from './Table';
 import {
   getAllOrder,
   getSingleOrder,
@@ -38,7 +40,7 @@ const AdminHistory = () => {
   };
 
   const closeModal = () => {
-    setVisible(false)
+    setVisible(false);
   };
 
   const output = isLoading ? (
@@ -49,7 +51,7 @@ const AdminHistory = () => {
         </td>
       </tr>
     </Fragment>
-  ): orders !== undefined ? (
+  ) : orders !== undefined ? (
     orders.map(info => {
       return (
         <tr key={info.id}>
@@ -93,37 +95,13 @@ const AdminHistory = () => {
   return (
     <Fragment>
       {singleOrder !== null ? (
-        <Modal
-          title='More details'
+        <DetailsModal
           visible={visible}
-          onOk={closeModal}
-          onCancel={closeModal}
-          footer={[
-            <Button type='primary' onClick={closeModal}>
-              Ok
-            </Button>
-          ]}
-        >
-          <div> Name: {singleOrder[0].user.name} </div>
-          <div> Email: {singleOrder[0].user.email} </div>
-          <div> Address: {singleOrder[0].address} </div>
-          <div> Phone number: {singleOrder[0].phone} </div>
-          <div> Created date: {singleOrder[0].createdAt} </div>
-          <div> Ordered date: {singleOrder[0].orderedDate} </div>
-          <div> Updated date: {singleOrder[0].updatedAt} </div>
-        </Modal>
+          closeModal={closeModal}
+          singleOrder={singleOrder}
+        />
       ) : null}
-      <table className='table table-responsive table-hover admin-history-table'>
-        <thead className='thead thead-dark'>
-          <tr>
-            <th> Order Id </th> <th> Food </th> <th> Price </th>
-            <th> Quantity </th> <th> User Email </th> <th> Amount </th>
-            <th> Payment </th> <th> Status </th> <th> View more </th>
-            <th> Delete </th>
-          </tr>
-        </thead>
-        <tbody className='tbody'> {output} </tbody>
-      </table>
+      <Table output={output} />
     </Fragment>
   );
 };

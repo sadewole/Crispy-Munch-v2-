@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import Moment from 'react-moment';
 import SearchInput from '../SearchInput';
+import Table from './Table';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchMenu,
@@ -115,18 +116,7 @@ const FoodTable = () => {
         originalData={data}
       />
       {/* Table */}
-      <table className='table table-responsive table-hover foodTable'>
-        <thead className='thead thead-dark'>
-          <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Created Date</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody className='tbody'>{output}</tbody>
-      </table>
+      <Table output={output} />
     </div>
   );
 };

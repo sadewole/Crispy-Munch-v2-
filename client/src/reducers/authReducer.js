@@ -5,7 +5,8 @@ import {
     LOGIN_FAIL,
     LOG_OUT,
     USER_LOADED,
-    USER_LOADING
+    USER_LOADING,
+    EMAIL_VERIFICATION
 } from '../actions/types'
 
 const initState = {
@@ -45,6 +46,11 @@ export default (state = initState, action) => {
                     user: payload.data,
                     msg: payload.msg,
                     isAuthenticated: true
+            };
+        case EMAIL_VERIFICATION:
+            return {
+                ...state,
+                msg: payload.msg
             };
         case REGISTER_FAIL:
         case LOGIN_FAIL:

@@ -122,7 +122,7 @@ const Login = ({ form, history }) => {
                 />
               ) : null}
               <Form.Item>
-                <Link className='login-form-forgot' to=''>
+                <Link className='login-form-forgot' to='/forgot-password'>
                   Forgot password?
                 </Link>
                 <Button

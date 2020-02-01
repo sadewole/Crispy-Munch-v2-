@@ -25,6 +25,11 @@ body {
   z-index: 100 !important;
 }
 
+.bg-grey {
+  background: #ddd;
+  height: 100vh;
+}
+
 .tbody-tertiary {
   background: rgba(232, 219, 219, 0.851);
 }

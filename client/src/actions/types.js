@@ -6,6 +6,7 @@ export const ALL_USER_LOADING = 'ALL_USER_LOADING';
 
 export const AUTH_REGISTER = 'AUTH_REGISTER';
 export const AUTH_LOGIN = 'AUTH_LOGIN';
+export const EMAIL_VERIFICATION = 'EMAIL_VERIFICATION'
 export const AUTH_ERROR = 'AUTH_ERROR'
 export const REGISTER_FAIL = 'REGISTER_FAIL'
 export const LOGIN_FAIL = 'LOGIN_FAIL'

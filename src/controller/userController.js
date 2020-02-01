@@ -133,6 +133,7 @@ export default {
       const checkEmail = await helper.existLocalEmail(email);
       if (!checkEmail) {
         return res.status(404).json({
+          success: false,
           msg: 'Error, email not found'
         });
       }

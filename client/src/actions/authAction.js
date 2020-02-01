@@ -6,6 +6,7 @@ import {
     AUTH_ERROR,
     AUTH_LOGIN,
     CLEAR_ERROR,
+    EMAIL_VERIFICATION,
     LOG_OUT
 } from './types';
 import {
@@ -51,7 +52,7 @@ export const oauthGoogle = data => async dispatch => {
         })
         const res = await axios.post('/api/v1/user/oauth/google', body, config)
 
-console.log(res.data)
+        console.log(res.data)
 
         dispatch({
             type: AUTH_REGISTER,
@@ -165,6 +166,33 @@ export const logout = () => dispatch => {
             msg: 'Logged out successfully'
         }
     })
+}
+
+export const forgotPassword = email => async dispatch => {
+    try {
+        // Headers
+        const config = {
+            headers: {
+                "Content-type": "application/json"
+            }
+        }
+
+        const body = JSON.stringify({
+            email
+        })
+        const res = await axios.post('/api/v1/user/verify', body, config)
+
+        dispatch({
+            type: EMAIL_VERIFICATION,
+            payload: res.data
+        })
+
+        dispatch({
+            type: CLEAR_ERROR
+        })
+    } catch (err) {
+        dispatch(returnError(err.response.status, err.response.data, 'EMAIL_VERIFICATION_FAILED'))
+    }
 }
 
 export const tokenConfig = getState => {

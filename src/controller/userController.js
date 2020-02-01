@@ -125,6 +125,7 @@ export default {
     } = req.body
 
     try {
+      console.log(email)
       email = email.toLowerCase().trim()
       if (!email) return res.status(400).json({
         msg: 'Email field cannot be empty'

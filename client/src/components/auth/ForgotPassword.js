@@ -33,7 +33,10 @@ const ForgotPassword = ({ form }) => {
           Enter your user account's verified email address and we will send you
           a password reset link
         </p>
-
+        {/* Error message */}
+        {error.status === 404 ? (
+          <Alert message='Email verification failed' type='error' showIcon />
+        ) : null}
         <Form onSubmit={handleSubmit} className='login-form mt-3 mb-3'>
           <Form.Item>
             {getFieldDecorator('email', {
@@ -59,10 +62,7 @@ const ForgotPassword = ({ form }) => {
               />
             )}
           </Form.Item>
-          {/* Error message */}
-          {/* {error.msg === 'Unauthorized' ? (
-            <Alert message='Email verification failed' type='error' showIcon />
-          ) : null} */}
+
           <Button
             type='primary'
             htmlType='submit'

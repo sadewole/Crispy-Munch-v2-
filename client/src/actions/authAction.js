@@ -177,11 +177,10 @@ export const forgotPassword = email => async dispatch => {
             }
         }
 
-        const body = JSON.stringify({
-            email
-        })
+        const body = JSON.stringify(email)
         const res = await axios.post('/api/v1/user/verify', body, config)
 
+        console.log(res)
         dispatch({
             type: EMAIL_VERIFICATION,
             payload: res.data

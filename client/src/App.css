@@ -176,7 +176,7 @@ body {
   width: 90%;
   margin: 0 auto;
   margin-top: 75px;
-  height: calc(100vh - 20vh);
+  min-height: calc(100vh - 20vh);
 }
 
 .custom-menu1 {

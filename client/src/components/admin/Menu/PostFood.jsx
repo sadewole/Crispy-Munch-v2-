@@ -29,10 +29,9 @@ const AdminPost = ({ form }) => {
   };
 
   useEffect(() => {
-    // dispatch(getSingleMenu());
-
     // set field on editing form
     if (singleData !== null) {
+      setVisible(true);
       form.setFieldsValue({
         name: singleData.name,
         price: singleData.price
@@ -63,10 +62,11 @@ const AdminPost = ({ form }) => {
             setUpdate({ edit: false, id: null });
             singleData = null;
           } else {
+            console.log('post menu called');
             // post menu if no error
             dispatch(postMenu(formData));
           }
-        }, 1000);
+        }, 500);
       }
     });
     // reset fields
@@ -78,11 +78,12 @@ const AdminPost = ({ form }) => {
     setTimeout(() => {
       setLoading(false);
       setVisible(false);
-    }, 1000);
+    }, 500);
   };
 
   const handleCancel = e => {
     setVisible(false);
+    form.resetFields();
   };
 
   const { getFieldDecorator } = form;

@@ -34,7 +34,8 @@ var logs = {
             }
 
             return _context.abrupt("return", res.status(200).json({
-              msg: 'Menu is empty'
+              msg: 'Menu is empty',
+              data: []
             }));
 
           case 6:

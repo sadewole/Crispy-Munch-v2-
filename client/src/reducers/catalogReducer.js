@@ -27,6 +27,7 @@ export default (state = initState, action) => {
                 isLoading: true
             };
         case MENU_LOADED:
+            console.log(payload.data)
             return {
                 ...state,
                 data: payload.data,

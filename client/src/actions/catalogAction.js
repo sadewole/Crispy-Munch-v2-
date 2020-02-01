@@ -43,8 +43,9 @@ export const postMenu = (data) => async (dispatch, getState) => {
             payload: res.data
         })
 
-        dispatch(fetchMenu())
+
     } catch (err) {
+        console.log(err)
         dispatch(returnError(err.response.status, err.response.data, 'POST_MENU_FAIL'))
     }
 }
@@ -93,6 +94,7 @@ export const deleteMenu = id => async (dispatch, getState) => {
                 msg: res.data.msg
             }
         })
+        dispatch(fetchMenu())
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'DELETE_MENU_FAIL'))
     }

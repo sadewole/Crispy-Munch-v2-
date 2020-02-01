@@ -13,7 +13,8 @@ const logs = {
 
             if (data.length < 1) {
                 return res.status(200).json({
-                    msg: 'Menu is empty'
+                    msg: 'Menu is empty',
+                    data: []
                 });
             }
 

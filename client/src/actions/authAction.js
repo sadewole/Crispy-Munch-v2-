@@ -7,6 +7,7 @@ import {
     AUTH_LOGIN,
     CLEAR_ERROR,
     EMAIL_VERIFICATION,
+    RESET_STATE,
     LOG_OUT
 } from './types';
 import {
@@ -180,7 +181,6 @@ export const forgotPassword = email => async dispatch => {
         const body = JSON.stringify(email)
         const res = await axios.post('/api/v1/user/verify', body, config)
 
-        console.log(res)
         dispatch({
             type: EMAIL_VERIFICATION,
             payload: res.data
@@ -192,6 +192,12 @@ export const forgotPassword = email => async dispatch => {
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'EMAIL_VERIFICATION_FAILED'))
     }
+}
+
+export const resetState = () => dispatch => {
+    dispatch({
+        type: RESET_STATE
+    })
 }
 
 export const tokenConfig = getState => {

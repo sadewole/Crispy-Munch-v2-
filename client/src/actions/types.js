@@ -10,6 +10,7 @@ export const EMAIL_VERIFICATION = 'EMAIL_VERIFICATION'
 export const AUTH_ERROR = 'AUTH_ERROR'
 export const REGISTER_FAIL = 'REGISTER_FAIL'
 export const LOGIN_FAIL = 'LOGIN_FAIL'
+export const RESET_STATE = 'RESET_STATE'
 
 export const LOG_OUT = 'LOG_OUT'
 export const GET_ERROR = 'GET_ERROR'

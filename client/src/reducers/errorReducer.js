@@ -4,7 +4,7 @@ import {
 } from "../actions/types";
 
 const initialState = {
-    msg: {},
+    msg: null,
     status: null,
     id: null
 }
@@ -19,7 +19,7 @@ export default function (state = initialState, action) {
             };
         case CLEAR_ERROR:
             return {
-                msg: {},
+                msg: null,
                     status: null,
                     id: null
             };

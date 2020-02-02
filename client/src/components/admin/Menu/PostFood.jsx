@@ -49,13 +49,11 @@ const AdminPost = ({ form }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setLoading(true);
     // validate form
     await form.validateFields((err, values) => {
       if (!err) {
         // set simple loading style to form
-        setLoading(false);
-        setVisible(false);
+        setLoading(true);
         const formData = new FormData();
         formData.append('name', values.name);
         formData.append('price', values.price);

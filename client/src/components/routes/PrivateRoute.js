@@ -5,8 +5,8 @@ export default OriginalComponent => {
   class MixedComponents extends Component {
     checkAuth = () => {
       const { isAuthenticated, user, token, isLoading, history } = this.props;
-      if (!isAuthenticated && !token && isLoading) {
-        console.log('but why!!!')
+      if (!isAuthenticated) {
+        console.log('but why!!!');
         history.push('/');
       }
 
@@ -19,7 +19,7 @@ export default OriginalComponent => {
     //   checked if auth when mount
     shouldComponentUpdate() {
       this.checkAuth();
-      return true
+      return true;
     }
 
     render() {

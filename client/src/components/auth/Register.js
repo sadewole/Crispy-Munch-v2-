@@ -9,6 +9,7 @@ import FacebookLogin from 'react-facebook-login';
 const Register = ({ form, history }) => {
   const [confirmDirty, setConfirmDirty] = useState(false);
   const [msg, setMsg] = useState(null);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   // find auth actions
@@ -42,6 +43,7 @@ const Register = ({ form, history }) => {
     e.preventDefault();
     await form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        setLoading(true);
         const { username, email, password } = values;
         const data = {
           name: username,
@@ -214,6 +216,7 @@ const Register = ({ form, history }) => {
                 <Button
                   type='primary'
                   htmlType='submit'
+                  loading={loading}
                   className='btn btn-secondary form-control'
                 >
                   Register

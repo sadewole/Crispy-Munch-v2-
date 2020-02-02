@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 export default OriginalComponent => {
   class MixedComponents extends Component {
     checkAuth = () => {
-      const { isAuthenticated, user, token, isLoading, history } = this.props;
+      const { isAuthenticated, user, history } = this.props;
       if (!isAuthenticated) {
-        console.log('but why!!!');
         history.push('/');
       }
 
@@ -30,9 +29,7 @@ export default OriginalComponent => {
   const mapStateToProps = state => {
     return {
       isAuthenticated: state.auth.isAuthenticated,
-      user: state.auth.user,
-      token: state.auth.token,
-      isLoading: state.auth.isLoading
+      user: state.auth.user
     };
   };
   return connect(mapStateToProps)(MixedComponents);

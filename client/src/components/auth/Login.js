@@ -8,6 +8,7 @@ import FacebookLogin from 'react-facebook-login';
 
 const Login = ({ form, history }) => {
   const [msg, setMsg] = useState(null);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   // find auth actions
@@ -40,6 +41,7 @@ const Login = ({ form, history }) => {
     e.preventDefault();
     await form.validateFields((err, values) => {
       if (!err) {
+        setLoading(true);
         dispatch(login(values));
       }
     });
@@ -128,6 +130,7 @@ const Login = ({ form, history }) => {
                 <Button
                   type='primary'
                   htmlType='submit'
+                  loading={loading}
                   className='btn btn-secondary form-control'
                 >
                   Log in

@@ -3,7 +3,8 @@ import { Form, Input, Button, Modal } from 'antd';
 import {
   postMenu,
   updateMenu,
-  getSingleMenu, clearSingleMenuState
+  getSingleMenu,
+  clearSingleMenuState
 } from '../../../actions/catalogAction';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -48,30 +49,27 @@ const AdminPost = ({ form }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setLoading(true);
     // validate form
     await form.validateFields((err, values) => {
       if (!err) {
-        setLoading(true);
-        setTimeout(() => {
-          // set simple loading style to form
-          setLoading(false);
-          setVisible(false);
-          const formData = new FormData();
-          formData.append('name', values.name);
-          formData.append('price', values.price);
-          formData.append('image', imageFile);
+        // set simple loading style to form
+        setLoading(false);
+        setVisible(false);
+        const formData = new FormData();
+        formData.append('name', values.name);
+        formData.append('price', values.price);
+        formData.append('image', imageFile);
 
-          // update menu if edit is true
-          if (update.edit) {
-            dispatch(updateMenu(formData, update.id));
-            setUpdate({ edit: false, id: null });
-            singleData = null;
-          } else {
-            console.log('post menu called');
-            // post menu if no error
-            dispatch(postMenu(formData));
-          }
-        }, 500);
+        // update menu if edit is true
+        if (update.edit) {
+          dispatch(updateMenu(formData, update.id));
+          setUpdate({ edit: false, id: null });
+          singleData = null;
+        } else {
+          // post menu if no error
+          dispatch(postMenu(formData));
+        }
       }
     });
     // reset fields
@@ -89,7 +87,7 @@ const AdminPost = ({ form }) => {
   const handleCancel = e => {
     setVisible(false);
     form.resetFields();
-    dispatch(clearSingleMenuState())
+    dispatch(clearSingleMenuState());
   };
 
   const { getFieldDecorator } = form;

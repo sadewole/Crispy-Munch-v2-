@@ -16,14 +16,13 @@ import {
 } from './authAction'
 
 
-
 export const fetchMenu = () => async (dispatch, getState) => {
     try {
         dispatch({
             type: MENU_LOADING
         })
 
-        const res = await axios.get('/api/v1/menu/', tokenConfig(getState))
+        const res = await axios.get(`/api/v1/menu/`, tokenConfig(getState))
 
         dispatch({
             type: MENU_LOADED,
@@ -35,15 +34,15 @@ export const fetchMenu = () => async (dispatch, getState) => {
 }
 
 
-export const postMenu = (data) => async (dispatch, getState) => {
+export const postMenu = (data, handleOk) => async (dispatch, getState) => {
     try {
-        const res = await axios.post('/api/v1/menu', data, tokenConfig(getState))
+        const res = await axios.post(`/api/v1/menu`, data, tokenConfig(getState))
 
         dispatch({
             type: POST_MENU,
             payload: res.data
         })
-
+        await handleOk()
 
     } catch (err) {
         console.log(err)
@@ -69,7 +68,7 @@ export const getSingleMenu = id => async (dispatch, getState) => {
     }
 }
 
-export const updateMenu = (data, id) => async (dispatch, getState) => {
+export const updateMenu = (data, id, handleOk) => async (dispatch, getState) => {
     try {
 
         const res = await axios.put(`/api/v1/menu/${id}`, data, tokenConfig(getState))
@@ -78,6 +77,7 @@ export const updateMenu = (data, id) => async (dispatch, getState) => {
             type: UPDATE_MENU,
             payload: res.data
         })
+        handleOk()
         dispatch(fetchMenu())
     } catch (err) {
         dispatch(returnError(err.response.status, err.response.data, 'UPDATE_MENU_FAIL'))

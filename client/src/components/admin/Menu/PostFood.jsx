@@ -47,6 +47,18 @@ const AdminPost = ({ form }) => {
     }
   }, []);
 
+  const handleOk = e => {
+    setVisible(false);
+    setLoading(false);
+    form.resetFields();
+  };
+
+  const handleCancel = e => {
+    setVisible(false);
+    form.resetFields();
+    dispatch(clearSingleMenuState());
+  };
+
   const handleSubmit = async e => {
     e.preventDefault();
     // validate form
@@ -61,31 +73,15 @@ const AdminPost = ({ form }) => {
 
         // update menu if edit is true
         if (update.edit) {
-          dispatch(updateMenu(formData, update.id));
+          dispatch(updateMenu(formData, update.id, handleOk));
           setUpdate({ edit: false, id: null });
           singleData = null;
         } else {
           // post menu if no error
-          dispatch(postMenu(formData));
+          dispatch(postMenu(formData, handleOk));
         }
       }
     });
-    // reset fields
-    await form.resetFields();
-  };
-
-  const handleOk = e => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setVisible(false);
-    }, 500);
-  };
-
-  const handleCancel = e => {
-    setVisible(false);
-    form.resetFields();
-    dispatch(clearSingleMenuState());
   };
 
   const { getFieldDecorator } = form;

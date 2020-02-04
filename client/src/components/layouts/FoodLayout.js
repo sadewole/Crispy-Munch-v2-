@@ -45,7 +45,7 @@ const FoodLayout = () => {
         <Spin size='large' tip='Loading...' />
       </div>
     </Fragment>
-  ) : data !== undefined ? (
+  ) : data.length >= 1 ? (
     data.map(info => {
       return (
         <div className='card-menu' key={info.id}>

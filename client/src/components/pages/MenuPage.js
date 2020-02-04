@@ -12,12 +12,12 @@ const MenuPage = ({ history }) => {
     };
   });
 
-  useEffect(() => {
-    // redirected if auth admin
-    if (isAuthenticated && user.role === 'ADMIN') {
-      history.push('/admin');
-    }
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   // redirected if auth admin
+  //   if (isAuthenticated && user.role === 'ADMIN') {
+  //     history.push('/admin');
+  //   }
+  // }, [isAuthenticated]);
 
   return (
     <Fragment>

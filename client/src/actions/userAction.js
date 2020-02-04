@@ -16,14 +16,13 @@ import {
 } from './types'
 
 
-
 export const loadAllUser = () => async (dispatch, getState) => {
     try {
         dispatch({
             type: ALL_USER_LOADING
         })
 
-        const res = await axios.get('/api/v1/user/', tokenConfig(getState))
+        const res = await axios.get(`/api/v1/user/`, tokenConfig(getState))
 
         dispatch({
             type: ALL_USER_LOADED,

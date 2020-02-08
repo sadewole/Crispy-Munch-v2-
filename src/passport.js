@@ -86,9 +86,13 @@ passport.use(
   'googleToken',
   new googleTokenStrategy({
       clientID: process.env.Google_ID,
-      clientSecret: process.env.Google_SECRET
+      clientSecret: process.env.Google_SECRET,
+      passReqToCallback: true
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (req, accessToken, refreshToken, profile, done) => {
+      console.log('profile', profile)
+      console.log('accessToken', accessToken)
+      console.log('profile', profile)
       try {
         // check for existing email
         const existingUser = await helper.existEmail(profile.emails[0].value);

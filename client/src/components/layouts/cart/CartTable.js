@@ -168,18 +168,18 @@ const CartTable = ({ form }) => {
               ]
             })(<Input.TextArea />)}
           </Form.Item>
-          {/* <Button>
-            <PaypalButton onClick={handleSubmit} total={Total} />
-          </Button> */}
+          <Button>
+            <PaypalButton onClick={handleSubmit} total={total} />
+          </Button>
 
-          <Button
+          {/* <Button
             type='primary'
             htmlType='submit'
             onClick={handleSubmit}
             className='btn-secondary btn-block'
           >
             Submit
-          </Button>
+          </Button> */}
         </Form>
       </Modal>
       {/* send details to cart viewers */}

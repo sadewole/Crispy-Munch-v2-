@@ -48,7 +48,7 @@ const Login = ({ form, history }) => {
   };
 
   const responseGoogle = async res => {
-    console.log(res);
+    console.log(res.accessToken);
     await dispatch(oauthGoogle(res.accessToken));
   };
 

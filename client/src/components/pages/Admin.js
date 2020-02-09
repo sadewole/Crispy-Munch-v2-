@@ -56,7 +56,7 @@ const SideNav = props => {
               </span>
             </Menu.Item>
             <Menu.Item key='2'>
-              <i className='fas fa-french-fries mr-2' />
+              <i className='fas fa-utensils mr-2' />
               <span className='nav-text'>
                 <Link to='/admin/menu'> Food Menu </Link>
               </span>

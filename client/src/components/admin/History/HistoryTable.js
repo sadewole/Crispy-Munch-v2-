@@ -63,6 +63,7 @@ const AdminHistory = () => {
             <Select
               defaultValue={info.status}
               onChange={value => handleStatus(value, info.id)}
+              disabled={info.payment === 'pending' ? true : false}
             >
               <OptGroup label='Status'>
                 <Option value={info.status}> {info.status} </Option>

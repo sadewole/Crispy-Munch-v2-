@@ -62,6 +62,13 @@ body {
   cursor: pointer;
 }
 
+.sort {
+  height: fit-content;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
 .hide-sm {
   display: block;
 }

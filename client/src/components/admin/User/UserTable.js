@@ -9,6 +9,7 @@ import {
   deleteUser,
   upgradeUser
 } from '../../../actions/userAction';
+import Sort from '../Sort';
 
 const UserTable = () => {
   const newObj = {};
@@ -111,14 +112,17 @@ const UserTable = () => {
   );
 
   return (
-    <div>
-      <SearchInput
-        cloneData={cloneData}
-        setCloneData={setCloneData}
-        originalData={allUser}
-      />
+    <Fragment>
+      <div className='d-flex'>
+        <Sort cloneData={cloneData} setCloneData={setCloneData} name='name' />
+        <SearchInput
+          cloneData={cloneData}
+          setCloneData={setCloneData}
+          originalData={allUser}
+        />
+      </div>
       <Table output={output} />
-    </div>
+    </Fragment>
   );
 };
 

@@ -63,6 +63,7 @@ body {
 }
 
 .sort {
+  width: fit-content;
   height: fit-content;
   cursor: pointer;
   border-radius: 5px;
@@ -594,9 +595,6 @@ tr {
   transition: all 0.5s linear;
 }
 
-.admin-history-table {
-  width: 100%;
-}
 
 .admin-history-table .tbody td {
   background: #e8dbdbd9;

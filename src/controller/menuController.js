@@ -69,7 +69,6 @@ const logs = {
         } = req.body
         try {
             price = Number(price)
-            console.log(name, price)
             if (!name || !price) {
                 return res.status(400).json({
                     msg: 'Fields is not allowed to be empty'

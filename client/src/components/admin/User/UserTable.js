@@ -113,7 +113,7 @@ const UserTable = () => {
 
   return (
     <Fragment>
-      <div className='d-flex'>
+      <div className='d-md-flex'>
         <Sort cloneData={cloneData} setCloneData={setCloneData} name='name' />
         <SearchInput
           cloneData={cloneData}

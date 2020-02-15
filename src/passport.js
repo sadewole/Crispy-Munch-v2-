@@ -59,9 +59,6 @@ passport.use(
     },
     async (payload, done) => {
       try {
-        if (payload.exp > Date.now()) {
-          console.log(true)
-        }
         const user = await LocalAuth.findOne({
           where: {
             id: payload.sub
@@ -70,8 +67,6 @@ passport.use(
 
         //  confirm user existence
         if (!user) return done(null, false);
-        // check if user is activated
-        if (user.active === false) return done(null, false)
 
         return done(null, user);
       } catch (error) {

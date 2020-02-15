@@ -1,6 +1,10 @@
 import model from '../db';
 import helper from '../middlewares/helper';
 import uuidv4 from 'uuid/v4';
+import mailer from '../middlewares/nodemailer'
+import {
+  html
+} from '../middlewares/mailTemplate';
 
 const {
   User,
@@ -125,7 +129,6 @@ export default {
     } = req.body
 
     try {
-      console.log(email)
       email = email.toLowerCase().trim()
       if (!email) return res.status(400).json({
         msg: 'Email field cannot be empty'
@@ -145,10 +148,12 @@ export default {
       // gen token
       const token = helper.forgotPasswordToken(checkEmail);
 
+      await mailer.sendEmail('admin@crispymunch.com', email, 'Reset Password', html(token.id))
+
       return res.status(200).json({
         type: 'POST',
         success: true,
-        msg: 'Verified successfully',
+        msg: 'Verified successfully, Please check your email to change password',
         data: {
           id,
           token
@@ -192,7 +197,7 @@ export default {
       })
     } catch (err) {
       return res.status(500).json({
-        msg: err
+        msg: err.message
       })
     }
   },

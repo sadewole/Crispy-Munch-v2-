@@ -1,4 +1,6 @@
-import { Router } from 'express';
+import {
+  Router
+} from 'express';
 import helper from '../../middlewares/helper';
 import userController from '../../controller/userController';
 import passport from 'passport';
@@ -64,6 +66,18 @@ router.route('/user/secret').get(
   userController.secret
 );
 
+// Routes post forgot password
+// Access private
+router
+  .route('/user/verify')
+  .post(userController.verifyEmail)
+  .put(
+    passport.authenticate('forgot', {
+      session: false
+    }),
+    userController.changePassword
+  );
+
 // Routes @Desc single user
 // Access Private
 router
@@ -80,17 +94,6 @@ router
       session: false
     }),
     userController.deleteSingleUser
-  );
-// Routes post forgot password
-// Access private
-router
-  .route('/user/verify')
-  .post(userController.verifyEmail)
-  .put(
-    passport.authenticate('forgot', {
-      session: false
-    }),
-    userController.changePassword
   );
 
 export default router;

@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { useEffect } from 'react';
 
 const Sort = ({ name, cloneData, setCloneData }) => {
   let updated = [...cloneData];

@@ -148,16 +148,12 @@ export default {
       // gen token
       const token = helper.forgotPasswordToken(checkEmail);
 
-      await mailer.sendEmail('admin@crispymunch.com', email, 'Reset Password', html(token.id))
+      await mailer.sendEmail('admin@crispymunch.com', email, 'Reset Password', html(token, id))
 
       return res.status(200).json({
         type: 'POST',
         success: true,
-        msg: 'Verified successfully, Please check your email to change password',
-        data: {
-          id,
-          token
-        }
+        msg: 'Verified successfully, Please check your email to change password'
       })
 
     } catch (err) {

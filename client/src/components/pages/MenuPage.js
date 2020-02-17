@@ -3,7 +3,8 @@ import FoodLayout from '../layouts/FoodLayout';
 import Footer from '../layouts/Footer';
 import { useSelector } from 'react-redux';
 
-const MenuPage = ({ history }) => {
+const MenuPage = props => {
+  console.log(props)
   const {
     auth: { isAuthenticated, user }
   } = useSelector(state => {
@@ -11,13 +12,6 @@ const MenuPage = ({ history }) => {
       auth: state.auth
     };
   });
-
-  // useEffect(() => {
-  //   // redirected if auth admin
-  //   if (isAuthenticated && user.role === 'ADMIN') {
-  //     history.push('/admin');
-  //   }
-  // }, [isAuthenticated]);
 
   return (
     <Fragment>

@@ -227,6 +227,7 @@ export const changePassword = (password, id, token, setLoading) => async (dispat
         })
         const res = await axios.put(`/api/v1/user/verify?id=${id}&active_token=${token}`, body, config);
 
+        console.log(res.data)
         dispatch({
             type: CHANGE_PASSWORD,
             payload: res.data

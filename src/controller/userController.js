@@ -104,15 +104,17 @@ export default {
         }
       })
 
-
+      const data = await User.findOne({
+        email: user.email
+      })
       // gen token
       const token = helper.genToken(user);
 
       return res.status(200).json({
         type: 'PUT',
         success: true,
-        token,
-        data: user[1][0],
+        token: `Bearer ${token}`,
+        data,
         msg: 'User activated successfully'
       })
     } catch (err) {
@@ -165,15 +167,24 @@ export default {
   },
   changePassword: async (req, res) => {
     const {
-      id,
-      active_token
+      id
     } = req.query
     let {
       password
     } = req.body
     try {
+      const findId = await LocalAuth.findOne({
+        where: {
+          id
+        }
+      })
+      if (!findId) return res.status(404).json({
+        msg: 'Not found'
+      })
+
+
       const hash = await helper.hashPassword(password);
-      const user = await LocalAuth.update({
+      await LocalAuth.update({
         password: hash
       }, {
         returning: true,
@@ -181,15 +192,17 @@ export default {
           id
         }
       })
+
+      const data = await helper.existEmail(findId.email)
       // gen token
-      const token = helper.genToken(user);
+      const token = helper.genToken(data);
 
       return res.status(200).json({
         type: 'PUT',
         success: true,
         msg: 'Password changed successfully',
-        data: user[1][0],
-        token
+        data,
+        token: `Bearer ${token}`
       })
     } catch (err) {
       return res.status(500).json({

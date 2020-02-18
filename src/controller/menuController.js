@@ -127,7 +127,6 @@ const logs = {
                     id
                 }
             })
-            console.log(data)
             return res.status(201).json({
                 TYPE: 'PUT',
                 status: 201,

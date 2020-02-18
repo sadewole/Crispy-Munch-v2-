@@ -120,10 +120,9 @@ var logs = {
             _req$body = req.body, name = _req$body.name, price = _req$body.price;
             _context3.prev = 1;
             price = Number(price);
-            console.log(name, price);
 
             if (!(!name || !price)) {
-              _context3.next = 6;
+              _context3.next = 5;
               break;
             }
 
@@ -131,7 +130,7 @@ var logs = {
               msg: 'Fields is not allowed to be empty'
             }));
 
-          case 6:
+          case 5:
             image = null;
 
             if (!req.file) {
@@ -140,12 +139,12 @@ var logs = {
               image = req.file.path;
             }
 
-            _context3.next = 10;
+            _context3.next = 9;
             return regeneratorRuntime.awrap(_cloudinaryConfig["default"].v2.uploader.upload(image));
 
-          case 10:
+          case 9:
             returnImage = _context3.sent;
-            _context3.next = 13;
+            _context3.next = 12;
             return regeneratorRuntime.awrap(Menu.create({
               id: (0, _v["default"])(),
               name: name,
@@ -153,7 +152,7 @@ var logs = {
               image: returnImage.secure_url
             }));
 
-          case 13:
+          case 12:
             data = _context3.sent;
             return _context3.abrupt("return", res.status(201).json({
               TYPE: 'POST',
@@ -162,19 +161,19 @@ var logs = {
               data: data
             }));
 
-          case 17:
-            _context3.prev = 17;
+          case 16:
+            _context3.prev = 16;
             _context3.t0 = _context3["catch"](1);
             return _context3.abrupt("return", res.status(500).json({
               msg: _context3.t0
             }));
 
-          case 20:
+          case 19:
           case "end":
             return _context3.stop();
         }
       }
-    }, null, null, [[1, 17]]);
+    }, null, null, [[1, 16]]);
   },
   updateFood: function updateFood(req, res) {
     var id, image, returnImage, data;

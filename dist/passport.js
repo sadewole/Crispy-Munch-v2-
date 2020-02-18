@@ -87,78 +87,69 @@ _passport["default"].use('forgot', new _passportJwt.Strategy({
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.prev = 0;
-
-          if (payload.exp > Date.now()) {
-            console.log(true);
-          }
-
-          _context2.next = 4;
+          _context2.next = 3;
           return regeneratorRuntime.awrap(LocalAuth.findOne({
             where: {
               id: payload.sub
             }
           }));
 
-        case 4:
+        case 3:
           user = _context2.sent;
 
           if (user) {
-            _context2.next = 7;
+            _context2.next = 6;
             break;
           }
 
           return _context2.abrupt("return", done(null, false));
 
-        case 7:
-          if (!(user.active === false)) {
-            _context2.next = 9;
-            break;
-          }
-
-          return _context2.abrupt("return", done(null, false));
-
-        case 9:
+        case 6:
           return _context2.abrupt("return", done(null, user));
 
-        case 12:
-          _context2.prev = 12;
+        case 9:
+          _context2.prev = 9;
           _context2.t0 = _context2["catch"](0);
           done(_context2.t0, null);
 
-        case 15:
+        case 12:
         case "end":
           return _context2.stop();
       }
     }
-  }, null, null, [[0, 12]]);
+  }, null, null, [[0, 9]]);
 })); // init passport google strategy
 
 
 _passport["default"].use('googleToken', new _passportGooglePlusToken["default"]({
   clientID: process.env.Google_ID,
-  clientSecret: process.env.Google_SECRET
-}, function _callee3(accessToken, refreshToken, profile, done) {
+  clientSecret: process.env.Google_SECRET,
+  passReqToCallback: true
+}, function _callee3(req, accessToken, refreshToken, profile, done) {
   var existingUser, user;
   return regeneratorRuntime.async(function _callee3$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          _context3.prev = 0;
-          _context3.next = 3;
+          console.log('profile', profile);
+          console.log('accessToken', accessToken);
+          console.log('profile', profile);
+          _context3.prev = 3;
+          _context3.next = 6;
           return regeneratorRuntime.awrap(_helper["default"].existEmail(profile.emails[0].value));
 
-        case 3:
+        case 6:
           existingUser = _context3.sent;
 
           if (!existingUser) {
-            _context3.next = 6;
+            _context3.next = 9;
             break;
           }
 
           return _context3.abrupt("return", done(null, existingUser));
 
-        case 6:
-          _context3.next = 8;
+        case 9:
+          _context3.next = 11;
           return regeneratorRuntime.awrap(User.create({
             id: (0, _v["default"])(),
             email: profile.emails[0].value,
@@ -166,9 +157,9 @@ _passport["default"].use('googleToken', new _passportGooglePlusToken["default"](
             role: 'CLIENT'
           }));
 
-        case 8:
+        case 11:
           user = _context3.sent;
-          _context3.next = 11;
+          _context3.next = 14;
           return regeneratorRuntime.awrap(GoogleAuth.create({
             id: (0, _v["default"])(),
             google_id: profile.id,
@@ -176,28 +167,28 @@ _passport["default"].use('googleToken', new _passportGooglePlusToken["default"](
             user_id: user.id
           }));
 
-        case 11:
-          _context3.next = 13;
+        case 14:
+          _context3.next = 16;
           return regeneratorRuntime.awrap(LocalAuth.create({
             id: (0, _v["default"])(),
             email: profile.emails[0].value,
             user_id: user.id
           }));
 
-        case 13:
+        case 16:
           return _context3.abrupt("return", done(null, user));
 
-        case 16:
-          _context3.prev = 16;
-          _context3.t0 = _context3["catch"](0);
+        case 19:
+          _context3.prev = 19;
+          _context3.t0 = _context3["catch"](3);
           done(_context3.t0, false, _context3.t0.message);
 
-        case 19:
+        case 22:
         case "end":
           return _context3.stop();
       }
     }
-  }, null, null, [[0, 16]]);
+  }, null, null, [[3, 19]]);
 })); // init passport facebook strategy
 
 

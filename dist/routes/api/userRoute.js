@@ -51,18 +51,18 @@ router.route('/user/oauth/facebook').post(_passport["default"].authenticate('fac
 
 router.route('/user/secret').get(_passport["default"].authenticate('jwt', {
   session: false
-}), _userController["default"].secret); // Routes @Desc single user
+}), _userController["default"].secret); // Routes post forgot password
+// Access private
+
+router.route('/user/verify').post(_userController["default"].verifyEmail).put(_passport["default"].authenticate('forgot', {
+  session: false
+}), _userController["default"].changePassword); // Routes @Desc single user
 // Access Private
 
 router.route('/user/:id').get(_userController["default"].getSingleUser).put(_passport["default"].authenticate('jwt', {
   session: false
 }), _userController["default"].upgradeUser)["delete"](_passport["default"].authenticate('jwt', {
   session: false
-}), _userController["default"].deleteSingleUser); // Routes post forgot password
-// Access private
-
-router.route('/user/verify').post(_userController["default"].verifyEmail).put(_passport["default"].authenticate('forgot', {
-  session: false
-}), _userController["default"].changePassword);
+}), _userController["default"].deleteSingleUser);
 var _default = router;
 exports["default"] = _default;

@@ -1,11 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Form, Button, Input, Alert, Modal } from 'antd';
+import { Form, Button, Input, Alert } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { forgotPassword, resetState } from '../../actions/authAction';
 import VerifyModal from './VerifyModal';
 
 const ForgotPassword = ({ form, history }) => {
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const {
     auth: { msg },
     error
@@ -39,7 +40,8 @@ const ForgotPassword = ({ form, history }) => {
     e.preventDefault();
     await form.validateFields((err, values) => {
       if (!err) {
-        dispatch(forgotPassword(values));
+        setLoading(true);
+        dispatch(forgotPassword(values, setLoading));
       }
     });
   };
@@ -89,6 +91,7 @@ const ForgotPassword = ({ form, history }) => {
             <Button
               type='primary'
               htmlType='submit'
+              loading={loading}
               className='btn btn-secondary form-control'
             >
               Send password reset email

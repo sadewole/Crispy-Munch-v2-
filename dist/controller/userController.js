@@ -11,6 +11,10 @@ var _helper = _interopRequireDefault(require("../middlewares/helper"));
 
 var _v = _interopRequireDefault(require("uuid/v4"));
 
+var _nodemailer = _interopRequireDefault(require("../middlewares/nodemailer"));
+
+var _mailTemplate = require("../middlewares/mailTemplate");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var User = _db["default"].User,
@@ -225,6 +229,7 @@ var _default = {
             }
 
             return _context4.abrupt("return", res.status(404).json({
+              success: false,
               msg: 'Error, email not found'
             }));
 
@@ -232,30 +237,30 @@ var _default = {
             id = checkEmail.id; // gen token
 
             token = _helper["default"].forgotPasswordToken(checkEmail);
+            _context4.next = 14;
+            return regeneratorRuntime.awrap(_nodemailer["default"].sendEmail('admin@crispymunch.com', email, 'Reset Password', (0, _mailTemplate.html)(token, id)));
+
+          case 14:
             return _context4.abrupt("return", res.status(200).json({
               type: 'POST',
               success: true,
-              msg: 'Verified successfully',
-              data: {
-                id: id,
-                token: token
-              }
+              msg: 'Verified successfully'
             }));
 
-          case 15:
-            _context4.prev = 15;
+          case 17:
+            _context4.prev = 17;
             _context4.t0 = _context4["catch"](1);
             return _context4.abrupt("return", res.status(500).json({
               success: false,
               msg: _context4.t0
             }));
 
-          case 18:
+          case 20:
           case "end":
             return _context4.stop();
         }
       }
-    }, null, null, [[1, 15]]);
+    }, null, null, [[1, 17]]);
   },
   changePassword: function changePassword(req, res) {
     var _req$query, id, active_token, password, hash, user, token;
@@ -298,7 +303,7 @@ var _default = {
             _context5.prev = 13;
             _context5.t0 = _context5["catch"](2);
             return _context5.abrupt("return", res.status(500).json({
-              msg: _context5.t0
+              msg: _context5.t0.message
             }));
 
           case 16:

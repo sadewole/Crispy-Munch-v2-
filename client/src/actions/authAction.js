@@ -107,7 +107,7 @@ export const oauthFacebook = data => async dispatch => {
     }
 };
 
-export const register = data => async dispatch => {
+export const register = (data, setLoading) => async dispatch => {
     try {
         // Headers
         const config = {
@@ -128,8 +128,11 @@ export const register = data => async dispatch => {
             type: CLEAR_ERROR
         });
 
+        setLoading(false)
+
         dispatch(loadUser());
     } catch (err) {
+        setLoading(false)
         dispatch(
             returnError(err.response.status, err.response.data, REGISTER_FAIL)
         );
@@ -162,6 +165,7 @@ export const login = (data, setLoading) => async dispatch => {
         setLoading(false)
         dispatch(loadUser());
     } catch (err) {
+        setLoading(false)
         dispatch(returnError(err.response.status, err.response.data, LOGIN_FAIL));
         dispatch({
             type: AUTH_ERROR
@@ -178,7 +182,7 @@ export const logout = () => dispatch => {
     });
 };
 
-export const forgotPassword = email => async dispatch => {
+export const forgotPassword = (email, setLoading) => async dispatch => {
     try {
         // Headers
         const config = {
@@ -194,11 +198,12 @@ export const forgotPassword = email => async dispatch => {
             type: EMAIL_VERIFICATION,
             payload: res.data
         });
-
+        setLoading(false)
         dispatch({
             type: CLEAR_ERROR
         });
     } catch (err) {
+        setLoading(false)
         dispatch(
             returnError(
                 err.response.status,
@@ -233,6 +238,7 @@ export const changePassword = (password, id, token, setLoading) => async (dispat
         setLoading(false)
         dispatch(loadUser());
     } catch (err) {
+        setLoading(false)
         dispatch(
             returnError(
                 err.response.status,

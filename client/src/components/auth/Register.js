@@ -50,7 +50,7 @@ const Register = ({ form, history }) => {
           email,
           password
         };
-        dispatch(register(data));
+        dispatch(register(data, setLoading));
       }
     });
   };

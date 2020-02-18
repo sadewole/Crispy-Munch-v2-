@@ -14,8 +14,8 @@ export default OriginalComponent => {
         token
       } = this.props;
 
-      if (!isAuthenticated && token === null) {
-        history.push('/');
+      if (!isAuthenticated) {
+        history.push('/login');
       }
 
     };

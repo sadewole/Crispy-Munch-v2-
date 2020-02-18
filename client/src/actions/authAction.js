@@ -225,7 +225,7 @@ export const changePassword = (password, id, token, setLoading) => async (dispat
         const body = JSON.stringify({
             password
         })
-        const res = await axios.put(`/api/v1/user/verify?id=${id}&token=${token}`, body, config);
+        const res = await axios.put(`/api/v1/user/verify?id=${id}&active_token=${token}`, body, config);
 
         dispatch({
             type: CHANGE_PASSWORD,

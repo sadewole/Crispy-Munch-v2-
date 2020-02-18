@@ -153,7 +153,7 @@ export default {
       return res.status(200).json({
         type: 'POST',
         success: true,
-        msg: 'Verified successfully, Please check your email to change password'
+        msg: 'Verified successfully'
       })
 
     } catch (err) {

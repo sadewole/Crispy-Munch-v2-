@@ -42,7 +42,7 @@ const Login = ({ form, history }) => {
     await form.validateFields((err, values) => {
       if (!err) {
         setLoading(true);
-        dispatch(login(values));
+        dispatch(login(values, setLoading));
       }
     });
   };

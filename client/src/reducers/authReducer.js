@@ -5,6 +5,7 @@ import {
     LOGIN_FAIL,
     LOG_OUT,
     USER_LOADED,
+    CHANGE_PASSWORD,
     USER_LOADING,
     EMAIL_VERIFICATION,
     RESET_STATE
@@ -39,6 +40,7 @@ export default (state = initState, action) => {
             };
         case AUTH_REGISTER:
         case AUTH_LOGIN:
+        case CHANGE_PASSWORD:
             localStorage.setItem('token', payload.token)
             return {
                 ...state,

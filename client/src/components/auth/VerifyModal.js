@@ -14,7 +14,7 @@ const VerifyModal = ({ msg, closeModal, visible }) => (
     ]}
   >
     <div>
-      <p className='lead'>Kindly, check your email.</p>
+      <p className='lead'>Please check your email to change password</p>
       <p>A verfication token has been sent to you.</p>
     </div>
   </Modal>

@@ -49,8 +49,8 @@ const ForgotPassword = ({ form, history }) => {
   return (
     <Fragment>
       <VerifyModal visible={visible} closeModal={closeModal} msg={msg} />
-      <div className='bg-grey pt-5'>
-        <h1 className='lead text-center mt-5'>Reset your password</h1>
+      <div className=' pt-5'>
+        <h1 className='lead text-center mt-5'>Forgot password? </h1>
         <div className='forgot_content border p-5 bg-white'>
           <p className='bold'>
             Enter your user account's verified email address and we will send

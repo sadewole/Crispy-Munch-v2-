@@ -6,6 +6,9 @@ import {
     AUTH_ERROR,
     AUTH_LOGIN,
     CLEAR_ERROR,
+    LOGIN_FAIL,
+    REGISTER_FAIL,
+    CHANGE_PASSWORD,
     EMAIL_VERIFICATION,
     RESET_STATE,
     LOG_OUT
@@ -128,7 +131,7 @@ export const register = data => async dispatch => {
         dispatch(loadUser());
     } catch (err) {
         dispatch(
-            returnError(err.response.status, err.response.data, 'REGISTER_FAIL')
+            returnError(err.response.status, err.response.data, REGISTER_FAIL)
         );
         dispatch({
             type: AUTH_ERROR
@@ -136,7 +139,7 @@ export const register = data => async dispatch => {
     }
 };
 
-export const login = data => async dispatch => {
+export const login = (data, setLoading) => async dispatch => {
     try {
         // Headers
         const config = {
@@ -156,10 +159,10 @@ export const login = data => async dispatch => {
         dispatch({
             type: CLEAR_ERROR
         });
+        setLoading(false)
         dispatch(loadUser());
     } catch (err) {
-        console.log(err);
-        dispatch(returnError(err.response.status, err.response.data, 'LOGIN_FAIL'));
+        dispatch(returnError(err.response.status, err.response.data, LOGIN_FAIL));
         dispatch({
             type: AUTH_ERROR
         });
@@ -205,6 +208,40 @@ export const forgotPassword = email => async dispatch => {
         );
     }
 };
+
+export const changePassword = (password, id, token, setLoading) => async (dispatch) => {
+    try {
+        // Headers
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        };
+        const body = JSON.stringify({
+            password
+        })
+        const res = await axios.put(`/api/v1/user/verify?id=${id}&token=${token}`, body, config);
+
+        dispatch({
+            type: CHANGE_PASSWORD,
+            payload: res.data
+        })
+
+        dispatch({
+            type: CLEAR_ERROR
+        })
+        setLoading(false)
+        dispatch(loadUser());
+    } catch (err) {
+        dispatch(
+            returnError(
+                err.response.status,
+                err.response.data,
+                'CHANGE_PASSWORD_FAILED'
+            )
+        );
+    }
+}
 
 export const resetState = () => dispatch => {
     dispatch({

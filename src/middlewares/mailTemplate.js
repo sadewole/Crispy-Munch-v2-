@@ -7,7 +7,7 @@ You're receiving this e-mail because you requested a password reset for your use
 If you didn't request this changes, you can disregard thi email - we have not yet reset your password</p>
 <br>
 
-<a href="http://localhost:3000/change-password?token=${token}&id=${id}"}>
+<a href="https://crispy-munch-v2.herokuapp.com/change-password?token=${token}&id=${id}"}>
 <button style='color: red; padding: 10px'>Change my password</button>
 </a>
 `

@@ -48,8 +48,8 @@ const Login = ({ form, history }) => {
   };
 
   const responseGoogle = async res => {
-    console.log(res.accessToken);
-    await dispatch(oauthGoogle(res.accessToken));
+    console.log(res);
+    // await dispatch(oauthGoogle(res.accessToken));
   };
 
   const responseFacebook = async res => {

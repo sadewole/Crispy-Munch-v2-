@@ -210,7 +210,6 @@ var logs = {
 
           case 9:
             data = _context4.sent;
-            console.log(data);
             return _context4.abrupt("return", res.status(201).json({
               TYPE: 'PUT',
               status: 201,
@@ -218,19 +217,19 @@ var logs = {
               data: data[1][0]
             }));
 
-          case 14:
-            _context4.prev = 14;
+          case 13:
+            _context4.prev = 13;
             _context4.t0 = _context4["catch"](1);
             return _context4.abrupt("return", res.status(500).json({
               msg: _context4.t0
             }));
 
-          case 17:
+          case 16:
           case "end":
             return _context4.stop();
         }
       }
-    }, null, null, [[1, 14]]);
+    }, null, null, [[1, 13]]);
   },
   deleteFood: function deleteFood(req, res) {
     var id, findId;

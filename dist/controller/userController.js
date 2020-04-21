@@ -136,7 +136,7 @@ var _default = {
   },
   // note: this code is no more used in this project
   validate: function validate(req, res) {
-    var validate, checkSecret, user, token;
+    var validate, checkSecret, user, data, token;
     return regeneratorRuntime.async(function validate$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -172,30 +172,37 @@ var _default = {
 
           case 9:
             user = _context3.sent;
+            _context3.next = 12;
+            return regeneratorRuntime.awrap(User.findOne({
+              email: user.email
+            }));
+
+          case 12:
+            data = _context3.sent;
             // gen token
             token = _helper["default"].genToken(user);
             return _context3.abrupt("return", res.status(200).json({
               type: 'PUT',
               success: true,
-              token: token,
-              data: user[1][0],
+              token: "Bearer ".concat(token),
+              data: data,
               msg: 'User activated successfully'
             }));
 
-          case 14:
-            _context3.prev = 14;
+          case 17:
+            _context3.prev = 17;
             _context3.t0 = _context3["catch"](1);
             return _context3.abrupt("return", res.status(500).json({
               success: false,
               msg: _context3.t0
             }));
 
-          case 17:
+          case 20:
           case "end":
             return _context3.stop();
         }
       }
-    }, null, null, [[1, 14]]);
+    }, null, null, [[1, 17]]);
   },
   verifyEmail: function verifyEmail(req, res) {
     var email, checkEmail, id, token;
@@ -263,21 +270,40 @@ var _default = {
     }, null, null, [[1, 17]]);
   },
   changePassword: function changePassword(req, res) {
-    var _req$query, id, active_token, password, hash, user, token;
-
+    var id, password, findId, hash, data, token;
     return regeneratorRuntime.async(function changePassword$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            _req$query = req.query, id = _req$query.id, active_token = _req$query.active_token;
+            id = req.query.id;
             password = req.body.password;
             _context5.prev = 2;
             _context5.next = 5;
-            return regeneratorRuntime.awrap(_helper["default"].hashPassword(password));
+            return regeneratorRuntime.awrap(LocalAuth.findOne({
+              where: {
+                id: id
+              }
+            }));
 
           case 5:
+            findId = _context5.sent;
+
+            if (findId) {
+              _context5.next = 8;
+              break;
+            }
+
+            return _context5.abrupt("return", res.status(404).json({
+              msg: 'Not found'
+            }));
+
+          case 8:
+            _context5.next = 10;
+            return regeneratorRuntime.awrap(_helper["default"].hashPassword(password));
+
+          case 10:
             hash = _context5.sent;
-            _context5.next = 8;
+            _context5.next = 13;
             return regeneratorRuntime.awrap(LocalAuth.update({
               password: hash
             }, {
@@ -287,31 +313,35 @@ var _default = {
               }
             }));
 
-          case 8:
-            user = _context5.sent;
+          case 13:
+            _context5.next = 15;
+            return regeneratorRuntime.awrap(_helper["default"].existEmail(findId.email));
+
+          case 15:
+            data = _context5.sent;
             // gen token
-            token = _helper["default"].genToken(user);
+            token = _helper["default"].genToken(data);
             return _context5.abrupt("return", res.status(200).json({
               type: 'PUT',
               success: true,
               msg: 'Password changed successfully',
-              data: user[1][0],
-              token: token
+              data: data,
+              token: "Bearer ".concat(token)
             }));
 
-          case 13:
-            _context5.prev = 13;
+          case 20:
+            _context5.prev = 20;
             _context5.t0 = _context5["catch"](2);
             return _context5.abrupt("return", res.status(500).json({
               msg: _context5.t0.message
             }));
 
-          case 16:
+          case 23:
           case "end":
             return _context5.stop();
         }
       }
-    }, null, null, [[2, 13]]);
+    }, null, null, [[2, 20]]);
   },
   getAllUser: function getAllUser(req, res) {
     var user;

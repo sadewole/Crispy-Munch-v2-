@@ -2,6 +2,8 @@
 
 var _express = _interopRequireDefault(require("express"));
 
+var _path = _interopRequireDefault(require("path"));
+
 var _morgan = _interopRequireDefault(require("morgan"));
 
 var _userRoute = _interopRequireDefault(require("./routes/api/userRoute"));
@@ -32,9 +34,9 @@ app.use('/api/v1', _orderRoute["default"]); // Serve static assets if in product
 
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
-  app.use(_express["default"]["static"]('client/build'));
-  app.get('/*', function (req, res) {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  app.use(_express["default"]["static"](_path["default"].join(__dirname, '../client/build')));
+  app.get(/.*/, function (req, res) {
+    res.sendFile(_path["default"].join(__dirname, '../client/build/index.html'));
   });
 }
 

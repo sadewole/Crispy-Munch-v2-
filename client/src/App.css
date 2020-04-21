@@ -36,6 +36,10 @@ body {
   background: rgba(232, 219, 219, 0.851);
 }
 
+.admin-sider {
+  z-index: 15 !important;
+}
+
 .ant-menu.ant-menu-dark .ant-menu-item-selected {
   background-color: inherit !important;
   border-left: 5px solid salmon;

@@ -78,8 +78,9 @@ export default (state = initState, action) => {
         case TOTAL:
             return {
                 ...state,
-                total: payload.data,
-                    msg: payload.msg
+                total: payload.total,
+                    msg: payload.msg,
+                    isLoading: false
             };
         default:
             return state

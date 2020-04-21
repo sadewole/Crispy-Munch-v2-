@@ -168,6 +168,9 @@ export const updateUserOrder = data => async (dispatch, getState) => {
 
 export const totalSales = () => async (dispatch, getState) => {
     try {
+        dispatch({
+            type: ORDER_LOADING
+        })
         const res = await axios.get(`/api/v1/total`, tokenConfig(getState))
 
         dispatch({

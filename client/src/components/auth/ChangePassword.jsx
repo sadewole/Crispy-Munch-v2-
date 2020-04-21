@@ -1,5 +1,5 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { Form, Icon, Input, Button, Alert } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Icon, Input, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import queryString from 'query-string';
 import { changePassword } from '../../actions/authAction';
@@ -13,11 +13,11 @@ const ChangePassword = ({ form, location, history }) => {
 
   const {
     auth: { isAuthenticated, user },
-    error
-  } = useSelector(state => {
+    error,
+  } = useSelector((state) => {
     return {
       auth: state.auth,
-      error: state.error
+      error: state.error,
     };
   });
 
@@ -36,9 +36,9 @@ const ChangePassword = ({ form, location, history }) => {
     if (isAuthenticated && user.role === 'ADMIN') {
       history.push('/admin');
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, history]);
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     await form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -48,10 +48,10 @@ const ChangePassword = ({ form, location, history }) => {
     });
   };
 
-  const handleConfirmBlur = e => {
+  const handleConfirmBlur = (e) => {
     const { value } = e.target;
     setConfirmDirty({
-      confirmDirty: confirmDirty || !!value
+      confirmDirty: confirmDirty || !!value,
     });
   };
 
@@ -66,7 +66,7 @@ const ChangePassword = ({ form, location, history }) => {
   const validateToNextPassword = (rule, value, callback) => {
     if (value && confirmDirty) {
       form.validateFields(['confirm'], {
-        force: true
+        force: true,
       });
     }
     callback();
@@ -83,19 +83,19 @@ const ChangePassword = ({ form, location, history }) => {
               rules: [
                 {
                   required: true,
-                  message: 'Please input your password!'
+                  message: 'Please input your password!',
                 },
                 {
-                  validator: validateToNextPassword
-                }
-              ]
+                  validator: validateToNextPassword,
+                },
+              ],
             })(
               <Input.Password
                 prefix={
                   <Icon
                     type='lock'
                     style={{
-                      color: 'rgba(0,0,0,.25)'
+                      color: 'rgba(0,0,0,.25)',
                     }}
                   />
                 }
@@ -109,19 +109,19 @@ const ChangePassword = ({ form, location, history }) => {
               rules: [
                 {
                   required: true,
-                  message: 'Please confirm your password!'
+                  message: 'Please confirm your password!',
                 },
                 {
-                  validator: compareToFirstPassword
-                }
-              ]
+                  validator: compareToFirstPassword,
+                },
+              ],
             })(
               <Input.Password
                 prefix={
                   <Icon
                     type='lock'
                     style={{
-                      color: 'rgba(0,0,0,.25)'
+                      color: 'rgba(0,0,0,.25)',
                     }}
                   />
                 }
@@ -146,7 +146,7 @@ const ChangePassword = ({ form, location, history }) => {
 };
 
 const WrappedNormalChangePassword = Form.create({
-  name: 'ChangePassword'
+  name: 'ChangePassword',
 })(ChangePassword);
 
 export default WrappedNormalChangePassword;

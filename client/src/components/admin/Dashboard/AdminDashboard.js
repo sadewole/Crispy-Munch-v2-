@@ -5,11 +5,11 @@ import { useSelector } from 'react-redux';
 const AdminDashboard = () => {
   const {
     auth: { user },
-    order: {total}
-  } = useSelector(state => {
+    order: { total },
+  } = useSelector((state) => {
     return {
       auth: state.auth,
-      order: state.order
+      order: state.order,
     };
   });
   return (
@@ -19,6 +19,8 @@ const AdminDashboard = () => {
         icon='fas fa-user-alt fa-2x'
         subtitle={`Welcome ${user !== null ? user.name : ''}`}
       />
+
+      <h1>Total: {total}</h1>
     </div>
   );
 };

@@ -1,54 +1,48 @@
 import React, { Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
-import AdminMenu from '../admin/Menu/AdminMenu';
-import AdminHistory from '../admin/History/AdminHistory';
-import AdminViewUser from '../admin/User/AdminViewUser';
-import AdminDashboard from '../admin/Dashboard/AdminDashboard';
+import AdminComponents from '../admin/AdminComponent';
 import { logout } from '../../actions/authAction';
 import { useDispatch, useSelector } from 'react-redux';
 
 const { Content, Sider } = Layout;
 
-const SideNav = props => {
-  const path = props.match.path;
-  const { slum } = props.match.params;
+const SideNav = ({ match, history }) => {
+  const navKey = {
+    '/admin': '1',
+    '/admin/menu': '2',
+    '/admin/client': '3',
+    '/admin/history': '4',
+  };
   const dispatch = useDispatch();
-
   const {
-    auth: { isAuthenticated, user }
-  } = useSelector(state => {
+    auth: { isAuthenticated, user },
+  } = useSelector((state) => {
     return {
-      auth: state.auth
+      auth: state.auth,
     };
   });
 
   useEffect(() => {
     // redirected if not admin
     if (isAuthenticated && user.role === 'CLIENT') {
-      props.history.push('/');
+      history.push('/');
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, history, user]);
   return (
     <Fragment>
       <div className='admin-bgImg'> </div>
       <div
         style={{
-          display: 'flex'
+          display: 'flex',
         }}
       >
-        <Sider
-          breakpoint='lg'
-          collapsedWidth='0'
-          // onBreakpoint={broken => {
-          //   console.log(broken);
-          // }}
-          // onCollapse={(collapsed, type) => {
-          //   console.log(collapsed, type);
-          // }}
-          className='admin-sider'
-        >
-          <Menu theme='dark' mode='inline' defaultSelectedKeys={['1']}>
+        <Sider breakpoint='lg' collapsedWidth='0' className='admin-sider'>
+          <Menu
+            theme='dark'
+            mode='inline'
+            defaultSelectedKeys={[`${navKey[window.location.pathname]}`]}
+          >
             <Menu.Item key='1'>
               <i className='fas fa-user-alt mr-2' />
               <span className='nav-text'>
@@ -83,14 +77,11 @@ const SideNav = props => {
         </Sider>
         <Content
           style={{
-            paddingTop: '4rem'
+            paddingTop: '4rem',
           }}
           className='admin-content'
         >
-          {path === '/admin' && <AdminDashboard />}
-          {slum === 'menu' && <AdminMenu />}
-          {slum === 'client' && <AdminViewUser />}
-          {slum === 'history' && <AdminHistory />}
+          <AdminComponents match={match} />
         </Content>
       </div>
     </Fragment>

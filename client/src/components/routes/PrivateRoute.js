@@ -37,17 +37,9 @@ export default OriginalComponent => {
 
       if (isAuthenticated && user.role === 'ADMIN') {
         history.push('/admin');
-
-        switch (match.params.slum) {
-          case 'menu':
-            history.push('/admin/menu');
-            break;
-          case 'client':
-            history.push('/admin/client');
-            break;
-          case 'history':
-            history.push('/admin/history');
-            break
+        // To ensure page remains the same when admin refresh page
+        if (match.url) {
+          history.push(match.url)
         }
       }
     }

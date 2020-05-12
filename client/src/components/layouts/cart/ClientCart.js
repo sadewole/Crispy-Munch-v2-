@@ -1,13 +1,15 @@
 import React from 'react';
 import { Affix } from 'antd';
 import { useSelector } from 'react-redux';
+import { currencyFormatter } from '../../utils/formatter';
+import PaypalButton from '../../utils/PaypalButton';
 
 const ClientCart = ({ total, output, showModal }) => {
   const {
-    order: { userPendingOrders }
-  } = useSelector(state => {
+    order: { userPendingOrders },
+  } = useSelector((state) => {
     return {
-      order: state.order
+      order: state.order,
     };
   });
 
@@ -27,7 +29,8 @@ const ClientCart = ({ total, output, showModal }) => {
       </table>
       <div className='checkoutBox col-md-4'>
         <Affix offsetTop={50}>
-          <h1>Total: ₦{total}</h1>
+          <h1>Total: {currencyFormatter(total)}</h1>
+          <PaypalButton total={total} />
           <button
             className='btn btn-danger'
             disabled={userPendingOrders.length >= 1 ? '' : 'disabled'}

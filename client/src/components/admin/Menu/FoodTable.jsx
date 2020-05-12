@@ -6,45 +6,46 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchMenu,
   deleteMenu,
-  getSingleMenu
+  getSingleMenu,
 } from '../../../actions/catalogAction';
 import { Spin, notification } from 'antd';
+import { currencyFormatter } from 'components/utils/formatter';
 
 const FoodTable = () => {
   const [openAction, setOpenAction] = useState({});
   let [cloneData, setCloneData] = useState([]);
   const dispatch = useDispatch();
   const {
-    menu: { data, isLoading, msg }
-  } = useSelector(state => {
+    menu: { data, isLoading, msg },
+  } = useSelector((state) => {
     return {
       error: state.error,
-      menu: state.menu
+      menu: state.menu,
     };
   });
 
   useEffect(() => {
     dispatch(fetchMenu());
     // load food id into action. This helps to obtains data from handleAction
-    cloneData.map(i => setOpenAction({ ...openAction, [i.id]: false }));
+    cloneData.map((i) => setOpenAction({ ...openAction, [i.id]: false }));
   }, []);
 
-  const openNotification = type => {
+  const openNotification = (type) => {
     notification[type]({
-      message: msg
+      message: msg,
     });
   };
 
-  const handleAction = id => {
+  const handleAction = (id) => {
     setOpenAction({ [id]: !openAction[id] });
   };
 
-  const handleEdit = id => {
+  const handleEdit = (id) => {
     dispatch(getSingleMenu(id));
     // openNotification('success');
   };
 
-  const handleDelete = id => {
+  const handleDelete = (id) => {
     dispatch(deleteMenu(id));
     openNotification('success');
   };
@@ -59,7 +60,7 @@ const FoodTable = () => {
       </tr>
     </Fragment>
   ) : cloneData.length >= 1 ? (
-    cloneData.map(i => {
+    cloneData.map((i) => {
       return (
         <tr key={i.id}>
           <td>
@@ -70,7 +71,7 @@ const FoodTable = () => {
             />
           </td>
           <td>{i.name}</td>
-          <td>{i.price}</td>
+          <td>{currencyFormatter(i.price)}</td>
           <td>
             <Moment format='YYYY/MM/DD'>{i.updatedAt}</Moment>
           </td>

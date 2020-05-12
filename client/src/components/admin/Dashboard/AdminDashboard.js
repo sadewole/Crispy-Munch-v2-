@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { totalSales } from '../../../actions/orderAction';
 import { loadAllUser } from '../../../actions/userAction';
 import { fetchMenu } from '../../../actions/catalogAction';
+import { currencyFormatter, integerFormatter } from '../../utils/formatter';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -45,7 +46,7 @@ const AdminDashboard = () => {
               {/*small box*/}
               <div className='small-box bg-info'>
                 <div className='inner'>
-                  <h3>{isLoading ? 0 : total.paid}</h3>
+                  <h3>{isLoading ? 0 : currencyFormatter(total.paid)}</h3>
 
                   <p>Paid Order(s)</p>
                 </div>
@@ -63,7 +64,7 @@ const AdminDashboard = () => {
 
               <div className='small-box bg-success'>
                 <div className='inner'>
-                  <h3>{isLoading ? 0 : total.pending}</h3>
+                  <h3>{isLoading ? 0 : currencyFormatter(total.pending)}</h3>
 
                   <p>Pending Order(s)</p>
                 </div>
@@ -80,7 +81,7 @@ const AdminDashboard = () => {
               {/** small box */}
               <div className='small-box bg-warning'>
                 <div className='inner'>
-                  <h3>{allUser.length}</h3>
+                  <h3>{integerFormatter(allUser.length)}</h3>
 
                   <p>User Registrations</p>
                 </div>
@@ -97,7 +98,7 @@ const AdminDashboard = () => {
               {/** small box */}
               <div className='small-box bg-danger'>
                 <div className='inner'>
-                  <h3>{data.length}</h3>
+                  <h3>{integerFormatter(data.length)}</h3>
 
                   <p>Available Menu</p>
                 </div>

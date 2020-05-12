@@ -4,8 +4,9 @@ import {
   fetchUserOrderHistory,
   updateOrderQuantity,
   updateUserOrder,
-  deleteOrder
+  deleteOrder,
 } from '../../../actions/orderAction';
+import { currencyFormatter } from '../../utils/formatter';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { loadUser } from '../../../actions/authAction';
@@ -14,30 +15,45 @@ import ClientCart from './ClientCart';
 
 const CartTable = ({ form }) => {
   let total = 0;
-  const [openAction, setOpenAction] = useState({});
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
 
   const {
     error,
-    order: { userPendingOrders, isLoading }
-  } = useSelector(state => {
+    order: { userPendingOrders, isLoading },
+  } = useSelector((state) => {
     return {
       error: state.error,
       order: state.order,
-      auth: state.auth
+      auth: state.auth,
     };
   });
 
-  const handleQuantity = (e, id) => {
-    if (e.target.value <= 0) {
-      e.target.value = 1;
+  const decreaseQuantity = (id) => {
+    let tempCart = [...userPendingOrders];
+    let selectedCart = tempCart.find((cart) => cart.id === id);
+
+    let index = tempCart.indexOf(selectedCart);
+    let product = tempCart[index];
+    product.quantity = product.quantity - 1;
+    if (product.quantity === 0) {
+      product.quantity = 1;
     }
-    setOpenAction({ [id]: e.target.value });
-    dispatch(updateOrderQuantity(e.target.value, id));
+
+    dispatch(updateOrderQuantity(product.quantity, id));
   };
 
-  const handleSubmit = async e => {
+  const increaseQuantity = (id) => {
+    let tempCart = [...userPendingOrders];
+    let selectedCart = tempCart.find((cart) => cart.id === id);
+    let index = tempCart.indexOf(selectedCart);
+    let product = tempCart[index];
+    product.quantity = product.quantity + 1;
+
+    dispatch(updateOrderQuantity(product.quantity, id));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     await form.validateFields((err, values) => {
       if (!err) {
@@ -54,34 +70,26 @@ const CartTable = ({ form }) => {
     dispatch(loadUser());
     dispatch(fetchUserOrderHistory());
   }, []);
-  // component did update
-  useEffect(() => {
-    const newObj = {};
-    userPendingOrders.map(i => {
-      Object.assign(newObj, { [i.id]: [i.quantity] });
-    });
-    setOpenAction(newObj);
-  }, [userPendingOrders]);
 
   const showModal = () => {
     setVisible(true);
   };
 
-  const handleOk = e => {
+  const handleOk = (e) => {
     setVisible(false);
   };
 
-  const handleCancel = e => {
+  const handleCancel = (e) => {
     setVisible(false);
   };
 
-  const openNotification = type => {
+  const openNotification = (type) => {
     notification[type]({
-      message: 'Item removed from cart'
+      message: 'Item removed from cart',
     });
   };
 
-  const handleDelete = inp => {
+  const handleDelete = (inp) => {
     if (error.id === null) {
       dispatch(deleteOrder(inp));
       openNotification('success');
@@ -97,7 +105,7 @@ const CartTable = ({ form }) => {
       </tr>
     </Fragment>
   ) : userPendingOrders.length >= 1 ? (
-    userPendingOrders.map(info => {
+    userPendingOrders.map((info) => {
       total += info.amount;
       return (
         <tr className='cart-item' key={info.id}>
@@ -107,14 +115,20 @@ const CartTable = ({ form }) => {
             </span>
             {info.food.name}
           </td>
-          <td>
-            <input
-              type='number'
-              className='quantity'
-              name='quantity'
-              value={openAction[info.id]}
-              onChange={value => handleQuantity(value, info.id)}
-            />
+          <td className='update-btn'>
+            <span
+              onClick={() => decreaseQuantity(info.id)}
+              className='btn-quantity'
+            >
+              -
+            </span>
+            <span>{info.quantity}</span>
+            <span
+              onClick={() => increaseQuantity(info.id)}
+              className='btn-quantity'
+            >
+              +
+            </span>
           </td>
           <td>
             <i
@@ -122,8 +136,8 @@ const CartTable = ({ form }) => {
               onClick={() => handleDelete(info.id)}
             ></i>
           </td>
-          <td className='price'>₦{info.food.price}</td>
-          <td className='subTotal'>₦{info.amount}</td>
+          <td className='price'>{currencyFormatter(info.food.price)}</td>
+          <td className='subTotal'>{currencyFormatter(info.amount)}</td>
         </tr>
       );
     })
@@ -153,9 +167,9 @@ const CartTable = ({ form }) => {
               rules: [
                 {
                   required: true,
-                  message: 'Please input your phone number!'
-                }
-              ]
+                  message: 'Please input your phone number!',
+                },
+              ],
             })(<Input />)}
           </Form.Item>
           <Form.Item label='Address'>
@@ -163,14 +177,15 @@ const CartTable = ({ form }) => {
               rules: [
                 {
                   required: true,
-                  message: 'Please input your address!'
-                }
-              ]
+                  message: 'Please input your address!',
+                },
+              ],
             })(<Input.TextArea />)}
           </Form.Item>
-          <Button>
-            <PaypalButton onClick={handleSubmit} total={total} />
-          </Button>
+          <div className='d-flex'>
+            <Button className='mr-2'>Cancel</Button>
+            <PaypalButton handleSubmit={handleSubmit} total={total} />
+          </div>
 
           {/* <Button
             type='primary'
@@ -196,11 +211,11 @@ CartTable.propTypes = {
   deleteOrder: PropTypes.func,
   error: PropTypes.object,
   isLoading: PropTypes.bool,
-  user: PropTypes.array
+  user: PropTypes.array,
 };
 
 const WrappedNormalCartForm = Form.create({
-  name: 'cartTable'
+  name: 'cartTable',
 })(CartTable);
 
 export default WrappedNormalCartForm;

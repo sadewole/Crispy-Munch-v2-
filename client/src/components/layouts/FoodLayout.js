@@ -3,16 +3,17 @@ import { message, Spin } from 'antd';
 import { fetchMenu } from '../../actions/catalogAction';
 import { postOrder } from '../../actions/orderAction';
 import { useSelector, useDispatch } from 'react-redux';
+import { currencyFormatter } from '../utils/formatter';
 
 const FoodLayout = () => {
   const dispatch = useDispatch();
   const {
     menu: { isLoading, data, msg },
-    auth: { isAuthenticated }
-  } = useSelector(state => {
+    auth: { isAuthenticated },
+  } = useSelector((state) => {
     return {
       menu: state.menu,
-      auth: state.auth
+      auth: state.auth,
     };
   });
 
@@ -31,7 +32,7 @@ const FoodLayout = () => {
     );
   };
 
-  const handlePlaceOrder = id => {
+  const handlePlaceOrder = (id) => {
     if (isAuthenticated) {
       dispatch(postOrder(id));
       success();
@@ -46,7 +47,7 @@ const FoodLayout = () => {
       </div>
     </Fragment>
   ) : data.length >= 1 ? (
-    data.map(info => {
+    data.map((info) => {
       return (
         <div className='card-menu' key={info.id}>
           <div className='card-img-top'>
@@ -54,7 +55,7 @@ const FoodLayout = () => {
           </div>
           <div className='card-img-body'>
             <p>{info.name}</p>
-            <p>₦{info.price}</p>
+            <p>{currencyFormatter(info.price)}</p>
           </div>
           <span>
             <i

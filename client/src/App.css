@@ -335,12 +335,26 @@ body {
   padding: 15px;
 }
 
-.all-cart .table input[type='number'] {
-  width: 45px;
+.all-cart .table .update-btn span {
+  min-width: 30px;
   border: 1px solid orangered;
   outline: transparent;
   border-radius: 5px;
   padding: 5px;
+  margin-right: 5px;
+  text-transform: capitalize;
+  font-size: .8rem !important;
+}
+
+.btn-quantity {
+  background: transparent;
+  cursor: pointer;
+}
+
+.btn-quantity:hover {
+  background: orangered;
+  color: #fff;
+  border: 1px solid #fff;
 }
 
 .all-cart td {
@@ -355,6 +369,10 @@ body {
 .all-cart .table th {
   padding: 0.5rem;
   text-align: center;
+}
+
+.all-cart .table tr {
+  width: 100%;
 }
 
 .orderImg {

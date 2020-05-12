@@ -7,8 +7,9 @@ import {
   getAllOrder,
   getSingleOrder,
   deleteOrder,
-  updateOrderStatus
+  updateOrderStatus,
 } from '../../../actions/orderAction';
+import { currencyFormatter } from '../../utils/formatter';
 import { useDispatch, useSelector } from 'react-redux';
 
 const { Option, OptGroup } = Select;
@@ -17,11 +18,11 @@ const AdminHistory = () => {
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
   const {
-    order: { orders, isLoading, singleOrder }
-  } = useSelector(state => {
+    order: { orders, isLoading, singleOrder },
+  } = useSelector((state) => {
     return {
       error: state.error,
-      order: state.order
+      order: state.order,
     };
   });
 
@@ -34,7 +35,7 @@ const AdminHistory = () => {
     dispatch(getAllOrder());
   }, []);
 
-  const showModal = id => {
+  const showModal = (id) => {
     setVisible(true);
     dispatch(getSingleOrder(id));
   };
@@ -52,17 +53,18 @@ const AdminHistory = () => {
       </tr>
     </Fragment>
   ) : orders !== undefined ? (
-    orders.map(info => {
+    orders.map((info) => {
       return (
         <tr key={info.id}>
           <td> {info.id} </td> <td> {info.food.name} </td>
-          <td> {info.food.price} </td> <td> {info.quantity} </td>
-          <td> {info.email} </td> <td> ₦{info.amount} </td>
+          <td> {currencyFormatter(info.food.price)} </td>{' '}
+          <td> {info.quantity} </td>
+          <td> {info.email} </td> <td> {currencyFormatter(info.amount)} </td>
           <td> {info.payment} </td>
           <td>
             <Select
               defaultValue={info.status}
-              onChange={value => handleStatus(value, info.id)}
+              onChange={(value) => handleStatus(value, info.id)}
               disabled={info.payment === 'pending' ? true : false}
             >
               <OptGroup label='Status'>

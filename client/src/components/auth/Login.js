@@ -14,11 +14,11 @@ const Login = ({ form, history }) => {
   // find auth actions
   const {
     error,
-    auth: { isAuthenticated, user }
-  } = useSelector(state => {
+    auth: { isAuthenticated, user },
+  } = useSelector((state) => {
     return {
       error: state.error,
-      auth: state.auth
+      auth: state.auth,
     };
   });
 
@@ -37,7 +37,7 @@ const Login = ({ form, history }) => {
     }
   }, [error, isAuthenticated]);
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     await form.validateFields((err, values) => {
       if (!err) {
@@ -47,12 +47,12 @@ const Login = ({ form, history }) => {
     });
   };
 
-  const responseGoogle = async res => {
+  const responseGoogle = async (res) => {
     console.log(res);
     // await dispatch(oauthGoogle(res.accessToken));
   };
 
-  const responseFacebook = async res => {
+  const responseFacebook = async (res) => {
     console.log(res);
     await dispatch(oauthFacebook(res.accessToken));
   };
@@ -79,13 +79,13 @@ const Login = ({ form, history }) => {
                   rules: [
                     {
                       type: 'email',
-                      message: 'The input is not valid E-mail!'
+                      message: 'The input is not valid E-mail!',
                     },
                     {
                       required: true,
-                      message: 'Please input your E-mail!'
-                    }
-                  ]
+                      message: 'Please input your E-mail!',
+                    },
+                  ],
                 })(
                   <Input
                     prefix={
@@ -102,8 +102,8 @@ const Login = ({ form, history }) => {
               <Form.Item>
                 {getFieldDecorator('password', {
                   rules: [
-                    { required: true, message: 'Please input your Password!' }
-                  ]
+                    { required: true, message: 'Please input your Password!' },
+                  ],
                 })(
                   <Input
                     prefix={
@@ -156,7 +156,7 @@ const Login = ({ form, history }) => {
                   clientId={process.env.REACT_APP_Google_ID}
                   onSuccess={responseGoogle}
                   onFailure={responseGoogle}
-                  render={renderProps => (
+                  render={(renderProps) => (
                     <button
                       onClick={renderProps.onClick}
                       className='btn btn-danger btn-block'

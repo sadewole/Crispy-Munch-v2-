@@ -82,9 +82,8 @@ passport.use(
   new googleTokenStrategy({
       clientID: process.env.Google_ID,
       clientSecret: process.env.Google_SECRET,
-      passReqToCallback: true
     },
-    async (req, accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       console.log('profile', profile)
       console.log('accessToken', accessToken)
       console.log('profile', profile)

@@ -30,7 +30,6 @@ const ClientCart = ({ total, output, showModal }) => {
       <div className='checkoutBox col-md-4'>
         <Affix offsetTop={50}>
           <h1>Total: {currencyFormatter(total)}</h1>
-          <PaypalButton total={total} />
           <button
             className='btn btn-danger'
             disabled={userPendingOrders.length >= 1 ? '' : 'disabled'}

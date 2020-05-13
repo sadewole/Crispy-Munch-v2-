@@ -2,7 +2,6 @@ import React from 'react';
 import { Affix } from 'antd';
 import { useSelector } from 'react-redux';
 import { currencyFormatter } from '../../utils/formatter';
-import PaypalButton from '../../utils/PaypalButton';
 
 const ClientCart = ({ total, output, showModal }) => {
   const {

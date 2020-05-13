@@ -127,6 +127,112 @@ var _default = {
       }
     });
   },
+
+  /**
+   * Make use of (raect - google - login) to fetch data
+   *  at the front-end
+   */
+  googleSign: function googleSign(req, res) {
+    var _req$body$profile, email, name, googleId, existingUser, _token, user, token;
+
+    return regeneratorRuntime.async(function googleSign$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _req$body$profile = req.body.profile, email = _req$body$profile.email, name = _req$body$profile.name, googleId = _req$body$profile.googleId;
+            _context3.prev = 1;
+
+            if (!(!email || !name || !googleId)) {
+              _context3.next = 4;
+              break;
+            }
+
+            return _context3.abrupt("return", res.status(400).json({
+              success: false,
+              msg: "Fields is not allowed to be empty"
+            }));
+
+          case 4:
+            _context3.next = 6;
+            return regeneratorRuntime.awrap(_helper["default"].existEmail(email));
+
+          case 6:
+            existingUser = _context3.sent;
+
+            if (!existingUser) {
+              _context3.next = 12;
+              break;
+            }
+
+            _context3.next = 10;
+            return regeneratorRuntime.awrap(_helper["default"].genToken(existingUser));
+
+          case 10:
+            _token = _context3.sent;
+            return _context3.abrupt("return", res.status(200).json({
+              type: 'POST',
+              success: true,
+              data: existingUser,
+              token: "Bearer ".concat(_token),
+              msg: "You've successfully signed in"
+            }));
+
+          case 12:
+            _context3.next = 14;
+            return regeneratorRuntime.awrap(User.create({
+              id: (0, _v["default"])(),
+              email: email,
+              name: name,
+              role: 'CLIENT'
+            }));
+
+          case 14:
+            user = _context3.sent;
+            _context3.next = 17;
+            return regeneratorRuntime.awrap(GoogleAuth.create({
+              id: (0, _v["default"])(),
+              google_id: googleId,
+              email: email,
+              user_id: user.id
+            }));
+
+          case 17:
+            _context3.next = 19;
+            return regeneratorRuntime.awrap(LocalAuth.create({
+              id: (0, _v["default"])(),
+              email: email,
+              user_id: user.id
+            }));
+
+          case 19:
+            _context3.next = 21;
+            return regeneratorRuntime.awrap(_helper["default"].genToken(user));
+
+          case 21:
+            token = _context3.sent;
+            return _context3.abrupt("return", res.status(200).json({
+              type: 'POST',
+              success: true,
+              data: user,
+              token: "Bearer ".concat(token),
+              msg: "You've successfully signed in"
+            }));
+
+          case 25:
+            _context3.prev = 25;
+            _context3.t0 = _context3["catch"](1);
+            return _context3.abrupt("return", res.status(400).json({
+              success: false,
+              msg: _context3.t0.message
+            }));
+
+          case 28:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, null, null, [[1, 25]]);
+  },
   secret: function secret(req, res) {
     res.status(200).json({
       type: 'GET',
@@ -137,29 +243,29 @@ var _default = {
   // note: this code is no more used in this project
   validate: function validate(req, res) {
     var validate, checkSecret, user, data, token;
-    return regeneratorRuntime.async(function validate$(_context3) {
+    return regeneratorRuntime.async(function validate$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
             validate = req.query.validate;
-            _context3.prev = 1;
-            _context3.next = 4;
+            _context4.prev = 1;
+            _context4.next = 4;
             return regeneratorRuntime.awrap(_helper["default"].activateSecret(validate));
 
           case 4:
-            checkSecret = _context3.sent;
+            checkSecret = _context4.sent;
 
             if (checkSecret) {
-              _context3.next = 7;
+              _context4.next = 7;
               break;
             }
 
-            return _context3.abrupt("return", res.status(400).json({
-              msg: 'Authorisation error'
+            return _context4.abrupt("return", res.status(400).json({
+              msg: 'Authorization error'
             }));
 
           case 7:
-            _context3.next = 9;
+            _context4.next = 9;
             return regeneratorRuntime.awrap(LocalAuth.update({
               secretToken: '',
               active: true
@@ -171,87 +277,22 @@ var _default = {
             }));
 
           case 9:
-            user = _context3.sent;
-            _context3.next = 12;
+            user = _context4.sent;
+            _context4.next = 12;
             return regeneratorRuntime.awrap(User.findOne({
               email: user.email
             }));
 
           case 12:
-            data = _context3.sent;
+            data = _context4.sent;
             // gen token
             token = _helper["default"].genToken(user);
-            return _context3.abrupt("return", res.status(200).json({
+            return _context4.abrupt("return", res.status(200).json({
               type: 'PUT',
               success: true,
               token: "Bearer ".concat(token),
               data: data,
               msg: 'User activated successfully'
-            }));
-
-          case 17:
-            _context3.prev = 17;
-            _context3.t0 = _context3["catch"](1);
-            return _context3.abrupt("return", res.status(500).json({
-              success: false,
-              msg: _context3.t0
-            }));
-
-          case 20:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, null, null, [[1, 17]]);
-  },
-  verifyEmail: function verifyEmail(req, res) {
-    var email, checkEmail, id, token;
-    return regeneratorRuntime.async(function verifyEmail$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            email = req.body.email;
-            _context4.prev = 1;
-            email = email.toLowerCase().trim();
-
-            if (email) {
-              _context4.next = 5;
-              break;
-            }
-
-            return _context4.abrupt("return", res.status(400).json({
-              msg: 'Email field cannot be empty'
-            }));
-
-          case 5:
-            _context4.next = 7;
-            return regeneratorRuntime.awrap(_helper["default"].existLocalEmail(email));
-
-          case 7:
-            checkEmail = _context4.sent;
-
-            if (checkEmail) {
-              _context4.next = 10;
-              break;
-            }
-
-            return _context4.abrupt("return", res.status(404).json({
-              success: false,
-              msg: 'Error, email not found'
-            }));
-
-          case 10:
-            id = checkEmail.id; // gen token
-
-            token = _helper["default"].forgotPasswordToken(checkEmail);
-            _context4.next = 14;
-            return regeneratorRuntime.awrap(_nodemailer["default"].sendEmail('admin@crispymunch.com', email, 'Reset Password', (0, _mailTemplate.html)(token, id)));
-
-          case 14:
-            return _context4.abrupt("return", res.status(200).json({
-              type: 'POST',
-              success: true,
-              msg: 'Verified successfully'
             }));
 
           case 17:
@@ -269,16 +310,81 @@ var _default = {
       }
     }, null, null, [[1, 17]]);
   },
-  changePassword: function changePassword(req, res) {
-    var id, password, findId, hash, data, token;
-    return regeneratorRuntime.async(function changePassword$(_context5) {
+  verifyEmail: function verifyEmail(req, res) {
+    var email, checkEmail, id, token;
+    return regeneratorRuntime.async(function verifyEmail$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
+            email = req.body.email;
+            _context5.prev = 1;
+            email = email.toLowerCase().trim();
+
+            if (email) {
+              _context5.next = 5;
+              break;
+            }
+
+            return _context5.abrupt("return", res.status(400).json({
+              msg: 'Email field cannot be empty'
+            }));
+
+          case 5:
+            _context5.next = 7;
+            return regeneratorRuntime.awrap(_helper["default"].existLocalEmail(email));
+
+          case 7:
+            checkEmail = _context5.sent;
+
+            if (checkEmail) {
+              _context5.next = 10;
+              break;
+            }
+
+            return _context5.abrupt("return", res.status(404).json({
+              success: false,
+              msg: 'Error, email not found'
+            }));
+
+          case 10:
+            id = checkEmail.id; // gen token
+
+            token = _helper["default"].forgotPasswordToken(checkEmail);
+            _context5.next = 14;
+            return regeneratorRuntime.awrap(_nodemailer["default"].sendEmail('admin@crispymunch.com', email, 'Reset Password', (0, _mailTemplate.html)(token, id)));
+
+          case 14:
+            return _context5.abrupt("return", res.status(200).json({
+              type: 'POST',
+              success: true,
+              msg: 'Verified successfully'
+            }));
+
+          case 17:
+            _context5.prev = 17;
+            _context5.t0 = _context5["catch"](1);
+            return _context5.abrupt("return", res.status(500).json({
+              success: false,
+              msg: _context5.t0
+            }));
+
+          case 20:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, null, null, [[1, 17]]);
+  },
+  changePassword: function changePassword(req, res) {
+    var id, password, findId, hash, data, token;
+    return regeneratorRuntime.async(function changePassword$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
             id = req.query.id;
             password = req.body.password;
-            _context5.prev = 2;
-            _context5.next = 5;
+            _context6.prev = 2;
+            _context6.next = 5;
             return regeneratorRuntime.awrap(LocalAuth.findOne({
               where: {
                 id: id
@@ -286,24 +392,24 @@ var _default = {
             }));
 
           case 5:
-            findId = _context5.sent;
+            findId = _context6.sent;
 
             if (findId) {
-              _context5.next = 8;
+              _context6.next = 8;
               break;
             }
 
-            return _context5.abrupt("return", res.status(404).json({
+            return _context6.abrupt("return", res.status(404).json({
               msg: 'Not found'
             }));
 
           case 8:
-            _context5.next = 10;
+            _context6.next = 10;
             return regeneratorRuntime.awrap(_helper["default"].hashPassword(password));
 
           case 10:
-            hash = _context5.sent;
-            _context5.next = 13;
+            hash = _context6.sent;
+            _context6.next = 13;
             return regeneratorRuntime.awrap(LocalAuth.update({
               password: hash
             }, {
@@ -314,14 +420,14 @@ var _default = {
             }));
 
           case 13:
-            _context5.next = 15;
+            _context6.next = 15;
             return regeneratorRuntime.awrap(_helper["default"].existEmail(findId.email));
 
           case 15:
-            data = _context5.sent;
+            data = _context6.sent;
             // gen token
             token = _helper["default"].genToken(data);
-            return _context5.abrupt("return", res.status(200).json({
+            return _context6.abrupt("return", res.status(200).json({
               type: 'PUT',
               success: true,
               msg: 'Password changed successfully',
@@ -330,102 +436,53 @@ var _default = {
             }));
 
           case 20:
-            _context5.prev = 20;
-            _context5.t0 = _context5["catch"](2);
-            return _context5.abrupt("return", res.status(500).json({
-              msg: _context5.t0.message
+            _context6.prev = 20;
+            _context6.t0 = _context6["catch"](2);
+            return _context6.abrupt("return", res.status(500).json({
+              msg: _context6.t0.message
             }));
 
           case 23:
           case "end":
-            return _context5.stop();
+            return _context6.stop();
         }
       }
     }, null, null, [[2, 20]]);
   },
   getAllUser: function getAllUser(req, res) {
     var user;
-    return regeneratorRuntime.async(function getAllUser$(_context6) {
+    return regeneratorRuntime.async(function getAllUser$(_context7) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
-            _context6.prev = 0;
+            _context7.prev = 0;
 
             if (!(req.user.role !== 'ADMIN')) {
-              _context6.next = 3;
+              _context7.next = 3;
               break;
             }
 
-            return _context6.abrupt("return", res.status(401).json({
+            return _context7.abrupt("return", res.status(401).json({
               msg: 'Unauthorised'
             }));
 
           case 3:
-            _context6.next = 5;
+            _context7.next = 5;
             return regeneratorRuntime.awrap(User.findAll({}));
 
           case 5:
-            user = _context6.sent;
+            user = _context7.sent;
 
             if (!(user.length < 1)) {
-              _context6.next = 8;
+              _context7.next = 8;
               break;
             }
 
-            return _context6.abrupt("return", res.status(200).json({
+            return _context7.abrupt("return", res.status(200).json({
               msg: 'No User yet'
             }));
 
           case 8:
-            return _context6.abrupt("return", res.status(200).json({
-              type: 'GET',
-              success: true,
-              msg: 'Request successfully',
-              data: user
-            }));
-
-          case 11:
-            _context6.prev = 11;
-            _context6.t0 = _context6["catch"](0);
-            res.status(500).json({
-              msg: _context6.t0
-            });
-
-          case 14:
-          case "end":
-            return _context6.stop();
-        }
-      }
-    }, null, null, [[0, 11]]);
-  },
-  getSingleUser: function getSingleUser(req, res) {
-    var id, user;
-    return regeneratorRuntime.async(function getSingleUser$(_context7) {
-      while (1) {
-        switch (_context7.prev = _context7.next) {
-          case 0:
-            id = req.params.id;
-            _context7.prev = 1;
-            _context7.next = 4;
-            return regeneratorRuntime.awrap(User.findOne({
-              where: {
-                id: id
-              }
-            }));
-
-          case 4:
-            user = _context7.sent;
-
-            if (user) {
-              _context7.next = 7;
-              break;
-            }
-
-            return _context7.abrupt("return", res.status(404).json({
-              msg: 'User doesn\'t exist'
-            }));
-
-          case 7:
             return _context7.abrupt("return", res.status(200).json({
               type: 'GET',
               success: true,
@@ -433,40 +490,89 @@ var _default = {
               data: user
             }));
 
-          case 10:
-            _context7.prev = 10;
-            _context7.t0 = _context7["catch"](1);
-            return _context7.abrupt("return", res.status(500).json({
-              success: false,
+          case 11:
+            _context7.prev = 11;
+            _context7.t0 = _context7["catch"](0);
+            res.status(500).json({
               msg: _context7.t0
+            });
+
+          case 14:
+          case "end":
+            return _context7.stop();
+        }
+      }
+    }, null, null, [[0, 11]]);
+  },
+  getSingleUser: function getSingleUser(req, res) {
+    var id, user;
+    return regeneratorRuntime.async(function getSingleUser$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            id = req.params.id;
+            _context8.prev = 1;
+            _context8.next = 4;
+            return regeneratorRuntime.awrap(User.findOne({
+              where: {
+                id: id
+              }
+            }));
+
+          case 4:
+            user = _context8.sent;
+
+            if (user) {
+              _context8.next = 7;
+              break;
+            }
+
+            return _context8.abrupt("return", res.status(404).json({
+              msg: 'User doesn\'t exist'
+            }));
+
+          case 7:
+            return _context8.abrupt("return", res.status(200).json({
+              type: 'GET',
+              success: true,
+              msg: 'Request successfully',
+              data: user
+            }));
+
+          case 10:
+            _context8.prev = 10;
+            _context8.t0 = _context8["catch"](1);
+            return _context8.abrupt("return", res.status(500).json({
+              success: false,
+              msg: _context8.t0
             }));
 
           case 13:
           case "end":
-            return _context7.stop();
+            return _context8.stop();
         }
       }
     }, null, null, [[1, 10]]);
   },
   upgradeUser: function upgradeUser(req, res) {
     var findUser;
-    return regeneratorRuntime.async(function upgradeUser$(_context8) {
+    return regeneratorRuntime.async(function upgradeUser$(_context9) {
       while (1) {
-        switch (_context8.prev = _context8.next) {
+        switch (_context9.prev = _context9.next) {
           case 0:
-            _context8.prev = 0;
+            _context9.prev = 0;
 
             if (!(req.user.role !== 'ADMIN')) {
-              _context8.next = 3;
+              _context9.next = 3;
               break;
             }
 
-            return _context8.abrupt("return", res.status(401).json({
+            return _context9.abrupt("return", res.status(401).json({
               msg: 'Unauthorised'
             }));
 
           case 3:
-            _context8.next = 5;
+            _context9.next = 5;
             return regeneratorRuntime.awrap(User.findOne({
               where: {
                 id: req.params.id
@@ -474,19 +580,19 @@ var _default = {
             }));
 
           case 5:
-            findUser = _context8.sent;
+            findUser = _context9.sent;
 
             if (findUser) {
-              _context8.next = 8;
+              _context9.next = 8;
               break;
             }
 
-            return _context8.abrupt("return", res.status(404).json({
+            return _context9.abrupt("return", res.status(404).json({
               msg: 'Error, No such user'
             }));
 
           case 8:
-            _context8.next = 10;
+            _context9.next = 10;
             return regeneratorRuntime.awrap(User.update({
               role: 'ADMIN'
             }, {
@@ -496,46 +602,46 @@ var _default = {
             }));
 
           case 10:
-            return _context8.abrupt("return", res.status(200).json({
+            return _context9.abrupt("return", res.status(200).json({
               TYPE: 'PUT',
               status: 200,
               msg: 'User now has the role of an admin'
             }));
 
           case 13:
-            _context8.prev = 13;
-            _context8.t0 = _context8["catch"](0);
+            _context9.prev = 13;
+            _context9.t0 = _context9["catch"](0);
             res.status(500).json({
-              msg: _context8.t0
+              msg: _context9.t0
             });
 
           case 16:
           case "end":
-            return _context8.stop();
+            return _context9.stop();
         }
       }
     }, null, null, [[0, 13]]);
   },
   deleteSingleUser: function deleteSingleUser(req, res) {
     var id, user;
-    return regeneratorRuntime.async(function deleteSingleUser$(_context9) {
+    return regeneratorRuntime.async(function deleteSingleUser$(_context10) {
       while (1) {
-        switch (_context9.prev = _context9.next) {
+        switch (_context10.prev = _context10.next) {
           case 0:
             id = req.params.id;
-            _context9.prev = 1;
+            _context10.prev = 1;
 
             if (!(req.user.role !== 'ADMIN')) {
-              _context9.next = 4;
+              _context10.next = 4;
               break;
             }
 
-            return _context9.abrupt("return", res.status(401).json({
+            return _context10.abrupt("return", res.status(401).json({
               msg: 'Unauthorised'
             }));
 
           case 4:
-            _context9.next = 6;
+            _context10.next = 6;
             return regeneratorRuntime.awrap(User.findOne({
               where: {
                 id: id
@@ -543,19 +649,19 @@ var _default = {
             }));
 
           case 6:
-            user = _context9.sent;
+            user = _context10.sent;
 
             if (user) {
-              _context9.next = 9;
+              _context10.next = 9;
               break;
             }
 
-            return _context9.abrupt("return", res.status(403).json({
+            return _context10.abrupt("return", res.status(403).json({
               msg: 'Bad request'
             }));
 
           case 9:
-            _context9.next = 11;
+            _context10.next = 11;
             return regeneratorRuntime.awrap(User.destroy({
               where: {
                 id: id
@@ -563,24 +669,24 @@ var _default = {
             }));
 
           case 11:
-            return _context9.abrupt("return", res.status(200).json({
+            return _context10.abrupt("return", res.status(200).json({
               type: 'DELETE',
               success: true,
               msg: 'Deleted successfully'
             }));
 
           case 14:
-            _context9.prev = 14;
-            _context9.t0 = _context9["catch"](1);
-            console.log(_context9.t0);
-            return _context9.abrupt("return", res.status(500).json({
+            _context10.prev = 14;
+            _context10.t0 = _context10["catch"](1);
+            console.log(_context10.t0);
+            return _context10.abrupt("return", res.status(500).json({
               success: false,
-              msg: _context9.t0
+              msg: _context10.t0
             }));
 
           case 18:
           case "end":
-            return _context9.stop();
+            return _context10.stop();
         }
       }
     }, null, null, [[1, 14]]);

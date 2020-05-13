@@ -39,9 +39,7 @@ router.route('/user/signin').post(_passport["default"].authenticate('local', {
 }), _helper["default"].validateBody(_helper["default"].schemas.signSchema), _userController["default"].signin); // Routes 3rd party signin with google
 // Access public
 
-router.route('/user/oauth/google').post(_passport["default"].authenticate('googleToken', {
-  session: false
-}), _userController["default"].signin); // Routes 3rd party signin with facebook
+router.route('/user/oauth/google').post(_userController["default"].googleSign); // Routes 3rd party signin with facebook
 // Access public
 
 router.route('/user/oauth/facebook').post(_passport["default"].authenticate('facebookToken', {

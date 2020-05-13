@@ -41,19 +41,22 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 var PORT = process.env.PORT || 5000; // listen to server
-// app.listen(PORT, console.log(`Server running on ${PORT}`));
-// // test database
-// try {
-//     db.sequelize.authenticate()
-//     console.log('Connection has been established successfully.');
-// } catch (err) {
-//     console.error('Unable to connect to the database:', err);
-// }
-// sync database
 
-_db["default"].sequelize.sync().then(function () {
+app.listen(PORT, console.log("Server running on ".concat(PORT))); // test database
+
+try {
+  _db["default"].sequelize.authenticate();
+
   console.log('Connection has been established successfully.');
-}).then(function () {
-  // listen to server
-  app.listen(PORT, '0.0.0.0', console.log("Server running on ".concat(PORT)));
-});
+} catch (err) {
+  console.error('Unable to connect to the database:', err);
+} // sync database
+// db.sequelize
+//   .sync()
+//   .then(() => {
+//     console.log('Connection has been established successfully.');
+//   })
+//   .then(() => {
+//     // listen to server
+//     app.listen(PORT, '0.0.0.0', console.log(`Server running on ${PORT}`));
+//   });

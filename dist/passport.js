@@ -12,8 +12,6 @@ var _db = _interopRequireDefault(require("./db"));
 
 require("dotenv/config");
 
-var _passportGooglePlusToken = _interopRequireDefault(require("passport-google-plus-token"));
-
 var _passportFacebookToken = _interopRequireDefault(require("passport-facebook-token"));
 
 var _v = _interopRequireDefault(require("uuid/v4"));
@@ -118,105 +116,34 @@ _passport["default"].use('forgot', new _passportJwt.Strategy({
       }
     }
   }, null, null, [[0, 9]]);
-})); // init passport google strategy
-
-
-_passport["default"].use('googleToken', new _passportGooglePlusToken["default"]({
-  clientID: process.env.Google_ID,
-  clientSecret: process.env.Google_SECRET,
-  passReqToCallback: true
-}, function _callee3(req, accessToken, refreshToken, profile, done) {
-  var existingUser, user;
-  return regeneratorRuntime.async(function _callee3$(_context3) {
-    while (1) {
-      switch (_context3.prev = _context3.next) {
-        case 0:
-          console.log('profile', profile);
-          console.log('accessToken', accessToken);
-          console.log('profile', profile);
-          _context3.prev = 3;
-          _context3.next = 6;
-          return regeneratorRuntime.awrap(_helper["default"].existEmail(profile.emails[0].value));
-
-        case 6:
-          existingUser = _context3.sent;
-
-          if (!existingUser) {
-            _context3.next = 9;
-            break;
-          }
-
-          return _context3.abrupt("return", done(null, existingUser));
-
-        case 9:
-          _context3.next = 11;
-          return regeneratorRuntime.awrap(User.create({
-            id: (0, _v["default"])(),
-            email: profile.emails[0].value,
-            name: profile.displayName,
-            role: 'CLIENT'
-          }));
-
-        case 11:
-          user = _context3.sent;
-          _context3.next = 14;
-          return regeneratorRuntime.awrap(GoogleAuth.create({
-            id: (0, _v["default"])(),
-            google_id: profile.id,
-            email: profile.emails[0].value,
-            user_id: user.id
-          }));
-
-        case 14:
-          _context3.next = 16;
-          return regeneratorRuntime.awrap(LocalAuth.create({
-            id: (0, _v["default"])(),
-            email: profile.emails[0].value,
-            user_id: user.id
-          }));
-
-        case 16:
-          return _context3.abrupt("return", done(null, user));
-
-        case 19:
-          _context3.prev = 19;
-          _context3.t0 = _context3["catch"](3);
-          done(_context3.t0, false, _context3.t0.message);
-
-        case 22:
-        case "end":
-          return _context3.stop();
-      }
-    }
-  }, null, null, [[3, 19]]);
 })); // init passport facebook strategy
 
 
 _passport["default"].use('facebookToken', new _passportFacebookToken["default"]({
   clientID: process.env.FB_OAUTH_ID,
   clientSecret: process.env.FB_OAUTH_SECRET
-}, function _callee4(accessToken, refreshToken, profile, done) {
+}, function _callee3(accessToken, refreshToken, profile, done) {
   var existingUser, user;
-  return regeneratorRuntime.async(function _callee4$(_context4) {
+  return regeneratorRuntime.async(function _callee3$(_context3) {
     while (1) {
-      switch (_context4.prev = _context4.next) {
+      switch (_context3.prev = _context3.next) {
         case 0:
-          _context4.prev = 0;
-          _context4.next = 3;
+          _context3.prev = 0;
+          _context3.next = 3;
           return regeneratorRuntime.awrap(_helper["default"].existEmail(profile.emails[0].value));
 
         case 3:
-          existingUser = _context4.sent;
+          existingUser = _context3.sent;
 
           if (!existingUser) {
-            _context4.next = 6;
+            _context3.next = 6;
             break;
           }
 
-          return _context4.abrupt("return", done(null, existingUser));
+          return _context3.abrupt("return", done(null, existingUser));
 
         case 6:
-          _context4.next = 8;
+          _context3.next = 8;
           return regeneratorRuntime.awrap(User.create({
             id: (0, _v["default"])(),
             email: profile.emails[0].value,
@@ -224,8 +151,8 @@ _passport["default"].use('facebookToken', new _passportFacebookToken["default"](
           }));
 
         case 8:
-          user = _context4.sent;
-          _context4.next = 11;
+          user = _context3.sent;
+          _context3.next = 11;
           return regeneratorRuntime.awrap(FbAuth.create({
             id: (0, _v["default"])(),
             facebook_id: profile.id,
@@ -235,7 +162,7 @@ _passport["default"].use('facebookToken', new _passportFacebookToken["default"](
           }));
 
         case 11:
-          _context4.next = 13;
+          _context3.next = 13;
           return regeneratorRuntime.awrap(LocalAuth.create({
             id: (0, _v["default"])(),
             email: profile.emails[0].value,
@@ -243,16 +170,16 @@ _passport["default"].use('facebookToken', new _passportFacebookToken["default"](
           }));
 
         case 13:
-          return _context4.abrupt("return", done(null, user));
+          return _context3.abrupt("return", done(null, user));
 
         case 16:
-          _context4.prev = 16;
-          _context4.t0 = _context4["catch"](0);
-          done(_context4.t0, false, _context4.t0.message);
+          _context3.prev = 16;
+          _context3.t0 = _context3["catch"](0);
+          done(_context3.t0, false, _context3.t0.message);
 
         case 19:
         case "end":
-          return _context4.stop();
+          return _context3.stop();
       }
     }
   }, null, null, [[0, 16]]);
@@ -261,58 +188,58 @@ _passport["default"].use('facebookToken', new _passportFacebookToken["default"](
 
 _passport["default"].use('local', new _passportLocal.Strategy({
   usernameField: 'email'
-}, function _callee5(email, password, done) {
+}, function _callee4(email, password, done) {
   var user, comparePassword, gUser;
-  return regeneratorRuntime.async(function _callee5$(_context5) {
+  return regeneratorRuntime.async(function _callee4$(_context4) {
     while (1) {
-      switch (_context5.prev = _context5.next) {
+      switch (_context4.prev = _context4.next) {
         case 0:
-          _context5.prev = 0;
+          _context4.prev = 0;
           // confirm email
           email = email.toLowerCase().trim();
-          _context5.next = 4;
+          _context4.next = 4;
           return regeneratorRuntime.awrap(_helper["default"].existLocalEmail(email));
 
         case 4:
-          user = _context5.sent;
+          user = _context4.sent;
 
           if (user) {
-            _context5.next = 7;
+            _context4.next = 7;
             break;
           }
 
-          return _context5.abrupt("return", done(null, false));
+          return _context4.abrupt("return", done(null, false));
 
         case 7:
-          _context5.next = 9;
+          _context4.next = 9;
           return regeneratorRuntime.awrap(_helper["default"].comparePassword(password, user.password));
 
         case 9:
-          comparePassword = _context5.sent;
+          comparePassword = _context4.sent;
 
           if (comparePassword) {
-            _context5.next = 12;
+            _context4.next = 12;
             break;
           }
 
-          return _context5.abrupt("return", done(null, false));
+          return _context4.abrupt("return", done(null, false));
 
         case 12:
-          _context5.next = 14;
+          _context4.next = 14;
           return regeneratorRuntime.awrap(_helper["default"].existEmail(user.email));
 
         case 14:
-          gUser = _context5.sent;
-          return _context5.abrupt("return", done(null, gUser));
+          gUser = _context4.sent;
+          return _context4.abrupt("return", done(null, gUser));
 
         case 18:
-          _context5.prev = 18;
-          _context5.t0 = _context5["catch"](0);
-          return _context5.abrupt("return", done(_context5.t0, null));
+          _context4.prev = 18;
+          _context4.t0 = _context4["catch"](0);
+          return _context4.abrupt("return", done(_context4.t0, null));
 
         case 21:
         case "end":
-          return _context5.stop();
+          return _context4.stop();
       }
     }
   }, null, null, [[0, 18]]);

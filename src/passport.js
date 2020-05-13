@@ -9,7 +9,6 @@ import passport from 'passport';
 import helper from './middlewares/helper';
 import model from './db';
 import 'dotenv/config';
-import googleTokenStrategy from 'passport-google-plus-token';
 import facebookTokenStrategy from 'passport-facebook-token';
 import uuidv4 from 'uuid/v4'
 
@@ -71,53 +70,6 @@ passport.use(
         return done(null, user);
       } catch (error) {
         done(error, null);
-      }
-    }
-  )
-);
-
-// init passport google strategy
-passport.use(
-  'googleToken',
-  new googleTokenStrategy({
-      clientID: process.env.Google_ID,
-      clientSecret: process.env.Google_SECRET,
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      console.log('profile', profile)
-      console.log('accessToken', accessToken)
-      console.log('profile', profile)
-      try {
-        // check for existing email
-        const existingUser = await helper.existEmail(profile.emails[0].value);
-        if (existingUser) {
-          return done(null, existingUser)
-        }
-
-        // create new user with google
-        const user = await User.create({
-          id: uuidv4(),
-          email: profile.emails[0].value,
-          name: profile.displayName,
-          role: 'CLIENT',
-        })
-        // create a google signin clone
-        await GoogleAuth.create({
-          id: uuidv4(),
-          google_id: profile.id,
-          email: profile.emails[0].value,
-          user_id: user.id
-        })
-        // create a local signin clone
-        await LocalAuth.create({
-          id: uuidv4(),
-          email: profile.emails[0].value,
-          user_id: user.id
-        })
-
-        return done(null, user)
-      } catch (error) {
-        done(error, false, error.message);
       }
     }
   )

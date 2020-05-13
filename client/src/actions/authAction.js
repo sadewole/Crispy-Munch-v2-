@@ -43,7 +43,7 @@ export const loadUser = () => async (dispatch, getState) => {
     }
 };
 
-export const oauthGoogle = data => async dispatch => {
+export const oauthGoogle = (data, setGBtnLoadingLoading) => async dispatch => {
     try {
         // Headers
         const config = {
@@ -52,7 +52,7 @@ export const oauthGoogle = data => async dispatch => {
             }
         };
         const body = JSON.stringify({
-            access_token: data
+            profile: data
         });
         const res = await axios.post(`/api/v1/user/oauth/google`, body, config);
 
@@ -60,11 +60,12 @@ export const oauthGoogle = data => async dispatch => {
             type: AUTH_REGISTER,
             payload: res.data
         });
-
+        setGBtnLoadingLoading(false)
         dispatch({
             type: CLEAR_ERROR
         });
     } catch (err) {
+        setGBtnLoadingLoading(false)
         dispatch(
             returnError(err.response.status, err.response.data, 'OAUTH_GOOGLE_FAIL')
         );

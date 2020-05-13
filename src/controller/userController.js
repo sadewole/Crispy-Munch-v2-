@@ -73,6 +73,76 @@ export default {
     });
   },
 
+  /**
+   * Make use of (raect - google - login) to fetch data
+   *  at the front-end
+   */
+  googleSign: async (req, res) => {
+    const {
+      email,
+      name,
+      googleId
+    } = req.body.profile
+    try {
+      if (!email || !name || !googleId) {
+        return res.status(400).json({
+          success: false,
+          msg: "Fields is not allowed to be empty"
+        })
+      }
+
+      // check for existing email
+      const existingUser = await helper.existEmail(email);
+      if (existingUser) {
+        // gen token
+        const token = await helper.genToken(existingUser);
+        return res.status(200).json({
+          type: 'POST',
+          success: true,
+          data: existingUser,
+          token: `Bearer ${token}`,
+          msg: "You've successfully signed in"
+        });
+      }
+
+      // create new user with google
+      const user = await User.create({
+        id: uuidv4(),
+        email,
+        name,
+        role: 'CLIENT',
+      })
+      // create a google signin clone
+      await GoogleAuth.create({
+        id: uuidv4(),
+        google_id: googleId,
+        email,
+        user_id: user.id
+      })
+      // create a local signin clone
+      await LocalAuth.create({
+        id: uuidv4(),
+        email,
+        user_id: user.id
+      })
+
+      // gen token
+      const token = await helper.genToken(user);
+      return res.status(200).json({
+        type: 'POST',
+        success: true,
+        data: user,
+        token: `Bearer ${token}`,
+        msg: "You've successfully signed in"
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        msg: error.message
+      })
+    }
+  },
+
   secret: (req, res) => {
     res.status(200).json({
       type: 'GET',
@@ -89,7 +159,7 @@ export default {
       let checkSecret = await helper.activateSecret(validate);
       if (!checkSecret) {
         return res.status(400).json({
-          msg: 'Authorisation error'
+          msg: 'Authorization error'
         })
       }
 

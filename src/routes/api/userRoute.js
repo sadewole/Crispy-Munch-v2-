@@ -42,10 +42,7 @@ router.route('/user/signin').post(
 // Routes 3rd party signin with google
 // Access public
 router.route('/user/oauth/google').post(
-  passport.authenticate('googleToken', {
-    session: false
-  }),
-  userController.signin
+  userController.googleSign
 );
 
 // Routes 3rd party signin with facebook

@@ -10,16 +10,17 @@ const Register = ({ form, history }) => {
   const [confirmDirty, setConfirmDirty] = useState(false);
   const [msg, setMsg] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [gBtnLoading, setGBtnLoadingLoading] = useState(false);
   const dispatch = useDispatch();
 
   // find auth actions
   const {
     error,
-    auth: { isAuthenticated, user }
-  } = useSelector(state => {
+    auth: { isAuthenticated, user },
+  } = useSelector((state) => {
     return {
       error: state.error,
-      auth: state.auth
+      auth: state.auth,
     };
   });
 
@@ -39,7 +40,7 @@ const Register = ({ form, history }) => {
     }
   }, [error, isAuthenticated]);
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     await form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -48,27 +49,27 @@ const Register = ({ form, history }) => {
         const data = {
           name: username,
           email,
-          password
+          password,
         };
         dispatch(register(data, setLoading));
       }
     });
   };
 
-  const responseGoogle = async res => {
-    console.log(res);
-    await dispatch(oauthGoogle(res.accessToken));
+  const responseGoogle = async (res) => {
+    setGBtnLoadingLoading(true);
+    await dispatch(oauthGoogle(res.profileObj, setGBtnLoadingLoading));
   };
 
-  const responseFacebook = async res => {
+  const responseFacebook = async (res) => {
     console.log(res);
     await dispatch(oauthFacebook(res.accessToken));
   };
 
-  const handleConfirmBlur = e => {
+  const handleConfirmBlur = (e) => {
     const { value } = e.target;
     setConfirmDirty({
-      confirmDirty: confirmDirty || !!value
+      confirmDirty: confirmDirty || !!value,
     });
   };
 
@@ -83,7 +84,7 @@ const Register = ({ form, history }) => {
   const validateToNextPassword = (rule, value, callback) => {
     if (value && confirmDirty) {
       form.validateFields(['confirm'], {
-        force: true
+        force: true,
       });
     }
     callback();
@@ -116,16 +117,16 @@ const Register = ({ form, history }) => {
                   rules: [
                     {
                       required: true,
-                      message: 'Please input your username!'
-                    }
-                  ]
+                      message: 'Please input your username!',
+                    },
+                  ],
                 })(
                   <Input
                     prefix={
                       <Icon
                         type='user'
                         style={{
-                          color: 'rgba(0,0,0,.25)'
+                          color: 'rgba(0,0,0,.25)',
                         }}
                       />
                     }
@@ -138,20 +139,20 @@ const Register = ({ form, history }) => {
                   rules: [
                     {
                       type: 'email',
-                      message: 'The input is not valid E-mail!'
+                      message: 'The input is not valid E-mail!',
                     },
                     {
                       required: true,
-                      message: 'Please input your E-mail!'
-                    }
-                  ]
+                      message: 'Please input your E-mail!',
+                    },
+                  ],
                 })(
                   <Input
                     prefix={
                       <i
                         className='far fa-envelope'
                         style={{
-                          color: 'rgba(0,0,0,.25)'
+                          color: 'rgba(0,0,0,.25)',
                         }}
                       ></i>
                     }
@@ -164,19 +165,19 @@ const Register = ({ form, history }) => {
                   rules: [
                     {
                       required: true,
-                      message: 'Please input your password!'
+                      message: 'Please input your password!',
                     },
                     {
-                      validator: validateToNextPassword
-                    }
-                  ]
+                      validator: validateToNextPassword,
+                    },
+                  ],
                 })(
                   <Input.Password
                     prefix={
                       <Icon
                         type='lock'
                         style={{
-                          color: 'rgba(0,0,0,.25)'
+                          color: 'rgba(0,0,0,.25)',
                         }}
                       />
                     }
@@ -190,19 +191,19 @@ const Register = ({ form, history }) => {
                   rules: [
                     {
                       required: true,
-                      message: 'Please confirm your password!'
+                      message: 'Please confirm your password!',
                     },
                     {
-                      validator: compareToFirstPassword
-                    }
-                  ]
+                      validator: compareToFirstPassword,
+                    },
+                  ],
                 })(
                   <Input.Password
                     prefix={
                       <Icon
                         type='lock'
                         style={{
-                          color: 'rgba(0,0,0,.25)'
+                          color: 'rgba(0,0,0,.25)',
                         }}
                       />
                     }
@@ -241,16 +242,16 @@ const Register = ({ form, history }) => {
                   clientId={process.env.REACT_APP_Google_ID}
                   onSuccess={responseGoogle}
                   onFailure={responseGoogle}
-                  render={renderProps => (
+                  render={(renderProps) => (
                     <button
                       onClick={renderProps.onClick}
                       className='btn btn-danger btn-block'
+                      disabled={gBtnLoading}
                     >
                       <i className='fab fa-google-plus mr-2'></i>
                       Connect with Google
                     </button>
                   )}
-                  disabled={false}
                   cookiePolicy={'single_host_origin'}
                 />
               </Form.Item>
@@ -266,7 +267,7 @@ const Register = ({ form, history }) => {
 };
 
 const WrappedNormalRegisterForm = Form.create({
-  name: 'register'
+  name: 'register',
 })(Register);
 
 export default WrappedNormalRegisterForm;

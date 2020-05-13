@@ -9,6 +9,7 @@ import FacebookLogin from 'react-facebook-login';
 const Login = ({ form, history }) => {
   const [msg, setMsg] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [gBtnLoading, setGBtnLoadingLoading] = useState(false);
   const dispatch = useDispatch();
 
   // find auth actions
@@ -48,8 +49,8 @@ const Login = ({ form, history }) => {
   };
 
   const responseGoogle = async (res) => {
-    console.log(res);
-    // await dispatch(oauthGoogle(res.accessToken));
+    setGBtnLoadingLoading(true);
+    await dispatch(oauthGoogle(res.profileObj, setGBtnLoadingLoading));
   };
 
   const responseFacebook = async (res) => {
@@ -160,12 +161,12 @@ const Login = ({ form, history }) => {
                     <button
                       onClick={renderProps.onClick}
                       className='btn btn-danger btn-block'
+                      disabled={gBtnLoading}
                     >
                       <i className='fab fa-google-plus mr-2'></i>
                       Connect with Google
                     </button>
                   )}
-                  disabled={false}
                 />
               </Form.Item>
               <p>

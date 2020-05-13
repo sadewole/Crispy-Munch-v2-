@@ -153,16 +153,6 @@ const Login = ({ form, history }) => {
                 />
               </Form.Item>
               <Form.Item>
-                {/** <a href='http://localhost:5000/api/v1/user/oauth/google'>
-                  <button
-                    className='btn btn-danger btn-block'
-                    disabled={gBtnLoading}
-                    type='button'
-                  >
-                    <i className='fab fa-google-plus mr-2'></i>
-                    Connect with Google
-                  </button>
-                </a>  */}
                 <GoogleLogin
                   clientId={process.env.REACT_APP_Google_ID}
                   onSuccess={responseGoogle}

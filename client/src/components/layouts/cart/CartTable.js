@@ -155,7 +155,7 @@ const CartTable = ({ form }) => {
   return (
     <Fragment>
       <Modal
-        title="Add your address. Please, confirm before clicking 'ok' "
+        title='Add your address. Please, confirm before information before checkout '
         visible={visible}
         onOk={handleOk}
         onCancel={handleCancel}

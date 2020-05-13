@@ -9,6 +9,9 @@ import passport from 'passport';
 import helper from './middlewares/helper';
 import model from './db';
 import 'dotenv/config';
+import {
+  OAuth2Strategy
+} from 'passport-google-oauth';
 import facebookTokenStrategy from 'passport-facebook-token';
 import uuidv4 from 'uuid/v4'
 
@@ -18,8 +21,6 @@ const {
   LocalAuth,
   GoogleAuth
 } = model
-
-
 
 // init passport JWTStrategy
 passport.use(

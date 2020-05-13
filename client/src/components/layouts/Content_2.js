@@ -6,7 +6,7 @@ const Content_2 = () => {
     return (
       <div className='col-md-4 text-center px-4' key={index}>
         <div className=' card-head'>
-          <img src={data.img} alt={data.img} className='img-resize' />
+          <img src={data.img} alt={data.name} className='img-resize' />
         </div>
         <div className='card-body'>
           <h4 className='card-title'>{data.text}</h4>

@@ -73,10 +73,6 @@ export default {
     });
   },
 
-  /**
-   * Make use of (raect - google - login) to fetch data
-   *  at the front-end
-   */
   googleSign: async (req, res) => {
     const {
       email,

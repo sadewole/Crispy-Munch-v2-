@@ -41,9 +41,7 @@ router.route('/user/signin').post(
 
 // Routes 3rd party signin with google
 // Access public
-router.route('/user/oauth/google').post(
-  userController.googleSign
-);
+router.route('/user/oauth/google').post(userController.googleSign);
 
 // Routes 3rd party signin with facebook
 // Access public

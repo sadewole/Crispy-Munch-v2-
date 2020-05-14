@@ -109,10 +109,13 @@ export const updateOrderQuantity = (data, id) => async (dispatch, getState) => {
             quantity: Number(data)
         })
         const res = await axios.put(`/api/v1/order/${id}`, body, tokenConfig(getState))
-
         dispatch({
             type: UPDATE_ORDER_QUANTITY,
-            payload: res.data
+            payload: {
+                id,
+                data: res.data.data,
+                msg: res.data.msg
+            }
         })
 
         dispatch({

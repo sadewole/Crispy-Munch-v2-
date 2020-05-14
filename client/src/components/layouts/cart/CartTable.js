@@ -65,23 +65,17 @@ const CartTable = ({ form }) => {
     await form.resetFields();
   };
 
-  // handing component did mount
+  // handing component mount
   useEffect(() => {
     dispatch(loadUser());
     dispatch(fetchUserOrderHistory());
-  }, []);
+  }, [fetchUserOrderHistory, dispatch]);
 
-  const showModal = () => {
-    setVisible(true);
-  };
+  const showModal = () => setVisible(true);
 
-  const handleOk = (e) => {
-    setVisible(false);
-  };
+  const handleOk = (e) => setVisible(false);
 
-  const handleCancel = (e) => {
-    setVisible(false);
-  };
+  const handleCancel = (e) => setVisible(false);
 
   const openNotification = (type) => {
     notification[type]({
@@ -96,6 +90,8 @@ const CartTable = ({ form }) => {
     }
   };
 
+  // compute total and cart
+  total = userPendingOrders.reduce((a, b) => a + b.amount, 0);
   const output = isLoading ? (
     <Fragment>
       <tr className='cart-item'>
@@ -106,7 +102,6 @@ const CartTable = ({ form }) => {
     </Fragment>
   ) : userPendingOrders.length >= 1 ? (
     userPendingOrders.map((info) => {
-      total += info.amount;
       return (
         <tr className='cart-item' key={info.id}>
           <td>
@@ -183,7 +178,9 @@ const CartTable = ({ form }) => {
             })(<Input.TextArea />)}
           </Form.Item>
           <div className='d-flex'>
-            <Button className='mr-2'>Cancel</Button>
+            <Button className='mr-2' onClick={handleCancel}>
+              Cancel
+            </Button>
             <PaypalButton handleSubmit={handleSubmit} total={total} />
           </div>
 

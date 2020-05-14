@@ -7,11 +7,6 @@
 
 Fullstack web application that enables user browse for menu and make order. Admin can also add available meal(s).
 
-## Build status
-
-[![Build Status](https://travis-ci.org/akashnimare/foco.svg?branch=master)](https://travis-ci.org/akashnimare/foco)
-[![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/akashnimare/foco?branch=master&svg=true)](https://ci.appveyor.com/project/akashnimare/foco/branch/master)
-
 ## Code style
 
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
@@ -20,9 +15,15 @@ Fullstack web application that enables user browse for menu and make order. Admi
 
 - PERN stack
 
+- Google and Facebook Oauth
+
+- Payment sandbox(Paypal)
+
+- Boostrap and Ant design
+
 ## Features
 
-What makes your project stand out?
+> Features...
 
 ## Installation
 
@@ -43,7 +44,9 @@ Install the dependencies:
 
 ## API Reference
 
-Link to OpenAPI will added soon
+Link to [API documentation](openAPI)
+
+> will be added soon
 
 ## How to use?
 
@@ -57,7 +60,7 @@ Link to OpenAPI will added soon
 
 ## Contribute
 
-Let people know how they can contribute into your project. A [contributing guideline](https://github.com/zulip/zulip-electron/blob/master/CONTRIBUTING.md) will be a big plus.
+To contribute to the project, kindly follow the [contributing guideline](https://github.com/sadewole/Crispy-Munch-v2-/blob/master/.github/contributing.md). All contributions are greatly appreciated
 
 ## License
 

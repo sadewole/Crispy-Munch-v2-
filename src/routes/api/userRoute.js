@@ -1,6 +1,4 @@
-import {
-  Router
-} from 'express';
+import { Router } from 'express';
 import helper from '../../middlewares/helper';
 import userController from '../../controller/userController';
 import passport from 'passport';
@@ -13,7 +11,7 @@ const router = Router();
 // Access Private
 router.route('/user/').get(
   passport.authenticate('jwt', {
-    session: false
+    session: false,
   }),
   userController.getAllUser
 );
@@ -33,7 +31,7 @@ router
 // Access public
 router.route('/user/signin').post(
   passport.authenticate('local', {
-    session: false
+    session: false,
   }),
   helper.validateBody(helper.schemas.signSchema),
   userController.signin
@@ -47,7 +45,7 @@ router.route('/user/oauth/google').post(userController.googleSign);
 // Access public
 router.route('/user/oauth/facebook').post(
   passport.authenticate('facebookToken', {
-    session: false
+    session: false,
   }),
   userController.signin
 );
@@ -56,7 +54,7 @@ router.route('/user/oauth/facebook').post(
 // Access private
 router.route('/user/secret').get(
   passport.authenticate('jwt', {
-    session: false
+    session: false,
   }),
   userController.secret
 );
@@ -68,7 +66,7 @@ router
   .post(userController.verifyEmail)
   .put(
     passport.authenticate('forgot', {
-      session: false
+      session: false,
     }),
     userController.changePassword
   );
@@ -80,13 +78,13 @@ router
   .get(userController.getSingleUser)
   .put(
     passport.authenticate('jwt', {
-      session: false
+      session: false,
     }),
     userController.upgradeUser
   )
   .delete(
     passport.authenticate('jwt', {
-      session: false
+      session: false,
     }),
     userController.deleteSingleUser
   );

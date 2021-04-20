@@ -2,8 +2,7 @@ import express from 'express';
 import passport from 'passport';
 import menuController from '../../controller/menuController';
 import uploads from '../../middlewares/multer';
-import '../../passport'
-
+import '../../passport';
 
 const router = express.Router();
 
@@ -12,7 +11,7 @@ router
   .get(menuController.getAllMenu)
   .post(
     passport.authenticate('jwt', {
-      session: false
+      session: false,
     }),
     uploads.single('image'),
     menuController.addFood
@@ -20,18 +19,24 @@ router
 
 router
   .route('/menu/:id')
-  .get(passport.authenticate('jwt', {
-    session: false
-  }), menuController.getSingleFood)
+  .get(
+    passport.authenticate('jwt', {
+      session: false,
+    }),
+    menuController.getSingleFood
+  )
   .put(
     passport.authenticate('jwt', {
-      session: false
+      session: false,
     }),
     uploads.single('image'),
     menuController.updateFood
   )
-  .delete(passport.authenticate('jwt', {
-    session: false
-  }), menuController.deleteFood);
+  .delete(
+    passport.authenticate('jwt', {
+      session: false,
+    }),
+    menuController.deleteFood
+  );
 
 export default router;

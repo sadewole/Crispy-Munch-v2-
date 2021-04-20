@@ -1,30 +1,20 @@
-import model from '../db';
+import models from '../models';
 import helper from '../middlewares/helper';
 import uuidv4 from 'uuid/v4';
-import mailer from '../middlewares/nodemailer'
-import {
-  html
-} from '../middlewares/mailTemplate';
+import mailer from '../middlewares/nodemailer';
+import { html } from '../middlewares/mailTemplate';
 
-const {
-  User,
-  LocalAuth
-} = model
-
+const { User, LocalAuth } = models;
 
 export default {
   signup: async (req, res) => {
-    let {
-      name,
-      email,
-      password
-    } = req.value.body;
+    let { name, email, password } = req.value.body;
     try {
-      email = email.toLowerCase().trim()
+      email = email.toLowerCase().trim();
       const checkEmail = await helper.existEmail(email);
       if (checkEmail) {
         return res.status(403).json({
-          msg: 'Email already exist'
+          msg: 'Email already exist',
         });
       }
 
@@ -34,14 +24,14 @@ export default {
         id: uuidv4(),
         name,
         email,
-        role: 'CLIENT'
-      })
+        role: 'CLIENT',
+      });
 
       const localUser = await LocalAuth.create({
         id: uuidv4(),
         password: hash,
         email,
-        user_id: user.id
+        user_id: user.id,
       });
 
       const token = await helper.genToken(localUser);
@@ -51,11 +41,11 @@ export default {
         success: true,
         data: user,
         token: `Bearer ${token}`,
-        msg: "Thank you for registering. Check your email to verify account."
+        msg: 'Thank you for registering. Check your email to verify account.',
       });
     } catch (err) {
       return res.status(500).json({
-        msg: err
+        msg: err,
       });
     }
   },
@@ -69,22 +59,18 @@ export default {
       success: true,
       data: user,
       token: `Bearer ${token}`,
-      msg: "You've successfully signed in"
+      msg: "You've successfully signed in",
     });
   },
 
   googleSign: async (req, res) => {
-    const {
-      email,
-      name,
-      googleId
-    } = req.body.profile
+    const { email, name, googleId } = req.body.profile;
     try {
       if (!email || !name || !googleId) {
         return res.status(400).json({
           success: false,
-          msg: "Fields is not allowed to be empty"
-        })
+          msg: 'Fields is not allowed to be empty',
+        });
       }
 
       // check for existing email
@@ -97,7 +83,7 @@ export default {
           success: true,
           data: existingUser,
           token: `Bearer ${token}`,
-          msg: "You've successfully signed in"
+          msg: "You've successfully signed in",
         });
       }
 
@@ -107,20 +93,20 @@ export default {
         email,
         name,
         role: 'CLIENT',
-      })
+      });
       // create a google signin clone
       await GoogleAuth.create({
         id: uuidv4(),
         google_id: googleId,
         email,
-        user_id: user.id
-      })
+        user_id: user.id,
+      });
       // create a local signin clone
       await LocalAuth.create({
         id: uuidv4(),
         email,
-        user_id: user.id
-      })
+        user_id: user.id,
+      });
 
       // gen token
       const token = await helper.genToken(user);
@@ -129,13 +115,13 @@ export default {
         success: true,
         data: user,
         token: `Bearer ${token}`,
-        msg: "You've successfully signed in"
+        msg: "You've successfully signed in",
       });
     } catch (error) {
       return res.status(400).json({
         success: false,
-        msg: error.message
-      })
+        msg: error.message,
+      });
     }
   },
 
@@ -143,36 +129,37 @@ export default {
     res.status(200).json({
       type: 'GET',
       data: req.user,
-      secret: 'resource'
+      secret: 'resource',
     });
   },
   // note: this code is no more used in this project
   validate: async (req, res) => {
-    const {
-      validate
-    } = req.query
+    const { validate } = req.query;
     try {
       let checkSecret = await helper.activateSecret(validate);
       if (!checkSecret) {
         return res.status(400).json({
-          msg: 'Authorization error'
-        })
+          msg: 'Authorization error',
+        });
       }
 
       // update user on validation
-      const user = await LocalAuth.update({
-        secretToken: '',
-        active: true
-      }, {
-        returning: true,
-        where: {
-          id: checkSecret.id
+      const user = await LocalAuth.update(
+        {
+          secretToken: '',
+          active: true,
+        },
+        {
+          returning: true,
+          where: {
+            id: checkSecret.id,
+          },
         }
-      })
+      );
 
       const data = await User.findOne({
-        email: user.email
-      })
+        email: user.email,
+      });
       // gen token
       const token = helper.genToken(user);
 
@@ -181,85 +168,85 @@ export default {
         success: true,
         token: `Bearer ${token}`,
         data,
-        msg: 'User activated successfully'
-      })
+        msg: 'User activated successfully',
+      });
     } catch (err) {
       return res.status(500).json({
         success: false,
-        msg: err
-      })
+        msg: err,
+      });
     }
   },
 
   verifyEmail: async (req, res) => {
-    let {
-      email
-    } = req.body
+    let { email } = req.body;
 
     try {
-      email = email.toLowerCase().trim()
-      if (!email) return res.status(400).json({
-        msg: 'Email field cannot be empty'
-      })
+      email = email.toLowerCase().trim();
+      if (!email)
+        return res.status(400).json({
+          msg: 'Email field cannot be empty',
+        });
 
       const checkEmail = await helper.existLocalEmail(email);
       if (!checkEmail) {
         return res.status(404).json({
           success: false,
-          msg: 'Error, email not found'
+          msg: 'Error, email not found',
         });
       }
 
-      const {
-        id
-      } = checkEmail
+      const { id } = checkEmail;
       // gen token
       const token = helper.forgotPasswordToken(checkEmail);
 
-      await mailer.sendEmail('admin@crispymunch.com', email, 'Reset Password', html(token, id))
+      await mailer.sendEmail(
+        'admin@crispymunch.com',
+        email,
+        'Reset Password',
+        html(token, id)
+      );
 
       return res.status(200).json({
         type: 'POST',
         success: true,
-        msg: 'Verified successfully'
-      })
-
+        msg: 'Verified successfully',
+      });
     } catch (err) {
       return res.status(500).json({
         success: false,
-        msg: err
-      })
+        msg: err,
+      });
     }
   },
   changePassword: async (req, res) => {
-    const {
-      id
-    } = req.query
-    let {
-      password
-    } = req.body
+    const { id } = req.query;
+    let { password } = req.body;
     try {
       const findId = await LocalAuth.findOne({
         where: {
-          id
-        }
-      })
-      if (!findId) return res.status(404).json({
-        msg: 'Not found'
-      })
-
+          id,
+        },
+      });
+      if (!findId)
+        return res.status(404).json({
+          msg: 'Not found',
+        });
 
       const hash = await helper.hashPassword(password);
-      await LocalAuth.update({
-        password: hash
-      }, {
-        returning: true,
-        where: {
-          id
+      await LocalAuth.update(
+        {
+          password: hash,
+        },
+        {
+          returning: true,
+          where: {
+            id,
+          },
         }
-      })
+      );
 
-      const data = await helper.existEmail(findId.email)
+      const data = await helper.existEmail(findId.email);
       // gen token
       const token = helper.genToken(data);
 
@@ -268,12 +255,12 @@ export default {
         success: true,
         msg: 'Password changed successfully',
         data,
-        token: `Bearer ${token}`
-      })
+        token: `Bearer ${token}`,
+      });
     } catch (err) {
       return res.status(500).json({
-        msg: err.message
-      })
+        msg: err.message,
+      });
     }
   },
 
@@ -281,56 +268,55 @@ export default {
     try {
       if (req.user.role !== 'ADMIN') {
         return res.status(401).json({
-          msg: 'Unauthorised'
-        })
+          msg: 'Unauthorised',
+        });
       }
 
-      const user = await User.findAll({})
+      const user = await User.findAll({});
 
       if (user.length < 1) {
         return res.status(200).json({
-          msg: 'No User yet'
-        })
+          msg: 'No User yet',
+        });
       }
 
       return res.status(200).json({
         type: 'GET',
         success: true,
         msg: 'Request successfully',
-        data: user
-      })
+        data: user,
+      });
     } catch (err) {
       res.status(500).json({
-        msg: err
-      })
+        msg: err,
+      });
     }
   },
 
   getSingleUser: async (req, res) => {
-    const {
-      id
-    } = req.params
+    const { id } = req.params;
     try {
       const user = await User.findOne({
         where: {
-          id
-        }
-      })
-      if (!user) return res.status(404).json({
-        msg: 'User doesn\'t exist'
-      })
+          id,
+        },
+      });
+      if (!user)
+        return res.status(404).json({
+          msg: "User doesn't exist",
+        });
 
       return res.status(200).json({
         type: 'GET',
         success: true,
         msg: 'Request successfully',
-        data: user
-      })
+        data: user,
+      });
     } catch (err) {
       return res.status(500).json({
         success: false,
-        msg: err
-      })
+        msg: err,
+      });
     }
   },
 
@@ -338,77 +324,79 @@ export default {
     try {
       if (req.user.role !== 'ADMIN') {
         return res.status(401).json({
-          msg: 'Unauthorised'
-        })
+          msg: 'Unauthorised',
+        });
       }
 
       const findUser = await User.findOne({
         where: {
-          id: req.params.id
-        }
-      })
+          id: req.params.id,
+        },
+      });
       if (!findUser) {
         return res.status(404).json({
-          msg: 'Error, No such user'
-        })
+          msg: 'Error, No such user',
+        });
       }
 
-      await User.update({
-        role: 'ADMIN'
-      }, {
-        where: {
-          id: req.params.id
+      await User.update(
+        {
+          role: 'ADMIN',
+        },
+        {
+          where: {
+            id: req.params.id,
+          },
         }
-      })
+      );
 
       return res.status(200).json({
         TYPE: 'PUT',
         status: 200,
-        msg: 'User now has the role of an admin'
+        msg: 'User now has the role of an admin',
       });
     } catch (err) {
       res.status(500).json({
-        msg: err
-      })
+        msg: err,
+      });
     }
   },
 
   deleteSingleUser: async (req, res) => {
-    const {
-      id
-    } = req.params
+    const { id } = req.params;
     try {
       if (req.user.role !== 'ADMIN') {
         return res.status(401).json({
-          msg: 'Unauthorised'
-        })
+          msg: 'Unauthorised',
+        });
       }
       const user = await User.findOne({
         where: {
-          id
-        }
-      })
-      if (!user) return res.status(403).json({
-        msg: 'Bad request'
-      })
+          id,
+        },
+      });
+      if (!user)
+        return res.status(403).json({
+          msg: 'Bad request',
+        });
 
       await User.destroy({
         where: {
-          id
-        }
-      })
+          id,
+        },
+      });
 
       return res.status(200).json({
         type: 'DELETE',
         success: true,
-        msg: 'Deleted successfully'
-      })
+        msg: 'Deleted successfully',
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).json({
         success: false,
-        msg: err
-      })
+        msg: err,
+      });
     }
-  }
+  },
 };

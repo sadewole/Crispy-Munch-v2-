@@ -5,7 +5,7 @@
 
 #### Desciption
 
-Fullstack web application that enables user browse for menu and make order. Admin can also add available meal(s).
+Fullstack web application that enables user browse for food menu and make order. Admin can also add available meal(s).
 
 ## Code style
 

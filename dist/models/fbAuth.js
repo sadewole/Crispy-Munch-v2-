@@ -6,24 +6,24 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 
 var _default = function _default(sequelize, DataTypes) {
-  var LocalAuth = sequelize.define('local_auth', {
+  var FbAuth = sequelize.define('FbAuth', {
     id: {
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true
     },
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    fb_id: DataTypes.STRING,
+    email: DataTypes.STRING
   });
 
-  LocalAuth.associate = function (models) {
-    LocalAuth.belongsTo(models.User, {
+  FbAuth.associate = function (models) {
+    FbAuth.belongsTo(models.User, {
       foreignKey: 'user_id',
       onDelete: 'cascade'
     });
   };
 
-  return LocalAuth;
+  return FbAuth;
 };
 
 exports["default"] = _default;

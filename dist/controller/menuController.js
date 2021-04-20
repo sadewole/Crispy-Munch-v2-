@@ -7,13 +7,13 @@ exports["default"] = void 0;
 
 var _v = _interopRequireDefault(require("uuid/v4"));
 
-var _db = _interopRequireDefault(require("../db"));
+var _models = _interopRequireDefault(require("../models"));
 
 var _cloudinaryConfig = _interopRequireDefault(require("../middlewares/cloudinaryConfig"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var Menu = _db["default"].Menu;
+var Menu = _models["default"].Menu;
 var logs = {
   getAllMenu: function getAllMenu(req, res) {
     var data;

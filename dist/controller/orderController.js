@@ -7,13 +7,13 @@ exports["default"] = void 0;
 
 var _v = _interopRequireDefault(require("uuid/v4"));
 
-var _db = _interopRequireDefault(require("../db"));
+var _models = _interopRequireDefault(require("../models"));
 
 var _helper = _interopRequireDefault(require("../middlewares/helper"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var Order = _db["default"].Order;
+var Order = _models["default"].Order;
 var logs = {
   getAllOrder: function getAllOrder(req, res) {
     var orders, data, i, order, food, user;

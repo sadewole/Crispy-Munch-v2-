@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 
 var _default = function _default(sequelize, DataTypes) {
-  var Menu = sequelize.define('menu', {
+  var Menu = sequelize.define('Menu', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,

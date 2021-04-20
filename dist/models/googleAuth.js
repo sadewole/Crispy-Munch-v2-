@@ -6,24 +6,24 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 
 var _default = function _default(sequelize, DataTypes) {
-  var FbAuth = sequelize.define('fb_auth', {
+  var GoogleAuth = sequelize.define('GoogleAuth', {
     id: {
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true
     },
-    fb_id: DataTypes.STRING,
+    google_id: DataTypes.STRING,
     email: DataTypes.STRING
   });
 
-  FbAuth.associate = function (models) {
-    FbAuth.belongsTo(models.User, {
+  GoogleAuth.associate = function (models) {
+    GoogleAuth.belongsTo(models.User, {
       foreignKey: 'user_id',
       onDelete: 'cascade'
     });
   };
 
-  return FbAuth;
+  return GoogleAuth;
 };
 
 exports["default"] = _default;

@@ -8,9 +8,11 @@ var _passport = _interopRequireDefault(require("passport"));
 
 var _helper = _interopRequireDefault(require("./middlewares/helper"));
 
-var _db = _interopRequireDefault(require("./db"));
+var _models = _interopRequireDefault(require("./models"));
 
 require("dotenv/config");
+
+var _passportGoogleOauth = require("passport-google-oauth");
 
 var _passportFacebookToken = _interopRequireDefault(require("passport-facebook-token"));
 
@@ -18,10 +20,10 @@ var _v = _interopRequireDefault(require("uuid/v4"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var User = _db["default"].User,
-    FbAuth = _db["default"].FbAuth,
-    LocalAuth = _db["default"].LocalAuth,
-    GoogleAuth = _db["default"].GoogleAuth; // init passport JWTStrategy
+var User = _models["default"].User,
+    FbAuth = _models["default"].FbAuth,
+    LocalAuth = _models["default"].LocalAuth,
+    GoogleAuth = _models["default"].GoogleAuth; // init passport JWTStrategy
 
 _passport["default"].use('jwt', new _passportJwt.Strategy({
   jwtFromRequest: _passportJwt.ExtractJwt.fromAuthHeaderAsBearerToken(),

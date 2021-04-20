@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _db = _interopRequireDefault(require("../db"));
+var _models = _interopRequireDefault(require("../models"));
 
 var _helper = _interopRequireDefault(require("../middlewares/helper"));
 
@@ -17,8 +17,8 @@ var _mailTemplate = require("../middlewares/mailTemplate");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var User = _db["default"].User,
-    LocalAuth = _db["default"].LocalAuth;
+var User = _models["default"].User,
+    LocalAuth = _models["default"].LocalAuth;
 var _default = {
   signup: function signup(req, res) {
     var _req$value$body, name, email, password, checkEmail, hash, user, localUser, token;
@@ -83,7 +83,7 @@ var _default = {
               success: true,
               data: user,
               token: "Bearer ".concat(token),
-              msg: "Thank you for registering. Check your email to verify account."
+              msg: 'Thank you for registering. Check your email to verify account.'
             }));
 
           case 22:
@@ -127,11 +127,6 @@ var _default = {
       }
     });
   },
-
-  /**
-   * Make use of (raect - google - login) to fetch data
-   *  at the front-end
-   */
   googleSign: function googleSign(req, res) {
     var _req$body$profile, email, name, googleId, existingUser, _token, user, token;
 
@@ -149,7 +144,7 @@ var _default = {
 
             return _context3.abrupt("return", res.status(400).json({
               success: false,
-              msg: "Fields is not allowed to be empty"
+              msg: 'Fields is not allowed to be empty'
             }));
 
           case 4:
@@ -528,7 +523,7 @@ var _default = {
             }
 
             return _context8.abrupt("return", res.status(404).json({
-              msg: 'User doesn\'t exist'
+              msg: "User doesn't exist"
             }));
 
           case 7:

@@ -20,6 +20,9 @@ app.use(
 );
 
 // routes
+app.get('/api/v1/', (req, res) =>
+  res.json({ message: 'Welcome to crispy munch API' }).status(200)
+);
 app.use('/api/v1', user);
 app.use('/api/v1', menuRoute);
 app.use('/api/v1', orderRoute);

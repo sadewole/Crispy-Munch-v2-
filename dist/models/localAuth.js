@@ -6,24 +6,24 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 
 var _default = function _default(sequelize, DataTypes) {
-  var GoogleAuth = sequelize.define('google_auth', {
+  var LocalAuth = sequelize.define('LocalAuth', {
     id: {
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true
     },
-    google_id: DataTypes.STRING,
-    email: DataTypes.STRING
+    email: DataTypes.STRING,
+    password: DataTypes.STRING
   });
 
-  GoogleAuth.associate = function (models) {
-    GoogleAuth.belongsTo(models.User, {
+  LocalAuth.associate = function (models) {
+    LocalAuth.belongsTo(models.User, {
       foreignKey: 'user_id',
       onDelete: 'cascade'
     });
   };
 
-  return GoogleAuth;
+  return LocalAuth;
 };
 
 exports["default"] = _default;

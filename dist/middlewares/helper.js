@@ -11,15 +11,15 @@ var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
 var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
 
-var _db = _interopRequireDefault(require("../db"));
+var _models = _interopRequireDefault(require("../models"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var User = _db["default"].User,
-    FbAuth = _db["default"].FbAuth,
-    LocalAuth = _db["default"].LocalAuth,
-    GoogleAuth = _db["default"].GoogleAuth,
-    Menu = _db["default"].Menu;
+var User = _models["default"].User,
+    FbAuth = _models["default"].FbAuth,
+    LocalAuth = _models["default"].LocalAuth,
+    GoogleAuth = _models["default"].GoogleAuth,
+    Menu = _models["default"].Menu;
 var helper = {
   // generate hashed password for user
   hashPassword: function hashPassword(password) {

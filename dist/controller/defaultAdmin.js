@@ -2,7 +2,7 @@
 
 var _v = _interopRequireDefault(require("uuid/v4"));
 
-var _db = _interopRequireDefault(require("../db"));
+var _models = _interopRequireDefault(require("../models"));
 
 var _helper = _interopRequireDefault(require("../middlewares/helper"));
 
@@ -10,8 +10,8 @@ require("dotenv/config");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var User = _db["default"].User,
-    LocalAuth = _db["default"].LocalAuth;
+var User = _models["default"].User,
+    LocalAuth = _models["default"].LocalAuth;
 
 var hash = _helper["default"].hashPassword(process.env.DEFAULT_PASSWORD);
 

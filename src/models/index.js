@@ -1,22 +1,30 @@
+require('dotenv/config');
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config')[env];
 const db = {};
 
-let sequelize;
-if (env === 'production') {
-  sequelize = new Sequelize(config.database, config);
+let connectionString;
+// Serve static assets if in production
+if (process.env.NODE_ENV === 'production') {
+  connectionString = process.env.DATABASE_URL;
 } else {
-  sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-  );
+  // local connection string
+  connectionString = `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`;
 }
+
+// connect to pg
+const sequelize = new Sequelize(connectionString, {
+  dialect: 'postgres',
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
+  },
+  logging: false,
+});
 
 fs.readdirSync(__dirname)
   .filter((file) => {

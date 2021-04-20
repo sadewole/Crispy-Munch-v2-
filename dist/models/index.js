@@ -1,5 +1,7 @@
 "use strict";
 
+require('dotenv/config');
+
 var fs = require('fs');
 
 var path = require('path');
@@ -7,19 +9,27 @@ var path = require('path');
 var Sequelize = require('sequelize');
 
 var basename = path.basename(__filename);
-var env = process.env.NODE_ENV || 'development';
-
-var config = require('../config/config')[env];
-
 var db = {};
-var sequelize;
+var connectionString; // Serve static assets if in production
 
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+if (process.env.NODE_ENV === 'production') {
+  connectionString = process.env.DATABASE_URL;
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+  // local connection string
+  connectionString = "postgresql://".concat(process.env.PGUSER, ":").concat(process.env.PGPASSWORD, "@").concat(process.env.PGHOST, ":").concat(process.env.PGPORT, "/").concat(process.env.PGDATABASE);
+} // connect to pg
 
+
+var sequelize = new Sequelize(connectionString, {
+  dialect: 'postgres',
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  },
+  logging: false
+});
 fs.readdirSync(__dirname).filter(function (file) {
   return file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js';
 }).forEach(function (file) {

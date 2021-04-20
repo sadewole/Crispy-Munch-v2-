@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // connect to pg
-const sequelize = new Sequelize(connectionString, {
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   pool: {
     max: 5,
@@ -24,6 +24,12 @@ const sequelize = new Sequelize(connectionString, {
     idle: 10000,
   },
   logging: false,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
 });
 
 fs.readdirSync(__dirname)

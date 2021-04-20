@@ -44,7 +44,7 @@ async function runningDB() {
     await db.sequelize.sync();
     console.log('Connection has been established successfully.');
   } catch (err) {
-    console.error('Unable to connect to the database:', err);
+    console.error('Unable to connect to the database:', err.message);
   }
 }
 

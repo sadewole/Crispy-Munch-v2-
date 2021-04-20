@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // connect to pg
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
+const sequelize = new Sequelize(connectionString, {
   dialect: 'postgres',
   pool: {
     max: 5,
